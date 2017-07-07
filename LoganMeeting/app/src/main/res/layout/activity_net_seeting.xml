@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.logansoft.lubo.loganmeeting.NetSettingActivity">
+
+    <com.logansoft.lubo.loganmeeting.customView.TitleBar
+        style="@style/bar_title"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="代理设置"
+            android:textSize="11sp"
+            />
+        <EditText
+            android:id="@+id/etIdAddress"
+            android:hint="IP地址"
+            style="@style/NetworkSettings"
+            />
+
+        <EditText
+            android:id="@+id/etPort"
+            android:hint="端口"
+            style="@style/NetworkSettings"
+            />
+
+        <EditText
+            android:id="@+id/etAccount"
+            android:hint="账号"
+            style="@style/NetworkSettings"
+            />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:hint="密码"
+            style="@style/NetworkSettings"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="9dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="服务器设置"
+            android:textSize="11sp"
+            />
+        <EditText
+            android:id="@+id/etIdAdress"
+            android:hint="服务器地址"
+            style="@style/NetworkSettings"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:background="#30aaff"
+        />
+
+</LinearLayout>

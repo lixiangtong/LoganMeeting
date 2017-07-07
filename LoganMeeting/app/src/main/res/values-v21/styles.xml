@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:colorPrimary">@color/blue_55x176x233</item>
+        <item name="android:colorPrimaryDark">@color/white_247x3</item>
+        <item name="android:colorAccent">#cccccc</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="NoTitleTheme" parent="AppBaseTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:statusBarColor">@color/blue_55x176x233</item>
+    </style>
+</resources>

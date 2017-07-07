@@ -1,0 +1,83 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/white_247x3</item>
+        <item name="colorPrimary">@color/blue_55x176x233</item>
+        <item name="colorPrimaryDark">#ffffff</item>
+        <item name="colorAccent">#cccccc</item>
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="radioButton_style" >
+        <!-- Customize your theme here. -->
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">-15dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="bar_title">
+        <!--<item name="android:id">@id/title_bar</item>-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/blue_55x176x233</item>
+    </style>
+
+    <style name="NetworkSettings">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="et_changepassword">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="tv_changepassword">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#6b8699</item>
+    </style>
+
+    <style name="view_segmentation">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.05dp</item>
+        <item name="android:background">#6b8699</item>
+    </style>
+
+    <style name="TextView_About1">
+        <item name="android:layout_width">68dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">#6b8699</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextView_About2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#95a5b0</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+</resources>
