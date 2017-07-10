@@ -5,15 +5,38 @@
     android:orientation="vertical"
     >
     <LinearLayout
-        android:id="@+id/llAccount"
+        android:id="@+id/llMeetting"
         android:layout_width="match_parent"
-        android:layout_height="99dp"
+        android:layout_height="145dp"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
         android:visibility="visible">
 
+        <LinearLayout
+            android:id="@+id/llChangeMeetingPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:src="@mipmap/meeting_lock" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:text="修改我的会议密码" />
+        </LinearLayout>
+
         <View
+            android:id="@+id/vChangeMeetingPass"
             style="@style/view_segmentation"
+            android:visibility="gone"
             />
 
         <LinearLayout
@@ -42,92 +65,6 @@
 
         <LinearLayout
             android:id="@+id/llAbout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:padding="16dp"
-                android:src="@mipmap/info" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="关于" />
-        </LinearLayout>
-
-        <View
-            style="@style/view_segmentation"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llMeetting"
-        android:layout_width="match_parent"
-        android:layout_height="145dp"
-        android:layout_marginTop="24dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <View
-            style="@style/view_segmentation"
-            />
-
-        <LinearLayout
-            android:id="@+id/llChangeMeetingPassword"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:padding="16dp"
-                android:src="@mipmap/meeting_lock" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="修改我的会议密码" />
-        </LinearLayout>
-
-        <View
-            style="@style/view_segmentation"
-            />
-
-        <LinearLayout
-            android:id="@+id/llChangePassword2"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:padding="16dp"
-                android:src="@mipmap/lock" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="密码修改" />
-        </LinearLayout>
-
-        <View
-            style="@style/view_segmentation"
-            />
-
-        <LinearLayout
-            android:id="@+id/llAbout2"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal">

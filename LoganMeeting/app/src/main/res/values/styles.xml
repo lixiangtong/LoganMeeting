@@ -59,7 +59,7 @@
     <style name="view_segmentation">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.05dp</item>
-        <item name="android:background">#6b8699</item>
+        <item name="android:background">@color/gray</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
     </style>
@@ -102,13 +102,13 @@
     <style name="TextView_Meeting_Style">
         <item name="android:textColor">#95a5b0</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:visibility">visible</item>
     </style>
 
     <style name="EditText_Meeting_Style">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#333333</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:visibility">visible</item>
     </style>
 
     <style name="TextView_Home_Fragment_I">

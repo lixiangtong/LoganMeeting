@@ -16,7 +16,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ctl"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:layout_height="280dp"
             android:gravity="center_horizontal"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
             app:collapsedTitleGravity="left"
@@ -49,74 +49,95 @@
         android:layout_height="match_parent"
         android:padding="15dp"
         app:behavior_overlapTop="100dp"
-        android:background="@drawable/shape_login"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="@drawable/shape_login"
             android:padding="30dp"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账号"
-                style="@style/TextView_Account_Style"
-                />
-            <EditText
-                android:id="@+id/etAccount"
+            <LinearLayout
+                android:id="@+id/llAccount"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                style="@style/EditText_Account_Style"
-                android:drawableRight="@mipmap/account_icon"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="密码"
-                style="@style/TextView_Account_Style"
-                />
-            <EditText
-                android:id="@+id/etAccountPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:drawableRight="@mipmap/password_icon"
-                android:inputType="textPassword"
-                style="@style/EditText_Account_Style"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="教研室号"
-                style="@style/TextView_Meeting_Style"
-                />
-            <EditText
-                android:id="@+id/etMeeting"
+                <TextView
+                    android:id="@+id/tvAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="账号"
+                    style="@style/TextView_Account_Style" />
+
+                <EditText
+                    android:id="@+id/etAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    style="@style/EditText_Account_Style"
+                    android:drawableRight="@mipmap/account_icon" />
+
+                <TextView
+                    android:id="@+id/tvAccountPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="密码"
+                    style="@style/TextView_Account_Style" />
+
+                <EditText
+                    android:id="@+id/etAccountPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableRight="@mipmap/password_icon"
+                    android:inputType="textPassword"
+                    style="@style/EditText_Account_Style" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llMeetting"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                style="@style/EditText_Meeting_Style"
-                android:drawableRight="@mipmap/office_icon"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="密码"
-                style="@style/TextView_Meeting_Style"
-                />
-            <EditText
-                android:id="@+id/etMeetingPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:drawableRight="@mipmap/nicheng"
-                android:inputType="textPassword"
-                style="@style/EditText_Meeting_Style"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/tvMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="教研室号"
+                    style="@style/TextView_Meeting_Style" />
+
+                <EditText
+                    android:id="@+id/etMeeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    style="@style/EditText_Meeting_Style"
+                    android:drawableRight="@mipmap/office_icon" />
+
+                <TextView
+                    android:id="@+id/tvMeetingPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="密码"
+                    style="@style/TextView_Meeting_Style" />
+
+                <EditText
+                    android:id="@+id/etMeetingPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableRight="@mipmap/nicheng"
+                    android:inputType="textPassword"
+                    style="@style/EditText_Meeting_Style" />
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/accountLogin"
@@ -151,10 +172,11 @@
                 />
 
             <TextView
+                android:id="@+id/tvNetworkSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="网络设置"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 style="@style/TextView_Account_Style"
                 android:layout_gravity="center_horizontal"
                 android:visibility="visible"

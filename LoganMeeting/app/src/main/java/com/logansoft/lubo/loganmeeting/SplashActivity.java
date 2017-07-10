@@ -19,7 +19,7 @@ public class SplashActivity extends Activity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             }
         };
         timer.schedule(timerTask,2000);

@@ -1,5 +1,6 @@
 package com.logansoft.lubo.loganmeeting.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.logansoft.lubo.loganmeeting.AboutActivity;
+import com.logansoft.lubo.loganmeeting.ChangePasswordActivity;
 import com.logansoft.lubo.loganmeeting.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -19,21 +23,17 @@ import butterknife.Unbinder;
  */
 
 public class SettingsFragment extends Fragment {
+    @BindView(R.id.llChangeMeetingPassword)
+    LinearLayout llChangeMeetingPassword;
     @BindView(R.id.llChangePassword)
     LinearLayout llChangePassword;
     @BindView(R.id.llAbout)
     LinearLayout llAbout;
-    @BindView(R.id.llAccount)
-    LinearLayout llAccount;
-    @BindView(R.id.llChangeMeetingPassword)
-    LinearLayout llChangeMeetingPassword;
-    @BindView(R.id.llChangePassword2)
-    LinearLayout llChangePassword2;
-    @BindView(R.id.llAbout2)
-    LinearLayout llAbout2;
     @BindView(R.id.llMeetting)
     LinearLayout llMeetting;
     Unbinder unbinder;
+    @BindView(R.id.vChangeMeetingPass)
+    View vChangeMeetingPass;
     private View view;
 
     @Nullable
@@ -44,6 +44,22 @@ public class SettingsFragment extends Fragment {
             unbinder = ButterKnife.bind(this, view);
         }
         return view;
+    }
+
+
+    @OnClick(R.id.llAbout)
+    public void onLlAboutClick(View v) {
+        startActivity(new Intent(getActivity(), AboutActivity.class));
+    }
+
+    @OnClick(R.id.llChangeMeetingPassword)
+    public void onLlChangeMeetingPasswordClick(View v) {
+        startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
+    }
+
+    @OnClick(R.id.llChangePassword)
+    public void onLlChangePasswordClick(View v) {
+        startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
     }
 
     @Override
