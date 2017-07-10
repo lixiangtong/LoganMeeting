@@ -29,7 +29,9 @@
         />
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"/>
+        android:layout_height="0.05dp"
+        android:background="@color/gray"
+        />
 
     <RadioGroup
         android:id="@+id/rg"
@@ -51,7 +53,7 @@
             style="@style/radioButton_style"
             android:layout_width="1dp"
             android:layout_height="20dp"
-            android:background="#58646d" />
+            android:background="@color/gray" />
 
         <RadioButton
             android:id="@+id/rb_settings"

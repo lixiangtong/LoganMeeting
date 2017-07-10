@@ -62,10 +62,12 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onPageSelected(int position) {
-                for (int i = 0; i < rg.getChildCount(); i++) {
-                    if (i==position){
-                        ((RadioButton) rg.getChildAt(i)).setChecked(true);
-                    }
+                if (position==0){
+                    ((RadioButton) rg.getChildAt(0)).setChecked(true);
+                    topItem.setText("首页");
+                }else {
+                    ((RadioButton) rg.getChildAt(2)).setChecked(true);
+                    topItem.setText("设置");
                 }
             }
 
@@ -81,9 +83,11 @@ public class MainActivity extends FragmentActivity {
                 switch (checkedId){
                     case R.id.rb_home:
                         vp.setCurrentItem(0);
+                        topItem.setText("首页");
                         break;
                     case R.id.rb_settings:
                         vp.setCurrentItem(1);
+                        topItem.setText("设置");
                         break;
                 }
             }

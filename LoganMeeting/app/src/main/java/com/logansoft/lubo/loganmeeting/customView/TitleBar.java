@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.mobilecampus.R;
+import com.logansoft.lubo.loganmeeting.R;
 
 import java.util.LinkedList;
 

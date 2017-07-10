@@ -10,7 +10,7 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/white_247x3</item>
-        <item name="colorPrimary">@color/blue_55x176x233</item>
+        <item name="colorPrimary">#30aaff</item>
         <item name="colorPrimaryDark">#ffffff</item>
         <item name="colorAccent">#cccccc</item>
         <!--
@@ -28,11 +28,10 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
-    <style name="bar_title">
-        <!--<item name="android:id">@id/title_bar</item>-->
+    <style name="title_bar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/blue_55x176x233</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:background">@drawable/shape_home_gradient</item>
     </style>
 
     <style name="NetworkSettings">
@@ -45,6 +44,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:inputType">textPassword</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
 
     <style name="tv_changepassword">
@@ -60,10 +60,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.05dp</item>
         <item name="android:background">#6b8699</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
 
     <style name="TextView_About1">
-        <item name="android:layout_width">68dp</item>
+        <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">#6b8699</item>
         <item name="android:textSize">15sp</item>
@@ -79,5 +81,62 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+    <style name="button_login">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="EditText_Account_Style">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="TextView_Account_Style">
+        <item name="android:textColor">#95a5b0</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="TextView_Meeting_Style">
+        <item name="android:textColor">#95a5b0</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="EditText_Meeting_Style">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="TextView_Home_Fragment_I">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#58646d</item>
+    </style>
+
+    <style name="TextView_Home_Fragment_II">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#58646d</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="TextView_Home_Fragment_III">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#58646d</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
 
 </resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_room_name"
+            style="@style/TextView_Home_Fragment_I"
+            android:text="语文教研室" />
+
+        <TextView
+            android:id="@+id/tv_moderator"
+            style="@style/TextView_Home_Fragment_II"
+            android:text="张泽军" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_room_number"
+            style="@style/TextView_Home_Fragment_III"
+            android:text="教研室号：123456"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_online_count"
+            style="@style/TextView_Home_Fragment_III"
+            android:text="在线人数：2"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
