@@ -41,6 +41,8 @@ public class ChangePasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         ButterKnife.bind(this);
+
+        title.setText("密码修改");
     }
 
     @OnClick(R.id.left_button)

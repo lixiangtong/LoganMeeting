@@ -75,4 +75,12 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
     apt 'com.jakewharton:butterknife-compiler:8.6.0'
+
+
+    compile files('libs/cloudroomtool.jar')
+    compile files('libs/cloudroomvideosdk_android.jar')
+    compile files('libs/QtAndroid-bundled.jar')
+    compile files('libs/QtAndroidAccessibility-bundled.jar')
+    compile files('libs/QtAndroidBearer-bundled.jar')
+    compile files('libs/voiceengine.jar')
 }

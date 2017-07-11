@@ -40,6 +40,8 @@ public class NetSettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_seeting);
         ButterKnife.bind(this);
+
+        title.setText("网络设置");
     }
 
     @OnClick(R.id.left_button)

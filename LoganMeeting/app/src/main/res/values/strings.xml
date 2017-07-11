@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">乐庚互动助手</string>
+
+    <string name="cacel">取消</string>
+    <string name="ok">确定</string>
+    <string name="back">返回</string>
+    <string name="quit">退出</string>
+    <string name="login">登录</string>
+    <string name="prompt">提示</string>
+    <string name="logout">注销</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="prompt_server">服务器地址</string>
+    <string name="null_server">服务器不能为空</string>
+    <string name="prompt_nickname">输入任意字符串</string>
+    <string name="null_nickname">昵称不能为空</string>
+    <string name="create_meet_fail">创建会议失败</string>
+    <string name="entering">正在连接会议中，请稍等……</string>
+    <string name="enter_success">成功进入会议</string>
+    <string name="enter_fail">进入会议失败</string>
+    <string name="open_camera">打开摄像头</string>
+    <string name="close_camera">关闭摄像头</string>
+    <string name="switch_camera">切换摄像头</string>
+    <string name="open_mic">打开麦克风</string>
+    <string name="close_mic">关闭麦克风</string>
+    <string name="mode_fluency">流畅优先</string>
+    <string name="mode_quality">画质优先</string>
+    <string name="media_started">影音共享已开启</string>
+    <string name="media_stopped">影音共享已结束</string>
+    <string name="screenshare_started">屏幕共享已开始</string>
+    <string name="screenshare_stopped">屏幕共享已结束</string>
+    <string name="meet_stopped">会议已结束</string>
+    <string name="meet_dropped">会议掉线</string>
+    <string name="exit_meeting">退出会议</string>
+    <string name="welcome">%s，欢迎您！</string>
+    <string name="meet_prompt">会议号：%d</string>
+
+    <!-- 会议 -->
+    <string name="err_meetid_prompt">请输入正确的会议号</string>
+    <string name="def_meet_sub">%s的会议</string>
 </resources>

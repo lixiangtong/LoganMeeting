@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -10,7 +11,8 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowBackground">@color/white_247x3</item>
-        <item name="colorPrimary">#30aaff</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimary">@color/start_color</item>
         <item name="colorPrimaryDark">#ffffff</item>
         <item name="colorAccent">#cccccc</item>
         <!--
@@ -136,6 +138,13 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#58646d</item>
         <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="title_bar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:background">@drawable/shape_home_gradient</item>
+        <item name="android:paddingTop">30dp</item>
     </style>
 
 

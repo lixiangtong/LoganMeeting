@@ -3,5 +3,6 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

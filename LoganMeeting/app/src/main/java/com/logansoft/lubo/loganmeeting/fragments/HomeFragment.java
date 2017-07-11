@@ -48,7 +48,6 @@ public class HomeFragment extends Fragment {
     RecyclerView rlv;
     Unbinder unbinder;
     private View view;
-    private Context context = getContext();
 
     @Nullable
     @Override
@@ -62,19 +61,19 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.rl)
     public void OnRlClick(View v){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View mLayout = inflater.inflate(R.layout.item_room_info, null);
+        View mLayout = inflater.inflate(R.layout.dialog_join, null);
         builder.setView(mLayout);
         Button btn_join_room = (Button) mLayout.findViewById(R.id.btn_join_room);
         btn_join_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "未实现", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "未实现", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.create();
-        builder.show();
+        builder.create()
+                .show();
     }
 
 

@@ -37,15 +37,16 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_login"
         android:padding="15dp"
-        app:behavior_overlapTop="30dp"
+        app:behavior_overlapTop="60dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/shape_login"
+            >
 
             <RelativeLayout
                 android:id="@+id/rl"
