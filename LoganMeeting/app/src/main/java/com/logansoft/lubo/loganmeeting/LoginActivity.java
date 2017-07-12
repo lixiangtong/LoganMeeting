@@ -1,11 +1,13 @@
 package com.logansoft.lubo.loganmeeting;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
@@ -24,6 +27,13 @@ import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.LoginDat;
 import com.logansoft.lubo.loganmeeting.utils.MD5Util;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,10 +123,42 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        receivePermission();
 
         // 设置登录相关处理对象
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
     }
+
+
+    private void receivePermission() {
+        AndPermission.with(this)
+                .requestCode(300)
+                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO)
+                .callback(this)
+                .rationale(new RationaleListener() {
+                    @Override
+                    public void showRequestPermissionRationale(int requestCode, Rationale
+                            rationale) {
+                        AndPermission.rationaleDialog(LoginActivity.this, rationale).show();
+                    }
+                })
+                .start();
+    }
+
+    @PermissionYes(300)
+    private void getSTORAGEYes(@NonNull List<String> grantedPermissions) {
+        Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionNo(300)
+    private void getSTORAGENo(@NonNull List<String> deniedPermissions) {
+        Toast.makeText(this, "拒绝授权", Toast.LENGTH_SHORT).show();
+        // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权
+        if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+            AndPermission.defaultSettingDialog(this, 300).show();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

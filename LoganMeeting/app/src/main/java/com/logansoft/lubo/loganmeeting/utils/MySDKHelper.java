@@ -19,6 +19,21 @@ public class MySDKHelper implements Handler.Callback {
     private long mEnterTime = 0;
     private String mLoginUserID = null;
 
+
+    private MySDKHelper() {
+        MgrCallback.getInstance().registerMgrCallback(this);
+        VideoCallback.getInstance().registerVideoCallback(this);
+    }
+
+    public static MySDKHelper getInstance() {
+        synchronized (TAG) {
+            if (mInstance == null) {
+                mInstance = new MySDKHelper();
+            }
+        }
+        return mInstance;
+    }
+
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
@@ -40,15 +55,6 @@ public class MySDKHelper implements Handler.Callback {
                 break;
         }
         return false;
-    }
-
-    public static MySDKHelper getInstance() {
-        synchronized (TAG) {
-            if (mInstance == null) {
-                mInstance = new MySDKHelper();
-            }
-        }
-        return mInstance;
     }
 
     private void enterMeetingRslt(CRVIDEOSDK_ERR_DEF code) {
