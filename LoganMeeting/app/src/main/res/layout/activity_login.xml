@@ -122,31 +122,41 @@
                     android:drawableRight="@mipmap/office_icon" />
 
                 <TextView
-                    android:id="@+id/tvMeetingPass"
+                    android:id="@+id/tvMeetingName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="密码"
+                    android:text="昵称"
                     style="@style/TextView_Meeting_Style" />
 
                 <EditText
-                    android:id="@+id/etMeetingPassword"
+                    android:id="@+id/etMeetingName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:drawableRight="@mipmap/nicheng"
-                    android:inputType="textPassword"
                     style="@style/EditText_Meeting_Style" />
             </LinearLayout>
 
 
             <Button
-                android:id="@+id/accountLogin"
+                android:id="@+id/btnAccountLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/shape_home_gradient_account"
                 android:text="登录"
                 style="@style/button_login"
+                />
+
+            <Button
+                android:id="@+id/btnMeetingLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_home_gradient_account"
+                android:text="登录"
+                style="@style/button_login"
+                android:visibility="gone"
                 />
 
             <Button

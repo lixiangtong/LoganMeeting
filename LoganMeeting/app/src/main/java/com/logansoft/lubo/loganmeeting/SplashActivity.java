@@ -20,6 +20,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                SplashActivity.this.finish();
             }
         };
         timer.schedule(timerTask,2000);

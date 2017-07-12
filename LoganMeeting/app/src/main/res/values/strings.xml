@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">乐庚互动助手</string>
-
     <string name="cacel">取消</string>
     <string name="ok">确定</string>
     <string name="back">返回</string>
@@ -12,6 +11,9 @@
     <string name="login_fail">登录失败</string>
     <string name="prompt_server">服务器地址</string>
     <string name="null_server">服务器不能为空</string>
+    <string name="null_meeting_number">会议号不能为空</string>
+    <string name="null_account">账号不能为空</string>
+    <string name="null_account_password">密码不能为空</string>
     <string name="prompt_nickname">输入任意字符串</string>
     <string name="null_nickname">昵称不能为空</string>
     <string name="create_meet_fail">创建会议失败</string>

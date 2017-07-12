@@ -54,6 +54,7 @@ public class MyApplication extends Application {
         sdkInstance.init(getApplicationContext(), initDat);
         //CloudroomVideoSDK初始化完成之后CloudroomVideoMeeting才能使用
         if (sdkInstance.isInitSuccess()) {
+//            MyApplication.getInstance().showToast("初始化成功");
             meetingInstance = CloudroomVideoMeeting.getInstance();
             mgrInstance = CloudroomVideoMgr.getInstance();
             queueInstance = CloudroomQueue.getInstance();
@@ -61,6 +62,7 @@ public class MyApplication extends Application {
         //打开日志
         sdkInstance.setLogOpen(true);
 
+        CloudroomVideoMgr.getInstance().setMgrCallBack(MgrCallback.getInstance());
 
         //输出SDK版本号
         Log.d(TAG, "CloudroomVideoMgrVer:"
@@ -72,7 +74,7 @@ public class MyApplication extends Application {
 
     }
 
-    public static MyApplication getSdkInstance() {
+    public static MyApplication getInstance() {
         return mInstance;
     }
 

@@ -2,6 +2,7 @@ package com.logansoft.lubo.loganmeeting;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -11,6 +12,7 @@ import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -49,9 +51,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.btn_logout)
+    public void onBtnLogoutClick(View v){
+        this.finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MyApplication.mgrInstance.logout();
         MyApplication.sdkInstance.uninit();
     }
 }

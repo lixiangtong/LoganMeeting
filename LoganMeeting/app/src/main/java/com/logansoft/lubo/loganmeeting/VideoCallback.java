@@ -207,7 +207,7 @@ public class VideoCallback implements CloudroomVideoCallback {
 		Message msg = mMainHandler.obtainMessage(MSG_USER_ENTERMEETING);
 		msg.obj = userID;
 		msg.sendToTarget();
-		MyApplication.getSdkInstance().showToast(userID + "进入会议");
+		MyApplication.getInstance().showToast(userID + "杩涘叆浼氳");
 	}
 
 	@Override

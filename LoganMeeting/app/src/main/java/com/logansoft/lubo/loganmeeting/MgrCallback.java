@@ -94,7 +94,7 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "lineOff");
 		mMainHandler.sendEmptyMessage(MSG_LINEOFF);
-		MyApplication.getSdkInstance().showToast("µôÏß",sdkErr);
+		MyApplication.getInstance().showToast("æ‰çº¿",sdkErr);
 	}
 
 	@Override
@@ -126,14 +126,14 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	public void setDNDStatusFail(final CRVIDEOSDK_ERR_DEF sdkErr, String cookie) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "setDNDStatusFail");
-		MyApplication.getSdkInstance().showToast("ÉèÖÃ×´Ì¬Ê§°Ü",sdkErr);
+		MyApplication.getInstance().showToast("è®¾ç½®çŠ¶æ€å¤±è´¥",sdkErr);
 	}
 
 	@Override
 	public void setDNDStatusSuccess(String cookie) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "setDNDStatusSuccess");
-		MyApplication.getSdkInstance().showToast("ÉèÖÃ×´Ì¬³É¹¦");
+		MyApplication.getInstance().showToast("è®¾ç½®çŠ¶æ€æˆåŠŸ");
 	}
 
 	@Override
