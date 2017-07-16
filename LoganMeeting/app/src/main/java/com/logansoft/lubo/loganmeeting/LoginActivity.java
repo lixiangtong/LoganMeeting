@@ -2,6 +2,10 @@ package com.logansoft.lubo.loganmeeting;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,32 +18,47 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler.Callback;
 
+import com.cloudroom.cloudroomvideosdk.CloudroomQueue;
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.LoginDat;
+import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
+import com.cloudroom.cloudroomvideosdk.model.QueueInfo;
+import com.cloudroom.cloudroomvideosdk.model.QueueStatus;
+import com.cloudroom.cloudroomvideosdk.model.QueuingInfo;
+import com.cloudroom.cloudroomvideosdk.model.UserInfo;
 import com.logansoft.lubo.loganmeeting.utils.MD5Util;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
+import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionNo;
 import com.yanzhenjie.permission.PermissionYes;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements EasyPermissions.PermissionCallbacks{
 
     private static final String TAG = "LoginActivity";
 
@@ -80,7 +99,14 @@ public class LoginActivity extends Activity {
     @BindView(R.id.tvNetworkSetting)
     TextView tvNetworkSetting;
 
-    public Handler.Callback mLoginCallback = new Handler.Callback() {
+
+    private AlertDialog mAssignDailog = null;
+    private UserInfo mAssignUserInfo = null;
+    private boolean mAcceptAssignUser = false;
+    private  String [] per = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+
+    public Callback mLoginCallback = new Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
@@ -116,6 +142,7 @@ public class LoginActivity extends Activity {
             return false;
         }
     };
+    public  Handler mMainHandler = new Handler(mLoginCallback);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +151,11 @@ public class LoginActivity extends Activity {
         ButterKnife.bind(this);
 
         receivePermission();
+//        initEvent();
+        etAccount.setText("lixt@30168114");
+        etAccountPassword.setText("123456");
+        etMeeting.setText("55553544");
+        etMeetingName.setText("哈哈");
 
         // 设置登录相关处理对象
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
@@ -133,7 +165,7 @@ public class LoginActivity extends Activity {
     private void receivePermission() {
         AndPermission.with(this)
                 .requestCode(300)
-                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO)
+                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA)
                 .callback(this)
                 .rationale(new RationaleListener() {
                     @Override
@@ -147,7 +179,7 @@ public class LoginActivity extends Activity {
 
     @PermissionYes(300)
     private void getSTORAGEYes(@NonNull List<String> grantedPermissions) {
-        Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
     }
 
     @PermissionNo(300)
@@ -215,7 +247,11 @@ public class LoginActivity extends Activity {
             MyApplication.getInstance().showToast(R.string.null_meeting_number);
             return;
         }
-        meetID = Integer.parseInt(meetingNumber);
+        try {
+            meetID = Integer.parseInt(meetingNumber);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         if (TextUtils.isEmpty(nickName)) {
             MyApplication.getInstance().showToast(R.string.null_nickname);
             return;
@@ -308,4 +344,31 @@ public class LoginActivity extends Activity {
         return super.onKeyUp(keyCode, event);
     }
 
+    private void initEvent() {
+        if (EasyPermissions.hasPermissions(this,per)){
+            Log.d("Debug","有权限");
+        }else{
+            Log.d("Debug","没权限");
+            EasyPermissions.requestPermissions(this,"需要拍照录音和写内存",1001,per);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Log.d("Debug","申请成功");
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d("Debug","申请拒绝");
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(per))) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
 }

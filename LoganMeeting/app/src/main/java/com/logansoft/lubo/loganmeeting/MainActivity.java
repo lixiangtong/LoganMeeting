@@ -1,15 +1,16 @@
 package com.logansoft.lubo.loganmeeting;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 
 import com.logansoft.lubo.loganmeeting.adapters.BarFragmentAdapter;
 import com.logansoft.lubo.loganmeeting.fragments.HomeFragment;

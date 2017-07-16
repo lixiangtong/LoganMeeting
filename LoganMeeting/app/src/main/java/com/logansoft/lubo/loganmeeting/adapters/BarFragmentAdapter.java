@@ -1,5 +1,7 @@
 package com.logansoft.lubo.loganmeeting.adapters;
 
+
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,7 +14,7 @@ import java.util.List;
 
 public class BarFragmentAdapter extends FragmentPagerAdapter {
     List<Fragment> fragments;
-    public BarFragmentAdapter(FragmentManager fm,List<Fragment> fragments) {
+    public BarFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
         this.fragments = fragments;
     }

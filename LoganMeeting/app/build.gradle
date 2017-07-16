@@ -83,4 +83,6 @@ dependencies {
     compile files('libs/QtAndroidAccessibility-bundled.jar')
     compile files('libs/QtAndroidBearer-bundled.jar')
     compile files('libs/voiceengine.jar')
+
+    compile 'pub.devrel:easypermissions:0.4.0'
 }

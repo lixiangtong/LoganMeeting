@@ -41,8 +41,8 @@ import com.cloudroom.cloudroomvideosdk.model.VIDEO_SIZE_TYPE;
 import com.cloudroom.cloudroomvideosdk.model.VSTATUS;
 import com.cloudroom.cloudroomvideosdk.model.VideoCfg;
 import com.cloudroom.tool.AndroidTool;
-import com.logansoft.lubo.loganmeeting.utils.MySDKHelper;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
+import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 import com.logansoft.lubo.loganmeeting.utils.YUVVideoView;
 
 
@@ -228,15 +228,17 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "exitMeeting 2");
+		Log.d(TAG, "onCreate 1");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		Log.d(TAG, "onCreate 2");
 		setContentView(R.layout.activity_meeting);
-
+		Log.d(TAG, "onCreate 3");
 		mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
 		DisplayMetrics dm = getResources().getDisplayMetrics();
+		Log.d(TAG, "onCreate 4");
 		screenWidth = dm.widthPixels;
 		screenHeight = dm.heightPixels;
 
@@ -277,10 +279,11 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		updateCameraBtn();
 		updateMicBtn();
 
+
 		int meetID = getIntent().getIntExtra("meetID", 0);
 		String password = getIntent().getStringExtra("password");
 		if (meetID > 0) {
-			MySDKHelper.getInstance().enterMeeting(meetID, password);
+			VideoSDKHelper.getInstance().enterMeeting(meetID, password);
 			mMainHandler.post(new Runnable() {
 
 				@Override
@@ -292,6 +295,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		}
 		TextView promptTV = (TextView) findViewById(R.id.tv_prompt);
 		promptTV.setText(getString(R.string.meet_prompt, meetID));
+		Log.d(TAG, "onCreate 5");
 
 		String[] videoModes = { getString(R.string.mode_fluency),
 				getString(R.string.mode_quality) };
@@ -347,13 +351,49 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 	}
 
 	private void showEntering() {
+		Log.d(TAG, "showEntering 2");
 		UITool.showProcessDialog(this, getString(R.string.entering));
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.d(TAG, "onStart 2");
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d(TAG, "onResume 2");
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.d(TAG, "onPause 2");
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.d(TAG, "onStop 2");
+
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Log.d(TAG, "onRestart 2");
+
 	}
 
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		Log.d(TAG, "onDestroy 2");
 		mVideoThread.quit();
 		unwatchHeadset();
 		CloudroomVideoMeeting.getInstance().exitMeeting();

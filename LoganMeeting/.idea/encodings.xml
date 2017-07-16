@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/logansoft/lubo/loganmeeting/MeetingActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/logansoft/lubo/loganmeeting/MgrCallback.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/logansoft/lubo/loganmeeting/VideoCallback.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/logansoft/lubo/loganmeeting/utils/VideoSDKHelper.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

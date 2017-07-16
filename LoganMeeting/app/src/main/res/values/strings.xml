@@ -9,6 +9,9 @@
     <string name="logout">注销</string>
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败</string>
+    <string name="queue_fail">排队失败</string>
+    <string name="call_accept">呼叫被接受</string>
+    <string name="call_in">收到呼叫</string>
     <string name="prompt_server">服务器地址</string>
     <string name="null_server">服务器不能为空</string>
     <string name="null_meeting_number">会议号不能为空</string>

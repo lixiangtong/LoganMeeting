@@ -12,7 +12,7 @@ import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.SdkInitDat;
 import com.cloudroom.tool.MeetingPackageHelper;
-import com.logansoft.lubo.loganmeeting.utils.MySDKHelper;
+import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 
 import cn.finalteam.toolsfinal.CrashHandler;
 
@@ -102,7 +102,7 @@ public class MyApplication extends Application {
     }
 
     public void showToast(String txt, CRVIDEOSDK_ERR_DEF err) {
-        String text = String.format("%s ( %s )", txt, MySDKHelper
+        String text = String.format("%s ( %s )", txt, VideoSDKHelper
                 .getInstance().getErrStr(err));
         showToast(text);
     }
