@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.logansoft.lubo.loganmeeting.MeetingLoginActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_home_gradient"
+        >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctl"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:gravity="center_horizontal"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
+            app:collapsedTitleGravity="left"
+            app:expandedTitleGravity="center"
+            >
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/about_logo_icon"
+                android:layout_marginTop="43dp"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center_horizontal"
+                />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        app:behavior_overlapTop="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/shape_login"
+            android:padding="30dp"
+            >
+            <LinearLayout
+                android:id="@+id/llMeetting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible"
+                >
+
+                <TextView
+                    android:id="@+id/tvMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="教研室号"
+                    style="@style/TextView_Meeting_Style" />
+
+                <EditText
+                    android:id="@+id/etMeeting"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    style="@style/EditText_Meeting_Style"
+                    android:drawableRight="@mipmap/office_icon" />
+
+                <TextView
+                    android:id="@+id/tvMeetingName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="昵称"
+                    style="@style/TextView_Meeting_Style" />
+
+                <EditText
+                    android:id="@+id/etMeetingNick"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableRight="@mipmap/nicheng"
+                    style="@style/EditText_Meeting_Style" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnMeetingLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_home_gradient_account"
+                android:text="登录"
+                style="@style/button_login"
+                android:visibility="visible"
+                />
+
+            <Button
+                android:id="@+id/btnAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_home_gradient_meeting"
+                android:text="账号登录"
+                style="@style/button_login"
+                android:visibility="visible"
+                />
+
+            <TextView
+                android:id="@+id/tvNetworkSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="网络设置"
+                android:layout_marginTop="15dp"
+                style="@style/TextView_Account_Style"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

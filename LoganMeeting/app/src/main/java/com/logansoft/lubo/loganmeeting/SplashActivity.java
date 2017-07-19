@@ -2,7 +2,6 @@ package com.logansoft.lubo.loganmeeting;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.util.Timer;
@@ -19,7 +18,7 @@ public class SplashActivity extends Activity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, AccountLoginActivity.class));
                 SplashActivity.this.finish();
             }
         };

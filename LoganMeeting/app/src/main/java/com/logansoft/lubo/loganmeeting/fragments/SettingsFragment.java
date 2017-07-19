@@ -7,10 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.logansoft.lubo.loganmeeting.AboutActivity;
 import com.logansoft.lubo.loganmeeting.ChangePasswordActivity;
+import com.logansoft.lubo.loganmeeting.MgrCallback;
 import com.logansoft.lubo.loganmeeting.R;
 
 import butterknife.BindView;
@@ -34,6 +38,8 @@ public class SettingsFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.vChangeMeetingPass)
     View vChangeMeetingPass;
+    @BindView(R.id.btnLogout)
+    Button btnLogout;
     private View view;
 
     @Nullable
@@ -62,9 +68,20 @@ public class SettingsFragment extends Fragment {
         startActivity(new Intent(getActivity(), ChangePasswordActivity.class));
     }
 
+    @OnClick(R.id.btnLogout)
+    public void onBtnLogoutClick(View v) {
+        CloudroomVideoMgr.getInstance().logout();
+        getActivity().finish();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

@@ -3,10 +3,14 @@ package com.logansoft.lubo.loganmeeting.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,16 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cloudroom.cloudroomvideosdk.CloudroomQueue;
-import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
-import com.cloudroom.cloudroomvideosdk.model.QueueStatus;
-import com.cloudroom.cloudroomvideosdk.model.QueuingInfo;
-import com.cloudroom.cloudroomvideosdk.model.UserInfo;
 import com.logansoft.lubo.loganmeeting.MeetingActivity;
+import com.logansoft.lubo.loganmeeting.MgrCallback;
 import com.logansoft.lubo.loganmeeting.MyApplication;
 import com.logansoft.lubo.loganmeeting.R;
+import com.logansoft.lubo.loganmeeting.VideoCallback;
 import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapter;
 import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 import com.logansoft.lubo.loganmeeting.utils.DividerItemDecoration;
@@ -46,7 +46,7 @@ import butterknife.Unbinder;
  * Created by logansoft on 2017/7/6.
  */
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     @BindView(R.id.ctl)
     CollapsingToolbarLayout ctl;
@@ -63,11 +63,53 @@ public class HomeFragment extends Fragment{
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
+    @BindView(R.id.nsv)
+    NestedScrollView nsv;
     private View view;
     private RoomInfoBean roomInfoBean1;
     private RoomInfoBean roomInfoBean2;
+    private RoomInfoBean roomInfoBean3;
+    private RoomInfoBean roomInfoBean4;
+    private RoomInfoBean roomInfoBean5;
+    private RoomInfoBean roomInfoBean6;
+    private RoomInfoBean roomInfoBean7;
     private List<RoomInfoBean> data = new ArrayList<>();
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
+
+    private AlertDialog alertDialog;
+
+    private Callback mMgrCallback = new Callback() {
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            // TODO Auto-generated method stub
+            switch (msg.what) {
+                case MgrCallback.MSG_LINEOFF:
+                    getActivity().finish();
+                    break;
+                case VideoCallback.MSG_ENTERMEETING_RSLT:
+//                    enableOption(true);
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    };
+    public Handler mMainHandler = new Handler(mMgrCallback);
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 设置呼叫处理对象
+        MgrCallback.getInstance().registerMgrCallback(mMgrCallback);
+
+        // 判断自己的登陆账号是空就退出呼叫界面
+//        String userID = VideoSDKHelper.getInstance().getLoginUserID();
+//        if (TextUtils.isEmpty(userID)) {
+//            getActivity().finish();
+//        }
+    }
 
     @Nullable
     @Override
@@ -78,29 +120,68 @@ public class HomeFragment extends Fragment{
         }
         roomInfoBean1 = new RoomInfoBean();
         roomInfoBean2 = new RoomInfoBean();
+        roomInfoBean3 = new RoomInfoBean();
+        roomInfoBean4 = new RoomInfoBean();
+        roomInfoBean5 = new RoomInfoBean();
+        roomInfoBean6 = new RoomInfoBean();
+        roomInfoBean7 = new RoomInfoBean();
+
         roomInfoBean1.setRoomName("语文教研室");
         roomInfoBean1.setModerator("张泽军");
         roomInfoBean1.setRoomNumber("55553544");
         roomInfoBean1.setWaitCount("2");
 
-        roomInfoBean2.setRoomName("语文教研室");
-        roomInfoBean2.setModerator("张泽军");
+        roomInfoBean2.setRoomName("数学教研室");
+        roomInfoBean2.setModerator("李林丽");
         roomInfoBean2.setRoomNumber("41782832");
-        roomInfoBean2.setWaitCount("2");
+        roomInfoBean2.setWaitCount("1");
+
+        roomInfoBean3.setRoomName("英语教研室");
+        roomInfoBean3.setModerator("陈志钊");
+        roomInfoBean3.setRoomNumber("94881398");
+        roomInfoBean3.setWaitCount("3");
+
+        roomInfoBean4.setRoomName("历史教研室");
+        roomInfoBean4.setModerator("穆里奇");
+        roomInfoBean4.setRoomNumber("77163561");
+        roomInfoBean4.setWaitCount("6");
+
+        roomInfoBean5.setRoomName("人文教研室");
+        roomInfoBean5.setModerator("高拉特");
+        roomInfoBean5.setRoomNumber("54241402");
+        roomInfoBean5.setWaitCount("5");
+
+        roomInfoBean6.setRoomName("生物教研室");
+        roomInfoBean6.setModerator("保利尼奥");
+        roomInfoBean6.setRoomNumber("74040371");
+        roomInfoBean6.setWaitCount("3");
+
+        roomInfoBean7.setRoomName("化学教研室");
+        roomInfoBean7.setModerator("阿兰");
+        roomInfoBean7.setRoomNumber("92039542");
+        roomInfoBean7.setWaitCount("5");
         data.add(roomInfoBean1);
         data.add(roomInfoBean2);
+        data.add(roomInfoBean3);
+        data.add(roomInfoBean4);
+        data.add(roomInfoBean5);
+        data.add(roomInfoBean6);
+        data.add(roomInfoBean7);
+
+        nsv.smoothScrollTo(0,0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
         rv.setLayoutManager(layoutManager);
         //设置为垂直布局，这也是默认的
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         //设置分隔线
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(),LinearLayoutManager.VERTICAL));
+        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //设置增加或删除条目的动画
         rv.setItemAnimator(new DefaultItemAnimator());
 
-        myRecyclerViewAdapter = new MyRecyclerViewAdapter(data,getActivity() );
-        Log.d(TAG, "onCreateView: "+data.size());
+
+        myRecyclerViewAdapter = new MyRecyclerViewAdapter(data, getActivity());
+        Log.d(TAG, "onCreateView: " + data.size());
         rv.setAdapter(myRecyclerViewAdapter);
 
         setAdapterListener();
@@ -112,22 +193,28 @@ public class HomeFragment extends Fragment{
         myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
             @Override
             public void onClick(int position) {
-                for (int i = 0; i < data.size(); i++) {
-                    String roomNumber = data.get(i).getRoomNumber();
-                    int meetID = Integer.parseInt(roomNumber);
-                    Intent intent = new Intent(getActivity(), MeetingActivity.class);
-                    intent.putExtra("meetID",meetID);
-                    intent.putExtra("password","");
-                    startActivity(intent);
-                }
+                String roomNumber = data.get(position).getRoomNumber();
+                int meetID = Integer.parseInt(roomNumber);
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MeetingActivity.class);
+                intent.putExtra("meetID", meetID);
+                intent.putExtra("password", "");
+                startActivity(intent);
             }
 
             @Override
             public void onLongClick(int position) {
-                MyApplication.getInstance().showToast("你长击了第"+position+"个Item");
+                MyApplication.getInstance().showToast("你长击了第" + position + "个Item");
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 每次进入界面刷新队列状态
+//        CloudroomQueue.getInstance().refreshAllQueueStatus();
     }
 
     @OnClick(R.id.rl)
@@ -158,14 +245,28 @@ public class HomeFragment extends Fragment{
                 startActivity(intent);
             }
         });
-        builder.create()
+        alertDialog = builder.create();
+        alertDialog
                 .show();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MgrCallback.getInstance().unregisterMgrCallback(mMgrCallback);
     }
 }

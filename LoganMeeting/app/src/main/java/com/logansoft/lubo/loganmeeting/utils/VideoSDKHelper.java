@@ -165,7 +165,6 @@ public class VideoSDKHelper implements Callback {
 				return "连接被关闭";
 			case CRVIDEOSDK_CONNECTIONLOST:
 				return "连接丢失";
-
 			case CRVIDEOSDK_QUE_ID_INVALID:
 				return "队列ID错误";
 			case CRVIDEOSDK_QUE_NOUSER:

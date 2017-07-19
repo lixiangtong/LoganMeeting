@@ -7,7 +7,8 @@
     <string name="login">登录</string>
     <string name="prompt">提示</string>
     <string name="logout">注销</string>
-    <string name="login_success">登录成功</string>
+    <string name="login_success">账号登录成功</string>
+    <string name="meeting_login_success">会议号登录成功</string>
     <string name="login_fail">登录失败</string>
     <string name="queue_fail">排队失败</string>
     <string name="call_accept">呼叫被接受</string>
@@ -23,11 +24,11 @@
     <string name="entering">正在连接会议中，请稍等……</string>
     <string name="enter_success">成功进入会议</string>
     <string name="enter_fail">进入会议失败</string>
-    <string name="open_camera">打开摄像头</string>
-    <string name="close_camera">关闭摄像头</string>
+    <string name="open_camera">开摄像</string>
+    <string name="close_camera">关摄像</string>
     <string name="switch_camera">切换摄像头</string>
-    <string name="open_mic">打开麦克风</string>
-    <string name="close_mic">关闭麦克风</string>
+    <string name="open_mic">开麦克</string>
+    <string name="close_mic">关麦克</string>
     <string name="mode_fluency">流畅优先</string>
     <string name="mode_quality">画质优先</string>
     <string name="media_started">影音共享已开启</string>
@@ -36,7 +37,7 @@
     <string name="screenshare_stopped">屏幕共享已结束</string>
     <string name="meet_stopped">会议已结束</string>
     <string name="meet_dropped">会议掉线</string>
-    <string name="exit_meeting">退出会议</string>
+    <string name="exit_meeting">退出</string>
     <string name="welcome">%s，欢迎您！</string>
     <string name="meet_prompt">会议号：%d</string>
 

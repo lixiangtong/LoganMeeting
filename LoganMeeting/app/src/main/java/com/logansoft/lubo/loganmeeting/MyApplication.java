@@ -24,10 +24,6 @@ public class MyApplication extends Application {
 
     private static final String TAG = "test";
     private static MyApplication mInstance;
-    public static CloudroomVideoSDK sdkInstance;
-    public static CloudroomVideoMeeting meetingInstance;
-    public static CloudroomVideoMgr mgrInstance;
-    public static CloudroomQueue queueInstance;
     private Toast mToast;
     private Handler mMainHandler = new Handler();
 
@@ -37,8 +33,6 @@ public class MyApplication extends Application {
 
         mInstance = this;
         CrashHandler.getInstance().init(getApplicationContext());
-
-        sdkInstance = CloudroomVideoSDK.getInstance();
 
 
         SdkInitDat initDat = new SdkInitDat();
@@ -51,16 +45,11 @@ public class MyApplication extends Application {
         //是否输出日志到控制台
         initDat.showSDKLogConsole = true;
         //初始化SDK
-        sdkInstance.init(getApplicationContext(), initDat);
-        //CloudroomVideoSDK初始化完成之后CloudroomVideoMeeting才能使用
-        if (sdkInstance.isInitSuccess()) {
-//            MyApplication.getInstance().showToast("初始化成功");
-            meetingInstance = CloudroomVideoMeeting.getInstance();
-            mgrInstance = CloudroomVideoMgr.getInstance();
-            queueInstance = CloudroomQueue.getInstance();
-        }
+        CloudroomVideoSDK.getInstance().init(getApplicationContext(), initDat);
+
+
         //打开日志
-        sdkInstance.setLogOpen(true);
+        CloudroomVideoSDK.getInstance().setLogOpen(true);
 
         CloudroomVideoMgr.getInstance().setMgrCallBack(MgrCallback.getInstance());
 

@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="#BBFF6616"
+        android:background="#30aaff"
         android:gravity="center_vertical|center_horizontal"
         android:padding="5dp"
         android:textSize="18sp" />
@@ -50,10 +50,8 @@
         android:id="@+id/view_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal|bottom"
         android:orientation="horizontal"
-        android:paddingBottom="5dp" >
+         >
 
         <Button
             android:id="@+id/btn_leftmeet"
@@ -66,16 +64,6 @@
             android:text="@string/exit_meeting" />
 
         <Button
-            android:id="@+id/btn_camera"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/open_camera" />
-
-        <Button
             android:id="@+id/btn_switchcamera"
             style="@style/CommonBtn"
             android:layout_width="wrap_content"
@@ -85,6 +73,27 @@
             android:onClick="onViewClick"
             android:text="@string/switch_camera"
             android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_mic"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:onClick="onViewClick"
+            android:text="@string/open_mic" />
+
+        <Button
+            android:id="@+id/btn_camera"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:onClick="onViewClick"
+            android:text="@string/open_camera" />
+
 
         <Button
             android:id="@+id/btn_videosize"
@@ -104,15 +113,6 @@
             android:layout_marginRight="3dp"
             android:onClick="onViewClick" />
 
-        <Button
-            android:id="@+id/btn_mic"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/open_mic" />
 
         <ProgressBar
             android:id="@+id/pb_mic"
@@ -126,4 +126,67 @@
             android:progressDrawable="@drawable/vertical_progress_shape" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/view_options_right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_centerVertical="true"
+        >
+
+        <Button
+            android:id="@+id/btn_video"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:onClick="onViewClick"
+            android:text="视频" />
+
+        <Button
+            android:id="@+id/btn_attendee"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:onClick="onViewClick"
+            android:text="参会者"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_document"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:onClick="onViewClick"
+            android:text="文档" />
+
+        <Button
+            android:id="@+id/btn_live"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:onClick="onViewClick"
+            android:text="直播" />
+
+
+        <Button
+            android:id="@+id/btn_settings"
+            style="@style/CommonBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:onClick="onViewClick"
+            android:text="设置"
+            />
+
+    </LinearLayout>
 </RelativeLayout>

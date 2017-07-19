@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMeeting;
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.cloudroom.cloudroomvideosdk.model.ASTATUS;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MemberInfo;
@@ -74,7 +75,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 	private Button mMicBtn = null;
 	private ProgressBar mMicPB = null;
 
-	private View mOPtionsView = null;
+	private View mOptionsView = null;
 
 	private String[] mVideoModes = null;
 	private String[] mVideoSizes = null;
@@ -143,13 +144,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 				synchronized (TAG) {
 					mBScreenShareStarted = false;
 				}
-				screenshareStateChanged();
+				screenShareStateChanged();
 				break;
 			case VideoCallback.MSG_NOTIFY_SCREENSHARE_STARTRD:
 				synchronized (TAG) {
 					mBScreenShareStarted = true;
 				}
-				screenshareStateChanged();
+				screenShareStateChanged();
 				break;
 			case VideoCallback.MSG_DEFVIDEO_CHANGED: {
 				String userID = (String) msg.obj;
@@ -188,12 +189,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 			default:
 				break;
 			}
-
 			return false;
 		}
 	};
 
 	private long mBackgroundTime = 0;
+	private View mOptionsViewRight;
 
 	private void checkBackground() {
 		mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -260,7 +261,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
 		mSelfGLSV.setOnTouchListener(mDragListener);
 
-		mOPtionsView = findViewById(R.id.view_options);
+		mOptionsView = findViewById(R.id.view_options);
+		mOptionsViewRight = findViewById(R.id.view_options_right);
 
 		mCameraSwitchBtn = (Button) findViewById(R.id.btn_switchcamera);
 		mCameraBtn = (Button) findViewById(R.id.btn_camera);
@@ -398,7 +400,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		unwatchHeadset();
 		CloudroomVideoMeeting.getInstance().exitMeeting();
 		VideoCallback.getInstance().unregisterVideoCallback(mMainCallback);
-	}
+//        CloudroomVideoSDK.getInstance().uninit();
+    }
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -456,6 +459,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
 		ArrayList<MemberInfo> members = CloudroomVideoMeeting.getInstance()
 				.getAllMembers();
+		for (int i=0;i<members.size();i++) {
+			Log.d(TAG, "enterMeetingRslt: members="+members.get(i).nickName);
+		}
 		for (MemberInfo info : members) {
 			String nickname = CloudroomVideoMeeting.getInstance().getNickName(
 					info.userId);
@@ -561,7 +567,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		updateCameraBtn();
 	}
 
-	private void screenshareStateChanged() {
+	private void screenShareStateChanged() {
 		MyApplication.getInstance().showToast(
 				mBScreenShareStarted ? R.string.screenshare_started
 						: R.string.screenshare_stopped);
@@ -715,6 +721,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
 	private int screenWidth;
 	private int screenHeight;
+
+	/**
+	 * 	视频view拖到监听
+	 */
 	private OnTouchListener mDragListener = new OnTouchListener() {
 
 		private int lastX;
@@ -783,14 +793,16 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 	private void showOption() {
 		Log.d(TAG, "showOption");
 		mMainHandler.removeMessages(MSG_HIDE_OPTION);
-		mOPtionsView.setVisibility(View.VISIBLE);
+		mOptionsView.setVisibility(View.VISIBLE);
+		mOptionsViewRight.setVisibility(View.VISIBLE);
 		mMainHandler.sendEmptyMessageDelayed(MSG_HIDE_OPTION, 3 * 1000);
 	}
 
 	private void hideOption() {
 		Log.d(TAG, "hideOption");
 		mMainHandler.removeMessages(MSG_HIDE_OPTION);
-		mOPtionsView.setVisibility(View.GONE);
+		mOptionsView.setVisibility(View.GONE);
+		mOptionsViewRight.setVisibility(View.GONE);
 	}
 
 	public void showVideoCfgDialog(final Button view, final String[] items) {
