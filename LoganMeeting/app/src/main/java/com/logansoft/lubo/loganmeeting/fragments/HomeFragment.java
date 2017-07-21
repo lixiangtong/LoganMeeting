@@ -246,8 +246,7 @@ public class HomeFragment extends Fragment {
             }
         });
         alertDialog = builder.create();
-        alertDialog
-                .show();
+        alertDialog.show();
     }
 
     @Override
