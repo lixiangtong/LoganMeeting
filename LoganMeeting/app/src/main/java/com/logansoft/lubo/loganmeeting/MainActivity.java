@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.os.Handler.Callback;
 
 
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.logansoft.lubo.loganmeeting.adapters.BarFragmentAdapter;
 import com.logansoft.lubo.loganmeeting.fragments.HomeFragment;
@@ -159,8 +160,8 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: "+1);
+        CloudroomVideoMgr.getInstance().logout();
 //        CloudroomVideoSDK.getInstance().uninit();
-
     }
 
     @Override

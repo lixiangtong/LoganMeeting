@@ -26,7 +26,7 @@
     <string name="enter_fail">进入会议失败</string>
     <string name="open_camera">开摄像</string>
     <string name="close_camera">关摄像</string>
-    <string name="switch_camera">切换摄像头</string>
+    <string name="switch_camera">切摄像头</string>
     <string name="open_mic">开麦克</string>
     <string name="close_mic">关麦克</string>
     <string name="mode_fluency">流畅优先</string>
@@ -40,6 +40,13 @@
     <string name="exit_meeting">退出</string>
     <string name="welcome">%s，欢迎您！</string>
     <string name="meet_prompt">会议号：%d</string>
+    <string name="video">视频</string>
+    <string name="attendee">参会者</string>
+    <string name="document">文档</string>
+    <string name="camera">摄像头</string>
+    <string name="volume">音量</string>
+    <string name="micphone">麦克风</string>
+
 
     <!-- 会议 -->
     <string name="err_meetid_prompt">请输入正确的会议号</string>

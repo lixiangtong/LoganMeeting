@@ -158,6 +158,30 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:background">@drawable/btn_common_bg</item>
     </style>
+    <style name="CommonCheckBox">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/btn_common_bg</item>
+    </style>
+
+    <style name="CommonRadioButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="textView_meeting_info">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">17dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 
 </resources>

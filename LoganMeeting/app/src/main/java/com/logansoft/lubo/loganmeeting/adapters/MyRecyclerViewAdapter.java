@@ -2,12 +2,14 @@ package com.logansoft.lubo.loganmeeting.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 import com.logansoft.lubo.loganmeeting.R;
 import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 
@@ -19,7 +21,8 @@ import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
 
-    private List<RoomInfoBean> mDatas;
+    private static final String TAG = "MyRecyclerViewAdapter";
+    private List<MeetInfo> mDatas;
     private Context mContext;
     private LayoutInflater inflater;
     private OnMyItemClickListener mOnItemClickListener;
@@ -27,7 +30,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public MyRecyclerViewAdapter() {
     }
 
-    public MyRecyclerViewAdapter(List<RoomInfoBean> mDatas, Context mContext) {
+    public MyRecyclerViewAdapter(List<MeetInfo> mDatas, Context mContext) {
         this.mDatas = mDatas;
         this.mContext = mContext;
         this.inflater = LayoutInflater.from(mContext);
@@ -42,11 +45,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        RoomInfoBean roomInfoBean = mDatas.get(position);
-        holder.tvRoomName.setText(roomInfoBean.getRoomName());
-        holder.tvModerator.setText(roomInfoBean.getModerator());
-        holder.tvRoomNumber.setText(roomInfoBean.getRoomNumber());
-        holder.tvOnlineCount.setText(roomInfoBean.getWaitCount());
+        MeetInfo meetInfo = mDatas.get(position);
+        holder.tvRoomName.setText(meetInfo.subject);
+        holder.tvRoomNumber.setText(meetInfo.ID);
 
         if (mOnItemClickListener!=null){
             holder.rvItem.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount: mDatas.size()="+mDatas.size());
         return mDatas.size();
     }
 

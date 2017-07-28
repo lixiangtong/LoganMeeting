@@ -14,4 +14,7 @@
     <color name="blue_55x176x233">#37b0E9</color>
     <color name="start_color">#30aaff</color>
     <color name="end_color">#2bd0fe</color>
+    <color name="option_video">#88232120</color>
+    <color name="setting_background">#BB242323</color>
+    <color name="divider">#969595</color>
 </resources>

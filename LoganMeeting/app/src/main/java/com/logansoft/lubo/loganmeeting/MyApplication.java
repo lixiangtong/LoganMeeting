@@ -22,7 +22,7 @@ import cn.finalteam.toolsfinal.CrashHandler;
 
 public class MyApplication extends Application {
 
-    private static final String TAG = "test";
+    private static final String TAG = "MyApplication";
     private static MyApplication mInstance;
     private Toast mToast;
     private Handler mMainHandler = new Handler();
@@ -34,18 +34,21 @@ public class MyApplication extends Application {
         mInstance = this;
         CrashHandler.getInstance().init(getApplicationContext());
 
-
         SdkInitDat initDat = new SdkInitDat();
 
         initDat.oemID = "CLOUDROOM";
-        //配置文件路径
-        initDat.cfgPathFileName = "/sdcard/LoganMeeting/UserCfg.ini";
-        //日志文件路径
-        initDat.loggerPathFileName = "/sdcard/LoganMeeting/log/Log.log";
+        //文件路径
+        initDat.sdkDatSavePath= "/sdcard/LoganMeeting/";
+
+//        //日志文件路径
+//        initDat.loggerPathFileName = "/sdcard/LoganMeeting/log/Log.log";
         //是否输出日志到控制台
         initDat.showSDKLogConsole = true;
+
         //初始化SDK
-        CloudroomVideoSDK.getInstance().init(getApplicationContext(), initDat);
+        CloudroomVideoSDK cloudroomVideoSDK = CloudroomVideoSDK.getInstance();
+        cloudroomVideoSDK.init(getApplicationContext(), initDat);
+        Log.d(TAG, "onCreate: "+cloudroomVideoSDK.isInitSuccess());
 
 
         //打开日志

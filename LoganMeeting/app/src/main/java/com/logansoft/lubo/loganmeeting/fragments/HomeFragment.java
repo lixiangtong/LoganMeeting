@@ -31,6 +31,7 @@ import com.logansoft.lubo.loganmeeting.MyApplication;
 import com.logansoft.lubo.loganmeeting.R;
 import com.logansoft.lubo.loganmeeting.VideoCallback;
 import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapter;
+import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapterI;
 import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 import com.logansoft.lubo.loganmeeting.utils.DividerItemDecoration;
 
@@ -68,13 +69,8 @@ public class HomeFragment extends Fragment {
     private View view;
     private RoomInfoBean roomInfoBean1;
     private RoomInfoBean roomInfoBean2;
-    private RoomInfoBean roomInfoBean3;
-    private RoomInfoBean roomInfoBean4;
-    private RoomInfoBean roomInfoBean5;
-    private RoomInfoBean roomInfoBean6;
-    private RoomInfoBean roomInfoBean7;
     private List<RoomInfoBean> data = new ArrayList<>();
-    private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private MyRecyclerViewAdapterI myRecyclerViewAdapterI;
 
     private AlertDialog alertDialog;
 
@@ -120,53 +116,21 @@ public class HomeFragment extends Fragment {
         }
         roomInfoBean1 = new RoomInfoBean();
         roomInfoBean2 = new RoomInfoBean();
-        roomInfoBean3 = new RoomInfoBean();
-        roomInfoBean4 = new RoomInfoBean();
-        roomInfoBean5 = new RoomInfoBean();
-        roomInfoBean6 = new RoomInfoBean();
-        roomInfoBean7 = new RoomInfoBean();
+
 
         roomInfoBean1.setRoomName("语文教研室");
         roomInfoBean1.setModerator("张泽军");
-        roomInfoBean1.setRoomNumber("55553544");
+        roomInfoBean1.setRoomNumber("74040371");
         roomInfoBean1.setWaitCount("2");
 
         roomInfoBean2.setRoomName("数学教研室");
         roomInfoBean2.setModerator("李林丽");
-        roomInfoBean2.setRoomNumber("41782832");
+        roomInfoBean2.setRoomNumber("36826479");
         roomInfoBean2.setWaitCount("1");
 
-        roomInfoBean3.setRoomName("英语教研室");
-        roomInfoBean3.setModerator("陈志钊");
-        roomInfoBean3.setRoomNumber("94881398");
-        roomInfoBean3.setWaitCount("3");
-
-        roomInfoBean4.setRoomName("历史教研室");
-        roomInfoBean4.setModerator("穆里奇");
-        roomInfoBean4.setRoomNumber("77163561");
-        roomInfoBean4.setWaitCount("6");
-
-        roomInfoBean5.setRoomName("人文教研室");
-        roomInfoBean5.setModerator("高拉特");
-        roomInfoBean5.setRoomNumber("54241402");
-        roomInfoBean5.setWaitCount("5");
-
-        roomInfoBean6.setRoomName("生物教研室");
-        roomInfoBean6.setModerator("保利尼奥");
-        roomInfoBean6.setRoomNumber("74040371");
-        roomInfoBean6.setWaitCount("3");
-
-        roomInfoBean7.setRoomName("化学教研室");
-        roomInfoBean7.setModerator("阿兰");
-        roomInfoBean7.setRoomNumber("92039542");
-        roomInfoBean7.setWaitCount("5");
         data.add(roomInfoBean1);
         data.add(roomInfoBean2);
-        data.add(roomInfoBean3);
-        data.add(roomInfoBean4);
-        data.add(roomInfoBean5);
-        data.add(roomInfoBean6);
-        data.add(roomInfoBean7);
+
 
         nsv.smoothScrollTo(0,0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -180,9 +144,9 @@ public class HomeFragment extends Fragment {
         rv.setItemAnimator(new DefaultItemAnimator());
 
 
-        myRecyclerViewAdapter = new MyRecyclerViewAdapter(data, getActivity());
+        myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
         Log.d(TAG, "onCreateView: " + data.size());
-        rv.setAdapter(myRecyclerViewAdapter);
+        rv.setAdapter(myRecyclerViewAdapterI);
 
         setAdapterListener();
 
@@ -190,7 +154,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setAdapterListener() {
-        myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
+        myRecyclerViewAdapterI.setMyOnItemClickListener(new MyRecyclerViewAdapterI.OnMyItemClickListener() {
             @Override
             public void onClick(int position) {
                 String roomNumber = data.get(position).getRoomNumber();

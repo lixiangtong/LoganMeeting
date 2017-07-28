@@ -10,6 +10,7 @@ import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr.CloudroomVideoMgrCallba
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MgrCallback implements CloudroomVideoMgrCallback {
@@ -26,6 +27,9 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	public static final int MSG_NOTIFYCALL_HUNGUP = 18;
 	public static final int MSG_NOTIFYCALL_ACCEPTED = 19;
 	public static final int MSG_NOTIFYCALL_IN = 20;
+	public static final int MSG_GETMEETING_SUCCESS = 21;
+	public static final int MSG_GETMEETING_FAILED = 22;
+	public static final int MSG_STOPMEETING_RSLT = 23;
 
 	private LinkedList<Callback> mVideoCallbacks = new LinkedList<Callback>();
 
@@ -75,6 +79,30 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 		Message msg = mMainHandler.obtainMessage(MSG_CREATEMEETING_SUCCESS);
 		msg.obj = sdkErr;
 		msg.sendToTarget();
+	}
+
+	@Override
+	public void stopMeetingRslt(CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s) {
+		
+	}
+
+	@Override
+	public void getMeetingSuccess(ArrayList<MeetInfo> arrayList, String s) {
+		Log.d(TAG, "getMeetingSuccess");
+//		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_SUCCESS);
+//		msg.obj = arrayList;
+//		Bundle data = msg.getData();
+//		data.putString("cookie",s);
+//		msg.setData(data);
+//		msg.sendToTarget();
+	}
+
+	@Override
+	public void getMeetingFailed(CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s) {
+		Log.d(TAG, "getMeetingFailed");
+//		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_FAILED);
+//		msg.obj = crvideosdk_err_def;
+//		msg.sendToTarget();
 	}
 
 	@Override
@@ -176,17 +204,6 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 		Log.d(TAG, "hangupCallSuccess");
 	}
 
-	@Override
-	public void notifyCallAccepted(final String callID, final MeetInfo meetInfo) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "notifyCallAccepted");
-	}
-
-	@Override
-	public void notifyCallHungup(String callID) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "notifyCallHungup");
-	}
 
 	@Override
 	public void notifyCallIn(final String callID, final MeetInfo meetInfo,
@@ -196,11 +213,20 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	}
 
 	@Override
-	public void notifyCallRejected(String callID,
-			final CRVIDEOSDK_ERR_DEF reason) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "notifyCallRejected");
+	public void notifyCallAccepted(String s, MeetInfo meetInfo, String s1) {
+
 	}
+
+	@Override
+	public void notifyCallRejected(String s, CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s1) {
+
+	}
+
+	@Override
+	public void notifyCallHungup(String s, String s1) {
+
+	}
+
 
 	@Override
 	public void rejectCallFail(String callID, final CRVIDEOSDK_ERR_DEF sdkErr,

@@ -27,10 +27,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMeeting;
-import com.cloudroom.cloudroomvideosdk.CloudroomVideoSDK;
 import com.cloudroom.cloudroomvideosdk.model.ASTATUS;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MemberInfo;
@@ -102,9 +100,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 				String myUserID = CloudroomVideoMeeting.getInstance()
 						.getMyUserID();
 				String userId = (String) msg.obj;
-				if (myUserID.equals(userId)) {
-					mMicPB.setProgress(msg.arg2 % mMicPB.getMax());
-				}
+//				if (myUserID.equals(userId)) {
+//					mMicPB.setProgress(msg.arg2 % mMicPB.getMax());
+//				}
 			}
 				break;
 			case VideoCallback.MSG_VIDEODEV_CHANGED:
@@ -235,7 +233,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		Log.d(TAG, "onCreate 2");
-		setContentView(R.layout.activity_meeting);
+		setContentView(R.layout.activity_meeting_perfor);
 		Log.d(TAG, "onCreate 3");
 		mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
 		DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -270,7 +268,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		mVideoSizeBtn = (Button) findViewById(R.id.btn_videosize);
 		mVideoModeBtn = (Button) findViewById(R.id.btn_videomode);
 
-		mMicPB = (ProgressBar) findViewById(R.id.pb_mic);
+//		mMicPB = (ProgressBar) findViewById(R.id.pb_mic);
 
 		VideoCallback.getInstance().registerVideoCallback(mMainCallback);
 		// VideoSDKHelper.getInstance().getVideoCallback()
@@ -295,8 +293,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 				}
 			});
 		}
-		TextView promptTV = (TextView) findViewById(R.id.tv_prompt);
-		promptTV.setText(getString(R.string.meet_prompt, meetID));
+//		TextView promptTV = (TextView) findViewById(R.id.tv_prompt);
+//		promptTV.setText(getString(R.string.meet_prompt, meetID));
 		Log.d(TAG, "onCreate 5");
 
 		String[] videoModes = { getString(R.string.mode_fluency),
@@ -528,7 +526,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 		}
 		boolean showMicPB = status == ASTATUS.AOPEN
 				|| status == ASTATUS.AOPENING;
-		mMicPB.setVisibility(showMicPB ? View.VISIBLE : View.GONE);
+//		mMicPB.setVisibility(showMicPB ? View.VISIBLE : View.GONE);
 	}
 
 	private void updateCameraSwitchBtn() {

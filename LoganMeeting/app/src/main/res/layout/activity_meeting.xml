@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    >
+    android:gravity="center_horizontal">
 
     <ImageView
         android:id="@+id/iv_screenshare"
@@ -15,7 +15,7 @@
         android:id="@+id/videos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent" >
+        android:background="@android:color/transparent">
 
         <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
             android:id="@+id/yuv_self"
@@ -29,164 +29,233 @@
             android:id="@+id/yuv_peer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_prompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="#30aaff"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="5dp"
-        android:textSize="18sp" />
+        android:background="@color/option_video"
+        >
+        <TextView
+            android:id="@+id/left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/nav_btn_back"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="语文教研室   10人"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/right_setting"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="设置"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+
+            />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/view_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-         >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/option_video"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_leftmeet"
-            style="@style/CommonBtn"
+        <RadioGroup
+            android:id="@+id/rgOptions"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/exit_meeting" />
+            android:layout_height="49dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            >
 
-        <Button
-            android:id="@+id/btn_switchcamera"
-            style="@style/CommonBtn"
+            <RadioButton
+                android:id="@+id/rbVideo"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/selector_video"
+                android:text="@string/video" />
+
+            <RadioButton
+                android:id="@+id/rbAttendee"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/selector_attendee"
+                android:text="@string/attendee" />
+
+            <RadioButton
+                android:id="@+id/rbDocument"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/selector_document"
+                android:text="@string/document" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+
+        <CheckBox
+            android:id="@+id/rbSwitchCamera"
+            style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/switch_camera"
-            android:visibility="gone" />
+            android:layout_height="match_parent"
+            android:drawableTop="@mipmap/switchcamera_icon"
+            android:text="@string/switch_camera" />
 
-        <Button
-            android:id="@+id/btn_mic"
-            style="@style/CommonBtn"
+        <CheckBox
+            android:id="@+id/cbCamera"
+            style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/open_mic" />
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/selector_camera"
+            android:text="@string/camera" />
 
-        <Button
-            android:id="@+id/btn_camera"
-            style="@style/CommonBtn"
+        <CheckBox
+            android:id="@+id/cbVolume"
+            style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick"
-            android:text="@string/open_camera" />
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/selector_volume"
+            android:text="@string/volume" />
 
-
-        <Button
-            android:id="@+id/btn_videosize"
-            style="@style/CommonBtn"
+        <CheckBox
+            android:id="@+id/cbMicphone"
+            style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick" />
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/selector_micphone"
+            android:text="@string/micphone" />
 
-        <Button
-            android:id="@+id/btn_videomode"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:onClick="onViewClick" />
-
-
-        <ProgressBar
-            android:id="@+id/pb_mic"
-            android:layout_width="20dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:indeterminateOnly="false"
-            android:max="10"
-            android:progress="0"
-            android:progressDrawable="@drawable/vertical_progress_shape" />
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/view_options_right"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="right"
-        android:layout_centerVertical="true"
+        android:background="@color/setting_background"
+        android:layout_alignParentRight="true"
         >
 
-        <Button
-            android:id="@+id/btn_video"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:onClick="onViewClick"
-            android:text="视频" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            >
+            <TextView
+                android:id="@+id/tvSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                />
 
-        <Button
-            android:id="@+id/btn_attendee"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:onClick="onViewClick"
-            android:text="参会者"
-            android:visibility="visible" />
+            <TextView
+                android:id="@+id/tvClose"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/close_light"
+                android:layout_marginRight="5dp"
+                />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_document"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:onClick="onViewClick"
-            android:text="文档" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/divider"/>
 
-        <Button
-            android:id="@+id/btn_live"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:onClick="onViewClick"
-            android:text="直播" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            >
+            <TextView
+                style="@style/textView_meeting_info"
+                android:text="全体静音"
+                android:layout_centerVertical="true"
+                />
 
+            <CheckBox
+                android:id="@+id/cbMute"
+                android:layout_width="45dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:button="@null"
+                android:checked="false"
+                android:background="@drawable/selector_mute"
+                />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_settings"
-            style="@style/CommonBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:onClick="onViewClick"
-            android:text="设置"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/divider"/>
+
+        <TextView
+            style="@style/textView_meeting_info"
+            android:textColor="#777777"
+            android:text="会议信息"
+            android:layout_marginTop="19dp"
             />
 
+        <TextView
+            android:id="@+id/tvMeetingID"
+            style="@style/textView_meeting_info"
+            android:text="会议ID："
+            android:layout_marginTop="22dp"
+            />
+        <TextView
+            android:id="@+id/tvStartingTime"
+            style="@style/textView_meeting_info"
+            android:text="开始时间："
+            android:layout_marginTop="22dp"
+            />
+        <TextView
+            android:id="@+id/tvMeetingPass"
+            style="@style/textView_meeting_info"
+            android:text="会议密码："
+            android:layout_marginTop="22dp"
+            />
+        <TextView
+            android:id="@+id/tvLockState"
+            style="@style/textView_meeting_info"
+            android:text="锁门状态："
+            android:layout_marginTop="22dp"
+            />
     </LinearLayout>
 </RelativeLayout>

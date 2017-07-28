@@ -13,6 +13,7 @@ import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.ElementID;
 import com.cloudroom.cloudroomvideosdk.model.MEDIA_STOP_REASON;
 import com.cloudroom.cloudroomvideosdk.model.MainPage;
+import com.cloudroom.cloudroomvideosdk.model.RECORD_FILE_STATE;
 import com.cloudroom.cloudroomvideosdk.model.Size;
 import com.cloudroom.cloudroomvideosdk.model.SubPage;
 import com.cloudroom.cloudroomvideosdk.model.SubPageInfo;
@@ -116,6 +117,21 @@ public class VideoCallback implements CloudroomVideoCallback {
 		msg.arg1 = videoID;
 		msg.obj = userID;
 		msg.sendToTarget();
+	}
+
+	@Override
+	public void recordErr(int i) {
+
+	}
+
+	@Override
+	public void recordStateChanged(int i) {
+
+	}
+
+	@Override
+	public void cancelUploadRecordFileErr(int i) {
+
 	}
 
 	@Override
@@ -248,6 +264,16 @@ public class VideoCallback implements CloudroomVideoCallback {
 	}
 
 	@Override
+	public void notifyPlayPosSetted(int i) {
+
+	}
+
+	@Override
+	public void notifyMediaData(String s, int i) {
+
+	}
+
+	@Override
 	public void notifyMediaStart(String userid) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "notifyMediaStart");
@@ -265,13 +291,7 @@ public class VideoCallback implements CloudroomVideoCallback {
 		msg.sendToTarget();
 	}
 
-	@Override
-	public void notifyMemberMediaData(final String userid) {
-		// TODO Auto-generated method stub
-		Message msg = mMainHandler.obtainMessage(MSG_NOTIFY_MEDIA_DATA);
-		msg.obj = userid;
-		msg.sendToTarget();
-	}
+
 
 	@Override
 	public void notifyIMmsg(String fromUserID, String text) {
@@ -356,5 +376,25 @@ public class VideoCallback implements CloudroomVideoCallback {
 	public void notifyNetDiskTransforProgress(String fileID, int percent,
 			Boolean isUpload) {
 		Log.d(TAG, "notifyNetDiskTransforProgress");
+	}
+
+	@Override
+	public void notifyRecordFileStateChanged(String s, RECORD_FILE_STATE record_file_state) {
+
+	}
+
+	@Override
+	public void notifyRecordFileUploadProgress(String s, int i) {
+
+	}
+
+	@Override
+	public void uploadRecordFileErr(String s, int i) {
+
+	}
+
+	@Override
+	public void notifyMediaOpened(int i, Size size) {
+
 	}
 }
