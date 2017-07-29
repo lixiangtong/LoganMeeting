@@ -187,7 +187,7 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
 
         LoginDat loginDat = new LoginDat();
         // 昵称
-        loginDat.nickName = account;
+        loginDat.nickName = "木子兮";
         // 第三方账号
         loginDat.privAcnt = account;
         //云屋鉴权账号
@@ -196,6 +196,32 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
         loginDat.authPswd = MD5Util.MD5(accountPass);
         // 登录
         CloudroomVideoMgr.getInstance().login(loginDat);
+
+
+
+//        String server = etAccount.getText().toString();
+//        String nickName = etAccountPassword.getText().toString();
+//			if (TextUtils.isEmpty(server)) {
+//				MyApplication.getInstance().showToast(R.string.null_server);
+//				return;
+//			}
+//			if (TextUtils.isEmpty(nickName)) {
+//                MyApplication.getInstance().showToast(R.string.null_nickname);
+//				return;
+//			}
+//			CloudroomVideoSDK.getInstance().setServerAddr(server);
+//
+//			LoginDat loginDat = new LoginDat();
+//			// 昵称
+//			loginDat.nickName = nickName;
+//			// 第三方账号
+//			loginDat.privAcnt = nickName;
+//            //云屋鉴权账号
+//			loginDat.authAcnt = "demo@cloudroom.com";
+//			// 登录密码必须做MD5处理
+//			loginDat.authPswd = MD5Util.MD5("123456");
+//			// 登录
+//			CloudroomVideoMgr.getInstance().login(loginDat);
 
         // 登录过程中登录按钮不可用
         btnAccountLogin.setClickable(false);

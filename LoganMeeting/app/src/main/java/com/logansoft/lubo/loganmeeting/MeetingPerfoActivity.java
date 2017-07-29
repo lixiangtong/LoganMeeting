@@ -25,9 +25,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -39,7 +37,9 @@ import com.cloudroom.cloudroomvideosdk.model.RawFrame;
 import com.cloudroom.cloudroomvideosdk.model.ScreenShareImg;
 import com.cloudroom.cloudroomvideosdk.model.UsrVideoId;
 import com.cloudroom.cloudroomvideosdk.model.UsrVideoInfo;
+import com.cloudroom.cloudroomvideosdk.model.VIDEO_SIZE_TYPE;
 import com.cloudroom.cloudroomvideosdk.model.VSTATUS;
+import com.cloudroom.cloudroomvideosdk.model.VideoCfg;
 import com.cloudroom.tool.AndroidTool;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
 import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
@@ -50,15 +50,15 @@ import java.util.ArrayList;
 
 import cn.finalteam.toolsfinal.CrashHandler;
 
-@SuppressLint({"NewApi", "HandlerLeak", "ClickableViewAccessibility",
-        "DefaultLocale"})
+@SuppressLint({ "NewApi", "HandlerLeak", "ClickableViewAccessibility",
+        "DefaultLocale" })
 
 /**
  * 会议界面
  * @author admin
  *
  */
-public class MeetingActivity extends Activity implements OnTouchListener {
+public class MeetingPerfoActivity extends Activity implements OnTouchListener {
 
     private static final String TAG = "MeetingActivity";
 
@@ -67,9 +67,11 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private YUVVideoView mSelfGLSV = null;
     private View mVideos = null;
 
-    private CheckBox mCbSwitchCamera = null;
-    private CheckBox mCbCamera = null;
-    private CheckBox mCbMicphone = null;
+    private Button mVideoSizeBtn = null;
+    private Button mVideoModeBtn = null;
+    private Button mCameraSwitchBtn = null;
+    private Button mCameraBtn = null;
+    private Button mMicBtn = null;
     private ProgressBar mMicPB = null;
 
     private View mOptionsView = null;
@@ -191,11 +193,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     };
 
     private long mBackgroundTime = 0;
-    private View mTopOptions;
-    private CheckBox mCbVolume;
-    private TextView mTvRightSetting;
-    private LinearLayout mLiRightSettings;
-    private View mTvClose;
+    private View mOptionsViewRight;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -236,7 +234,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Log.d(TAG, "onCreate 2");
-        setContentView(R.layout.activity_meeting);
+        setContentView(R.layout.activity_meeting_perfor);
         Log.d(TAG, "onCreate 3");
         mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -263,17 +261,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mSelfGLSV.setOnTouchListener(mDragListener);
 
         mOptionsView = findViewById(R.id.view_options);
-        mTopOptions = findViewById(R.id.rlTopOptions);
+        mOptionsViewRight = findViewById(R.id.view_options_right);
 
-        mCbSwitchCamera = (CheckBox) findViewById(R.id.cbSwitchCamera);
-        mCbCamera = (CheckBox) findViewById(R.id.cbCamera);
-        mCbMicphone = (CheckBox) findViewById(R.id.cbMicphone);
-        mCbVolume = ((CheckBox) findViewById(R.id.cbVolume));
-        mTvRightSetting = ((TextView) findViewById(R.id.right_setting));
-        mLiRightSettings = ((LinearLayout) findViewById(R.id.llRightSettings));
-        mTvClose = mLiRightSettings.findViewById(R.id.tvClose);
-
-
+        mCameraSwitchBtn = (Button) findViewById(R.id.btn_switchcamera);
+        mCameraBtn = (Button) findViewById(R.id.btn_camera);
+        mMicBtn = (Button) findViewById(R.id.btn_mic);
+        mVideoSizeBtn = (Button) findViewById(R.id.btn_videosize);
+        mVideoModeBtn = (Button) findViewById(R.id.btn_videomode);
 
 //		mMicPB = (ProgressBar) findViewById(R.id.pb_mic);
 
@@ -284,7 +278,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mMainHandler.sendEmptyMessageDelayed(MSG_CHECK_BACKGROUND, 10 * 1000);
 
         updateCameraBtn();
-//        updateMicBtn();
+        updateMicBtn();
 
 
         int meetID = getIntent().getIntExtra("meetID", 0);
@@ -300,61 +294,62 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 }
             });
         }
-        TextView tvMeetInfo = (TextView) findViewById(R.id.tvMeetInfo);
-        tvMeetInfo.setText(getString(R.string.meet_prompt, meetID));
+        TextView promptTV = (TextView) findViewById(R.id.tv_prompt);
+        promptTV.setText(getString(R.string.meet_prompt, meetID));
         Log.d(TAG, "onCreate 5");
 
-//		String[] videoModes = { getString(R.string.mode_fluency),
-//				getString(R.string.mode_quality) };
-//		mVideoModes = videoModes;
-//
-//		String[] videoSizes = { "144*80", "224*128", "288*160", "336*192",
-//				"448*256", "512*288", "576*320", "640*360", "720*400",
-//				"848*480", "1024*576", "1280*720", "1920*1080" };
-//		mVideoSizes = videoSizes;
-//
-//		int index = 0;
-//		mVideoModeBtn.setTag(index);
-//		mVideoModeBtn.setText(mVideoModes[index]);
-//		index = VIDEO_SIZE_TYPE.VSIZE_SZ_360.ordinal();
-//		mVideoSizeBtn.setTag(index);
-//		mVideoSizeBtn.setText(mVideoSizes[index]);
+        String[] videoModes = { getString(R.string.mode_fluency),
+                getString(R.string.mode_quality) };
+        mVideoModes = videoModes;
+
+        String[] videoSizes = { "144*80", "224*128", "288*160", "336*192",
+                "448*256", "512*288", "576*320", "640*360", "720*400",
+                "848*480", "1024*576", "1280*720", "1920*1080" };
+        mVideoSizes = videoSizes;
+
+        int index = 0;
+        mVideoModeBtn.setTag(index);
+        mVideoModeBtn.setText(mVideoModes[index]);
+        index = VIDEO_SIZE_TYPE.VSIZE_SZ_360.ordinal();
+        mVideoSizeBtn.setTag(index);
+        mVideoSizeBtn.setText(mVideoSizes[index]);
 
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         View view = getWindow().getDecorView();
         view.setOnTouchListener(this);
 
+        // Vide
     }
 
-//	private void resetVideoCfg() {
-//		VideoCfg cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
-//		int index = (Integer) mVideoModeBtn.getTag();
-//		if (index <= 0) {
-//			cfg.maxQuality = 36;
-//			cfg.minQuality = 22;
-//		} else {
-//			cfg.maxQuality = 25;
-//			cfg.minQuality = 22;
-//		}
-//
-//		index = (Integer) mVideoSizeBtn.getTag();
-//		VIDEO_SIZE_TYPE size = VIDEO_SIZE_TYPE.values()[index];
-//		cfg.sizeType = size;
-//
-//		cfg.fps = 12;
-//		cfg.maxbps = -1;
-//
-//		String log = String.format(
-//				"resetVideoCfg sizeType:%s(%d) Quality:%d-%d", cfg.sizeType,
-//				cfg.sizeType.ordinal(), cfg.minQuality, cfg.maxQuality);
-//		Log.d(TAG, log);
-//		CloudroomVideoMeeting.getInstance().setVideoCfg(cfg);
-//
-//		cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
-//		Log.d(TAG, "resetVideoCfg rslt sizeType:" + cfg.sizeType
-//				+ " minQuality:" + cfg.minQuality + " maxQuality:"
-//				+ cfg.maxQuality);
-//	}
+    private void resetVideoCfg() {
+        VideoCfg cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
+        int index = (Integer) mVideoModeBtn.getTag();
+        if (index <= 0) {
+            cfg.maxQuality = 36;
+            cfg.minQuality = 22;
+        } else {
+            cfg.maxQuality = 25;
+            cfg.minQuality = 22;
+        }
+
+        index = (Integer) mVideoSizeBtn.getTag();
+        VIDEO_SIZE_TYPE size = VIDEO_SIZE_TYPE.values()[index];
+        cfg.sizeType = size;
+
+        cfg.fps = 12;
+        cfg.maxbps = -1;
+
+        String log = String.format(
+                "resetVideoCfg sizeType:%s(%d) Quality:%d-%d", cfg.sizeType,
+                cfg.sizeType.ordinal(), cfg.minQuality, cfg.maxQuality);
+        Log.d(TAG, log);
+        CloudroomVideoMeeting.getInstance().setVideoCfg(cfg);
+
+        cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
+        Log.d(TAG, "resetVideoCfg rslt sizeType:" + cfg.sizeType
+                + " minQuality:" + cfg.minQuality + " maxQuality:"
+                + cfg.maxQuality);
+    }
 
     private void showEntering() {
         Log.d(TAG, "showEntering 2");
@@ -460,12 +455,11 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         CloudroomVideoMeeting.getInstance().openMic(myUserID);
         // 打开摄像头
         CloudroomVideoMeeting.getInstance().openVideo(myUserID);
-        mCbCamera.setChecked(true);
 
         ArrayList<MemberInfo> members = CloudroomVideoMeeting.getInstance()
                 .getAllMembers();
-        for (int i = 0; i < members.size(); i++) {
-            Log.d(TAG, "enterMeetingRslt: members=" + members.get(i).nickName);
+        for (int i=0;i<members.size();i++) {
+            Log.d(TAG, "enterMeetingRslt: members="+members.get(i).nickName);
         }
         for (MemberInfo info : members) {
             String nickname = CloudroomVideoMeeting.getInstance().getNickName(
@@ -481,15 +475,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             CloudroomVideoMeeting.getInstance().sendIMmsg("test", info.userId);
         }
 
-//		resetVideoCfg();
+        resetVideoCfg();
 
         // 开启外放
         CloudroomVideoMeeting.getInstance().setSpeakerOut(true);
         boolean speakerOut = CloudroomVideoMeeting.getInstance()
                 .getSpeakerOut();
-        if (speakerOut){
-            mCbVolume.setChecked(true);
-        }
         Log.d(TAG, "setSpeakerOut:" + speakerOut);
 
         showOption();
@@ -518,9 +509,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         VSTATUS status = CloudroomVideoMeeting.getInstance().getVideoStatus(
                 userId);
         if (status == VSTATUS.VOPEN || status == VSTATUS.VOPENING) {
-            mCbCamera.setChecked(true);
+            mCameraBtn.setText(R.string.close_camera);
         } else {
-            mCbCamera.setChecked(false);
+            mCameraBtn.setText(R.string.open_camera);
         }
         updateCameraSwitchBtn();
     }
@@ -530,15 +521,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         ASTATUS status = CloudroomVideoMeeting.getInstance().getAudioStatus(
                 userId);
         if (status == ASTATUS.AOPEN || status == ASTATUS.AOPENING) {
-            mCbMicphone.setChecked(true);
+            mMicBtn.setText(R.string.close_mic);
         } else {
-            mCbMicphone.setChecked(false);
+            mMicBtn.setText(R.string.open_mic);
         }
         boolean showMicPB = status == ASTATUS.AOPEN
                 || status == ASTATUS.AOPENING;
 //		mMicPB.setVisibility(showMicPB ? View.VISIBLE : View.GONE);
     }
-
 
     private void updateCameraSwitchBtn() {
         ArrayList<UsrVideoId> videos = CloudroomVideoMeeting.getInstance()
@@ -554,7 +544,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 userId);
         boolean showSwitch = status == VSTATUS.VOPEN
                 || status == VSTATUS.VOPENING && videoInfos.size() > 1;
-        mCbSwitchCamera.setVisibility(showSwitch ? View.VISIBLE : View.GONE);
+        mCameraSwitchBtn.setVisibility(showSwitch ? View.VISIBLE : View.GONE);
     }
 
     private void videoStatusChanged(String userID, VSTATUS newStatus,
@@ -615,34 +605,30 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     public void onViewClick(View v) {
         String userId = CloudroomVideoMeeting.getInstance().getMyUserID();
         switch (v.getId()) {
-            case R.id.left_button:
+            case R.id.btn_leftmeet:
                 exitMeeting();
                 break;
-            case R.id.cbMicphone: {
+            case R.id.btn_mic: {
                 ASTATUS status = CloudroomVideoMeeting.getInstance()
                         .getAudioStatus(userId);
                 if (status == ASTATUS.AOPEN || status == ASTATUS.AOPENING) {
                     CloudroomVideoMeeting.getInstance().closeMic(userId);
-                    mCbMicphone.setChecked(true);
                 } else {
-                    mCbMicphone.setChecked(false);
                     CloudroomVideoMeeting.getInstance().openMic(userId);
                 }
             }
             break;
-            case R.id.cbCamera: {
+            case R.id.btn_camera: {
                 VSTATUS status = CloudroomVideoMeeting.getInstance()
                         .getVideoStatus(userId);
                 if (status == VSTATUS.VOPEN || status == VSTATUS.VOPENING) {
                     CloudroomVideoMeeting.getInstance().closeVideo(userId);
-                    mCbCamera.setChecked(true);
                 } else {
                     CloudroomVideoMeeting.getInstance().openVideo(userId);
-                    mCbCamera.setChecked(false);
                 }
             }
             break;
-            case R.id.cbSwitchCamera:
+            case R.id.btn_switchcamera:
                 short curDev = CloudroomVideoMeeting.getInstance().getDefaultVideo(
                         userId);
                 ArrayList<UsrVideoInfo> devs = CloudroomVideoMeeting.getInstance()
@@ -662,28 +648,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                             info.userId, info.videoID);
                 }
                 break;
-            case R.id.cbVolume:
-                boolean speakerOut = CloudroomVideoMeeting.getInstance().getSpeakerOut();
-                if (speakerOut) {
-                    mCbVolume.setChecked(false);
-                    CloudroomVideoMeeting.getInstance().setSpeakerOut(false);
-                } else {
-                    mCbVolume.setChecked(true);
-                    CloudroomVideoMeeting.getInstance().setSpeakerOut(true);
-                }
+            case R.id.btn_videomode:
+                showVideoCfgDialog((Button) v, mVideoModes);
                 break;
-            case R.id.right_setting:
-                mLiRightSettings.setVisibility(View.VISIBLE);
+            case R.id.btn_videosize:
+                showVideoCfgDialog((Button) v, mVideoSizes);
                 break;
-            case R.id.tvClose:
-                mLiRightSettings.setVisibility(View.GONE);
-                break;
-//		case R.id.btn_videomode:
-//			showVideoCfgDialog((Button) v, mVideoModes);
-//			break;
-//		case R.id.btn_videosize:
-//			showVideoCfgDialog((Button) v, mVideoSizes);
-//			break;
             default:
                 break;
         }
@@ -752,7 +722,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private int screenHeight;
 
     /**
-     * 视频view拖到监听
+     * 	视频view拖到监听
      */
     private OnTouchListener mDragListener = new OnTouchListener() {
 
@@ -823,7 +793,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         Log.d(TAG, "showOption");
         mMainHandler.removeMessages(MSG_HIDE_OPTION);
         mOptionsView.setVisibility(View.VISIBLE);
-        mTopOptions.setVisibility(View.VISIBLE);
+        mOptionsViewRight.setVisibility(View.VISIBLE);
         mMainHandler.sendEmptyMessageDelayed(MSG_HIDE_OPTION, 3 * 1000);
     }
 
@@ -831,7 +801,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         Log.d(TAG, "hideOption");
         mMainHandler.removeMessages(MSG_HIDE_OPTION);
         mOptionsView.setVisibility(View.GONE);
-        mTopOptions.setVisibility(View.GONE);
+        mOptionsViewRight.setVisibility(View.GONE);
     }
 
     public void showVideoCfgDialog(final Button view, final String[] items) {
@@ -846,7 +816,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                         if (oldIndex != index) {
                             view.setTag(index);
                             view.setText(items[index]);
-//							resetVideoCfg();
+                            resetVideoCfg();
                         }
                         dlg.dismiss();
                     }

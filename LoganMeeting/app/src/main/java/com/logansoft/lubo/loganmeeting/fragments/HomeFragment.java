@@ -16,6 +16,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
+import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 import com.logansoft.lubo.loganmeeting.MeetingActivity;
+import com.logansoft.lubo.loganmeeting.MeetingPerfoActivity;
 import com.logansoft.lubo.loganmeeting.MgrCallback;
 import com.logansoft.lubo.loganmeeting.MyApplication;
 import com.logansoft.lubo.loganmeeting.R;
@@ -34,6 +38,7 @@ import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapter;
 import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapterI;
 import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 import com.logansoft.lubo.loganmeeting.utils.DividerItemDecoration;
+import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +78,8 @@ public class HomeFragment extends Fragment {
     private MyRecyclerViewAdapterI myRecyclerViewAdapterI;
 
     private AlertDialog alertDialog;
+    private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private List<MeetInfo> mData = new ArrayList<>();
 
     private Callback mMgrCallback = new Callback() {
 
@@ -86,6 +93,17 @@ public class HomeFragment extends Fragment {
                 case VideoCallback.MSG_ENTERMEETING_RSLT:
 //                    enableOption(true);
                     break;
+//                case MgrCallback.MSG_GETMEETING_SUCCESS:
+//                    ArrayList<MeetInfo> meetInfos = (ArrayList<MeetInfo>) msg.obj;
+//                    for (MeetInfo meetInfo : meetInfos) {
+//                        Log.d(TAG, "handleMessage: meetInfo="+meetInfo.ID);
+//                    }
+//                    mData.addAll(meetInfos);
+//                    myRecyclerViewAdapter.notifyDataSetChanged();
+//                    break;
+//                case MgrCallback.MSG_GETMEETING_FAILED:
+//                    MyApplication.getInstance().showToast("获取会议列表失败");
+//                    break;
                 default:
                     break;
             }
@@ -100,11 +118,9 @@ public class HomeFragment extends Fragment {
         // 设置呼叫处理对象
         MgrCallback.getInstance().registerMgrCallback(mMgrCallback);
 
-        // 判断自己的登陆账号是空就退出呼叫界面
-//        String userID = VideoSDKHelper.getInstance().getLoginUserID();
-//        if (TextUtils.isEmpty(userID)) {
-//            getActivity().finish();
-//        }
+        String loginUserID = VideoSDKHelper.getInstance().getLoginUserID();
+
+        Log.d(TAG, "onCreate: "+loginUserID);
     }
 
     @Nullable
@@ -131,7 +147,7 @@ public class HomeFragment extends Fragment {
         data.add(roomInfoBean1);
         data.add(roomInfoBean2);
 
-
+//        CloudroomVideoMgr.getInstance().getMeetings();
         nsv.smoothScrollTo(0,0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         //设置布局管理器
@@ -143,6 +159,8 @@ public class HomeFragment extends Fragment {
         //设置增加或删除条目的动画
         rv.setItemAnimator(new DefaultItemAnimator());
 
+//        myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData,getActivity());
+//        rv.setAdapter(myRecyclerViewAdapter);
 
         myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
         Log.d(TAG, "onCreateView: " + data.size());
@@ -161,6 +179,7 @@ public class HomeFragment extends Fragment {
                 int meetID = Integer.parseInt(roomNumber);
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), MeetingActivity.class);
+//                intent.setClass(getActivity(), MeetingPerfoActivity.class);
                 intent.putExtra("meetID", meetID);
                 intent.putExtra("password", "");
                 startActivity(intent);
@@ -230,6 +249,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         MgrCallback.getInstance().unregisterMgrCallback(mMgrCallback);
     }
 }

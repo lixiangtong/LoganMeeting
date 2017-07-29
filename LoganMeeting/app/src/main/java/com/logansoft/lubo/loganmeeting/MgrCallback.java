@@ -83,7 +83,7 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 
 	@Override
 	public void stopMeetingRslt(CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s) {
-		
+
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	@Override
 	public void loginSuccess(final String usrID, final String cookie) {
 		// TODO Auto-generated method stub
-		Log.d(TAG, "loginSuccess");
+		Log.d(TAG, "loginSuccess usrID="+usrID);
 		Message msg = mMainHandler.obtainMessage(MSG_LOGIN_SUCCESS);
 		msg.obj = usrID;
 		Bundle data = new Bundle();

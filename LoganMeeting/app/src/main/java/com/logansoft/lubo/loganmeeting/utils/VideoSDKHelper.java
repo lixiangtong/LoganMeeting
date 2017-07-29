@@ -3,18 +3,16 @@ package com.logansoft.lubo.loganmeeting.utils;
 import android.annotation.SuppressLint;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.util.Log;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMeeting;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
-import com.cloudroom.cloudroomvideosdk.model.QueueInfo;
 import com.logansoft.lubo.loganmeeting.MgrCallback;
 import com.logansoft.lubo.loganmeeting.VideoCallback;
 
-import java.util.ArrayList;
-
 @SuppressLint("HandlerLeak")
 /**
- *本地管理类
+ * 本地管理类
  * @author admin
  *
  */
@@ -42,28 +40,23 @@ public class VideoSDKHelper implements Callback {
 	public boolean handleMessage(Message msg) {
 		// TODO Auto-generated method stub
 		switch (msg.what) {
-		case VideoCallback.MSG_ENTERMEETING_RSLT:
-			enterMeetingRslt((CRVIDEOSDK_ERR_DEF) msg.obj);
-			break;
-		case MgrCallback.MSG_LOGIN_SUCCESS:
-			String cookie = msg.getData().getString("cookie");
-			boolean bServer = "server".equals(cookie);
-			mBServer = bServer;
-			mLoginUserID = (String) msg.obj;
-			break;
-		case MgrCallback.MSG_LINEOFF:
-		case MgrCallback.MSG_LOGIN_FAIL:
-			mBServer = false;
-			mPeerUserId = null;
-			mCallId = null;
-			mLoginUserID = null;
-			break;
-		case MgrCallback.MSG_NOTIFYCALL_HUNGUP:
-		case MgrCallback.MSG_HANGUPCALL_SUCCESS:
-			mEnterTime = 0;
-			break;
-		default:
-			break;
+			case VideoCallback.MSG_ENTERMEETING_RSLT:
+				enterMeetingRslt((CRVIDEOSDK_ERR_DEF) msg.obj);
+				break;
+			case MgrCallback.MSG_LOGIN_SUCCESS:
+				mLoginUserID = (String) msg.obj;
+				Log.d(TAG, "handleMessage: mLoginUserID="+mLoginUserID);
+				break;
+			case MgrCallback.MSG_LINEOFF:
+			case MgrCallback.MSG_LOGIN_FAIL:
+				mLoginUserID = null;
+				break;
+			case MgrCallback.MSG_NOTIFYCALL_HUNGUP:
+			case MgrCallback.MSG_HANGUPCALL_SUCCESS:
+				mEnterTime = 0;
+				break;
+			default:
+				break;
 		}
 		return false;
 	}
@@ -74,43 +67,10 @@ public class VideoSDKHelper implements Callback {
 		return mLoginUserID;
 	}
 
-	private boolean mBServer = false;
-	private String mPeerUserId = null;
-	private String mCallId = null;
 	private long mEnterTime = 0;
-	private ArrayList<QueueInfo> mQueueInfos = new ArrayList<QueueInfo>();
-	private ArrayList<Integer> mServiceQueues = new ArrayList<Integer>();
-
-	public boolean bServer() {
-		return mBServer;
-	}
-
-	public String getPeerUserId() {
-		return mPeerUserId;
-	}
-
-	public void setPeerUserId(String peerUserId) {
-		this.mPeerUserId = peerUserId;
-	}
-
-	public String getCallId() {
-		return mCallId;
-	}
-
-	public void setCallId(String callId) {
-		this.mCallId = callId;
-	}
 
 	public long getEnterTime() {
 		return mEnterTime;
-	}
-
-	public ArrayList<QueueInfo> getQueueInfos() {
-		return mQueueInfos;
-	}
-
-	public ArrayList<Integer> getServiceQueues() {
-		return mServiceQueues;
 	}
 
 	public void enterMeeting(int meetId, String meetPsw) {

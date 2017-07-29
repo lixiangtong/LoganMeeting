@@ -54,14 +54,13 @@ public class MainActivity extends FragmentActivity {
     private SettingsFragment settingsFragment;
     private BarFragmentAdapter fragmentAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
-        Log.d(TAG, "onCreate: "+1);
 
         homeFragment = new HomeFragment();
         settingsFragment = new SettingsFragment();
@@ -160,8 +159,6 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: "+1);
-        CloudroomVideoMgr.getInstance().logout();
-//        CloudroomVideoSDK.getInstance().uninit();
     }
 
     @Override
@@ -171,19 +168,4 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    //    public void showFragment(Fragment fragment) {
-//        ft = getSupportFragmentManager().beginTransaction();
-//        if (!fragment.isAdded()) {
-//            ft.add(R.id.fl_content, fragment);
-//        }
-//
-//        for (Fragment fragment1 : fragments) {
-//            if (fragment1 == fragment) {
-//                ft.show(fragment1);
-//            } else {
-//                ft.hide(fragment1);
-//            }
-//        }
-//        ft.commit();
-//    }
 }

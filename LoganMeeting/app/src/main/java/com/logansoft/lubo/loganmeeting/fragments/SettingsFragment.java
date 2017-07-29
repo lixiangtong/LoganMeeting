@@ -71,7 +71,6 @@ public class SettingsFragment extends Fragment {
     @OnClick(R.id.btnLogout)
     public void onBtnLogoutClick(View v) {
         CloudroomVideoMgr.getInstance().logout();
-//        CloudroomVideoSDK.getInstance().uninit();
         getActivity().finish();
     }
 
@@ -84,6 +83,5 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        CloudroomVideoSDK.getInstance().uninit();
     }
 }

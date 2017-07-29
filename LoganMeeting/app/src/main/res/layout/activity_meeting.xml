@@ -36,6 +36,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rlTopOptions"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
@@ -45,12 +46,13 @@
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onViewClick"
             android:background="@mipmap/nav_btn_back"
             android:layout_centerVertical="true"
             />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/tvMeetInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="语文教研室   10人"
@@ -68,6 +70,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:text="设置"
+            android:onClick="onViewClick"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
 
@@ -98,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawableTop="@drawable/selector_video"
+                android:checked="true"
                 android:text="@string/video" />
 
             <RadioButton
@@ -124,10 +128,11 @@
 
 
         <CheckBox
-            android:id="@+id/rbSwitchCamera"
+            android:id="@+id/cbSwitchCamera"
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="onViewClick"
             android:drawableTop="@mipmap/switchcamera_icon"
             android:text="@string/switch_camera" />
 
@@ -136,6 +141,7 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="onViewClick"
             android:drawableTop="@drawable/selector_camera"
             android:text="@string/camera" />
 
@@ -144,6 +150,7 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="onViewClick"
             android:drawableTop="@drawable/selector_volume"
             android:text="@string/volume" />
 
@@ -152,6 +159,7 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:onClick="onViewClick"
             android:layout_marginRight="10dp"
             android:drawableTop="@drawable/selector_micphone"
             android:text="@string/micphone" />
@@ -160,11 +168,13 @@
 
 
     <LinearLayout
+        android:id="@+id/llRightSettings"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/setting_background"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         >
 
         <RelativeLayout
@@ -185,6 +195,7 @@
                 android:id="@+id/tvClose"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
+                android:onClick="onViewClick"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@mipmap/close_light"

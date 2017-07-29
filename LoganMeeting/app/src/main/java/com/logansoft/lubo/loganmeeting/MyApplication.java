@@ -34,6 +34,9 @@ public class MyApplication extends Application {
         mInstance = this;
         CrashHandler.getInstance().init(getApplicationContext());
 
+        // 本地本地管理对象初始化
+        VideoSDKHelper.getInstance();
+
         SdkInitDat initDat = new SdkInitDat();
 
         initDat.oemID = "CLOUDROOM";
