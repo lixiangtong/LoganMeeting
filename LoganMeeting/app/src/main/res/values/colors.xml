@@ -17,4 +17,7 @@
     <color name="option_video">#88232120</color>
     <color name="setting_background">#BB242323</color>
     <color name="divider">#969595</color>
+    <color name="keyboard_radioButton_checked">#82d0fd</color>
+    <color name="keyboard_radioButton_unchecked">#32a9fd</color>
+    <color name="gray_pb">#d9d9d9</color>
 </resources>

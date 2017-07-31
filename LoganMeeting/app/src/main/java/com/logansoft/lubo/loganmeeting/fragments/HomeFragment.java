@@ -111,6 +111,7 @@ public class HomeFragment extends Fragment {
         }
     };
     public Handler mMainHandler = new Handler(mMgrCallback);
+    private RoomInfoBean roomInfoBean3;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,6 +133,7 @@ public class HomeFragment extends Fragment {
         }
         roomInfoBean1 = new RoomInfoBean();
         roomInfoBean2 = new RoomInfoBean();
+        roomInfoBean3 = new RoomInfoBean();
 
 
         roomInfoBean1.setRoomName("语文教研室");
@@ -139,13 +141,19 @@ public class HomeFragment extends Fragment {
         roomInfoBean1.setRoomNumber("74040371");
         roomInfoBean1.setWaitCount("2");
 
-        roomInfoBean2.setRoomName("数学教研室");
-        roomInfoBean2.setModerator("李林丽");
+        roomInfoBean2.setRoomName("人文教研室");
+        roomInfoBean2.setModerator("张泽军");
         roomInfoBean2.setRoomNumber("36826479");
-        roomInfoBean2.setWaitCount("1");
+        roomInfoBean2.setWaitCount("2");
+
+        roomInfoBean3.setRoomName("数学教研室");
+        roomInfoBean3.setModerator("李林丽");
+        roomInfoBean3.setRoomNumber("36826479");
+        roomInfoBean3.setWaitCount("1");
 
         data.add(roomInfoBean1);
         data.add(roomInfoBean2);
+        data.add(roomInfoBean3);
 
 //        CloudroomVideoMgr.getInstance().getMeetings();
         nsv.smoothScrollTo(0,0);

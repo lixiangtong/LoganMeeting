@@ -10,7 +10,7 @@
         android:id="@+id/tvLogo"
         android:layout_width="59dp"
         android:layout_height="57dp"
-        android:background="@mipmap/login_icon"
+        android:background="@mipmap/start_page_icon"
         android:layout_centerInParent="true"
         />
     <TextView
@@ -28,8 +28,10 @@
         android:id="@+id/pbLoadingSplash"
         android:layout_width="150dp"
         android:layout_height="6dp"
-        android:progress="80"
-        android:progressBackgroundTint="#bdd8eb"
+        android:progress="10"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:progressBackgroundTint="@color/gray_pb"
+        android:progressTint="#4b96ca"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="79dp"

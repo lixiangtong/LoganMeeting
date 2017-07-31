@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
@@ -11,71 +11,177 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/videos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
             android:id="@+id/yuv_self"
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="90dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_weight="1"
             android:scaleType="fitCenter" />
 
         <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/yuv_peer2"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_weight="1"
             android:scaleType="fitCenter" />
-    </RelativeLayout>
+
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer3"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter" />
+
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer4"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter" />
+
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer5"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
 
     <RelativeLayout
         android:id="@+id/rlTopOptions"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:background="@color/option_video"
-        >
+        android:background="@color/option_video">
+
         <TextView
             android:id="@+id/left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onViewClick"
-            android:background="@mipmap/nav_btn_back"
             android:layout_centerVertical="true"
-            />
+            android:background="@mipmap/nav_btn_back"
+            android:onClick="onViewClick" />
 
         <TextView
             android:id="@+id/tvMeetInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="语文教研室   10人"
-            android:textColor="@color/white"
-            android:textSize="18sp"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
-            />
+            android:text="语文教研室   10人"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/right_setting"
             android:layout_width="48dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:background="@null"
+            android:gravity="center_vertical"
+            android:onClick="onViewClick"
+            android:text="设置"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:text="设置"
-            android:onClick="onViewClick"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
 
             />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlKeyboardAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="63dp"
+        android:layout_alignParentBottom="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rlKeyboard"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_btn_keyboard">
+
+            <TextView
+                android:id="@+id/tvHideState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/keyboard_btn" />
+
+            <TextView
+                android:id="@+id/tvShowState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/close_btn"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/rgKeyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/rlKeyboard"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+
+            <RadioButton
+                android:id="@+id/rbFirst"
+                style="@style/keyboard_radioButton"
+                android:text="1"
+                android:checked="true"
+                />
+
+            <RadioButton
+                android:id="@+id/rbSecond"
+                style="@style/keyboard_radioButton"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rbThird"
+                style="@style/keyboard_radioButton"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/rbFourth"
+                style="@style/keyboard_radioButton"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/rbFifth"
+                style="@style/keyboard_radioButton"
+                android:text="5" />
+
+        </RadioGroup>
+    </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/view_options"
@@ -92,16 +198,15 @@
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:layout_marginLeft="10dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rbVideo"
                 style="@style/CommonRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawableTop="@drawable/selector_video"
                 android:checked="true"
+                android:drawableTop="@drawable/selector_video"
                 android:text="@string/video" />
 
             <RadioButton
@@ -132,8 +237,8 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="onViewClick"
             android:drawableTop="@mipmap/switchcamera_icon"
+            android:onClick="onViewClick"
             android:text="@string/switch_camera" />
 
         <CheckBox
@@ -141,8 +246,8 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="onViewClick"
             android:drawableTop="@drawable/selector_camera"
+            android:onClick="onViewClick"
             android:text="@string/camera" />
 
         <CheckBox
@@ -150,8 +255,8 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="onViewClick"
             android:drawableTop="@drawable/selector_volume"
+            android:onClick="onViewClick"
             android:text="@string/volume" />
 
         <CheckBox
@@ -159,9 +264,9 @@
             style="@style/CommonRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="onViewClick"
             android:layout_marginRight="10dp"
             android:drawableTop="@drawable/selector_micphone"
+            android:onClick="onViewClick"
             android:text="@string/micphone" />
 
     </LinearLayout>
@@ -171,53 +276,49 @@
         android:id="@+id/llRightSettings"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/setting_background"
         android:layout_alignParentRight="true"
-        android:visibility="gone"
-        >
+        android:background="@color/setting_background"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            >
+            android:layout_alignParentTop="true">
+
             <TextView
                 android:id="@+id/tvSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设置"
-                android:textColor="@color/white"
                 android:layout_centerVertical="true"
-                />
+                android:text="设置"
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tvClose"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:onClick="onViewClick"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@mipmap/close_light"
                 android:layout_marginRight="5dp"
-                />
+                android:background="@mipmap/close_light"
+                android:onClick="onViewClick" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
-            android:background="@color/divider"/>
+            android:background="@color/divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            >
+            android:layout_alignParentTop="true">
+
             <TextView
                 style="@style/textView_meeting_info"
-                android:text="全体静音"
                 android:layout_centerVertical="true"
-                />
+                android:text="全体静音" />
 
             <CheckBox
                 android:id="@+id/cbMute"
@@ -226,47 +327,44 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
-                android:button="@null"
-                android:checked="false"
                 android:background="@drawable/selector_mute"
-                />
+                android:button="@null"
+                android:checked="false" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
-            android:background="@color/divider"/>
+            android:background="@color/divider" />
 
         <TextView
             style="@style/textView_meeting_info"
-            android:textColor="#777777"
-            android:text="会议信息"
             android:layout_marginTop="19dp"
-            />
+            android:text="会议信息"
+            android:textColor="#777777" />
 
         <TextView
             android:id="@+id/tvMeetingID"
             style="@style/textView_meeting_info"
-            android:text="会议ID："
             android:layout_marginTop="22dp"
-            />
+            android:text="会议ID：" />
+
         <TextView
             android:id="@+id/tvStartingTime"
             style="@style/textView_meeting_info"
-            android:text="开始时间："
             android:layout_marginTop="22dp"
-            />
+            android:text="开始时间：" />
+
         <TextView
             android:id="@+id/tvMeetingPass"
             style="@style/textView_meeting_info"
-            android:text="会议密码："
             android:layout_marginTop="22dp"
-            />
+            android:text="会议密码：" />
+
         <TextView
             android:id="@+id/tvLockState"
             style="@style/textView_meeting_info"
-            android:text="锁门状态："
             android:layout_marginTop="22dp"
-            />
+            android:text="锁门状态：" />
     </LinearLayout>
 </RelativeLayout>

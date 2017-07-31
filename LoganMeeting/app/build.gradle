@@ -26,37 +26,73 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+    //签名
+    signingConfigs {
+        release {
+            storeFile file('E:/meetingsignkey/meetingkey.jks');
+            storePassword 'meetingkey'
+            keyAlias 'LoganMeeting'
+            keyPassword 'meetingkey'
+        }
+    }
+
+    buildTypes {
+        debug{
+            minifyEnabled false
+            shrinkResources false
+            signingConfig  signingConfigs.release
+        }
+        release {
+            // 混淆
+            minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+//            shrinkResources true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig  signingConfigs.release
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //butterknife
     compile fileTree(include: '*.jar', dir: 'libs')
     //compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
     //compile 'com.squareup.picasso:picasso:2.5.2'
+
     //compile 'com.github.bumptech.glide:glide:3.7.0'
+
     //输入法遮盖
+
     //选择dialog
+
     //ImmersionBar -- android 4.4以上沉浸式实现
+
     //spinner
+
     //环信
+
     //compile 'com.google.android.gms:play-services-gcm:9.4.0'
+
     //compile 'com.hyphenate:hyphenate-sdk:3.3.0'
+
     //6.0权限
+
     //bugly
-    
-
-
     compile files('libs/cloudroomtool.jar')
     compile files('libs/cloudroomvideosdk_android.jar')
     compile files('libs/QtAndroid-bundled.jar')
     compile files('libs/QtAndroidAccessibility-bundled.jar')
     compile files('libs/QtAndroidBearer-bundled.jar')
     compile files('libs/voiceengine.jar')
-
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.6.0'

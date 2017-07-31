@@ -94,7 +94,7 @@ public class MeetingLoginActivity extends Activity {
         setContentView(R.layout.activity_meeting_login);
         ButterKnife.bind(this);
 
-        etMeeting.setText("74040371");
+        etMeeting.setText("36826479");
         etMeetingNick.setText("哈哈");
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
     }
@@ -147,6 +147,7 @@ public class MeetingLoginActivity extends Activity {
     @OnClick(R.id.btnAccount)
     public void onBtnAccountClick(View v) {
         startActivity(new Intent(MeetingLoginActivity.this, AccountLoginActivity.class));
+        finish();
     }
 
     @OnClick(R.id.tvNetworkSetting)

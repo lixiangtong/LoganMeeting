@@ -232,6 +232,7 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
     public void onBtnMeetingClick(View v) {
         Intent intent = new Intent(AccountLoginActivity.this, MeetingLoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

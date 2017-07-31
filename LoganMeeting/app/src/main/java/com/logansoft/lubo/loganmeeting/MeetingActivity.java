@@ -18,10 +18,12 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,6 +31,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMeeting;
@@ -63,7 +67,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private static final String TAG = "MeetingActivity";
 
     private ImageView mScreenshareIV = null;
-    private YUVVideoView mPeerGLSV = null;
+    private YUVVideoView mPeerGLSV2 = null;
     private YUVVideoView mSelfGLSV = null;
     private View mVideos = null;
 
@@ -195,7 +199,19 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private CheckBox mCbVolume;
     private TextView mTvRightSetting;
     private LinearLayout mLiRightSettings;
-    private View mTvClose;
+    private TextView mTvClose;
+    private View mRlKeyboardAll;
+    private TextView tvShowState;
+    private TextView tvHideState;
+    private RadioButton rbFirst;
+    private RadioButton rbSecond;
+    private RadioButton rbThird;
+    private RadioButton rbFourth;
+    private RadioButton rbFifth;
+    private RadioGroup rgKeyboard;
+    private YUVVideoView mPeerGLSV3;
+    private YUVVideoView mPeerGLSV4;
+    private YUVVideoView mPeerGLSV5;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -254,7 +270,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 CrashHandler.getInstance().init(getApplicationContext());
             }
         });
-        mPeerGLSV = (YUVVideoView) findViewById(R.id.yuv_peer);
+        mPeerGLSV2 = (YUVVideoView) findViewById(R.id.yuv_peer2);
+        mPeerGLSV3 = ((YUVVideoView) findViewById(R.id.yuv_peer3));
+        mPeerGLSV4 = ((YUVVideoView) findViewById(R.id.yuv_peer4));
+        mPeerGLSV5 = ((YUVVideoView) findViewById(R.id.yuv_peer5));
         mSelfGLSV = (YUVVideoView) findViewById(R.id.yuv_self);
         mVideos = findViewById(R.id.videos);
 
@@ -264,6 +283,15 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
         mOptionsView = findViewById(R.id.view_options);
         mTopOptions = findViewById(R.id.rlTopOptions);
+        mRlKeyboardAll = findViewById(R.id.rlKeyboardAll);
+        tvShowState = ((TextView) findViewById(R.id.tvShowState));
+        tvHideState = ((TextView) findViewById(R.id.tvHideState));
+        rgKeyboard = ((RadioGroup) findViewById(R.id.rgKeyboard));
+        rbFirst = ((RadioButton) findViewById(R.id.rbFirst));
+        rbSecond = ((RadioButton) findViewById(R.id.rbSecond));
+        rbThird = ((RadioButton) findViewById(R.id.rbThird));
+        rbFourth = ((RadioButton) findViewById(R.id.rbFourth));
+        rbFifth = ((RadioButton) findViewById(R.id.rbFifth));
 
         mCbSwitchCamera = (CheckBox) findViewById(R.id.cbSwitchCamera);
         mCbCamera = (CheckBox) findViewById(R.id.cbCamera);
@@ -271,8 +299,17 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mCbVolume = ((CheckBox) findViewById(R.id.cbVolume));
         mTvRightSetting = ((TextView) findViewById(R.id.right_setting));
         mLiRightSettings = ((LinearLayout) findViewById(R.id.llRightSettings));
-        mTvClose = mLiRightSettings.findViewById(R.id.tvClose);
+        mTvClose = ((TextView) mLiRightSettings.findViewById(R.id.tvClose));
 
+
+        WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        ViewGroup.LayoutParams selfLayoutParams = mSelfGLSV.getLayoutParams();
+        ViewGroup.LayoutParams peerLayoutParams = mPeerGLSV2.getLayoutParams();
+//        selfLayoutParams.width = display.getWidth()/2;
+//        selfLayoutParams.height = display.getHeight()/2;
+//        peerLayoutParams.width = display.getWidth()/2;
+//        peerLayoutParams.height = display.getHeight()/2;
 
 
 //		mMicPB = (ProgressBar) findViewById(R.id.pb_mic);
@@ -320,6 +357,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 //		mVideoSizeBtn.setTag(index);
 //		mVideoSizeBtn.setText(mVideoSizes[index]);
 
+        //系统音量控制
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         View view = getWindow().getDecorView();
         view.setOnTouchListener(this);
@@ -361,70 +399,6 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         UITool.showProcessDialog(this, getString(R.string.entering));
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart 2");
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume 2");
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause 2");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop 2");
-
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart 2");
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        Log.d(TAG, "onDestroy 2");
-        mVideoThread.quit();
-        unwatchHeadset();
-        CloudroomVideoMeeting.getInstance().exitMeeting();
-        VideoCallback.getInstance().unregisterVideoCallback(mMainCallback);
-//        CloudroomVideoSDK.getInstance().uninit();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true;
-        }
-        return super.onKeyUp(keyCode, event);
-    }
-
     private void enterMeetingRslt(CRVIDEOSDK_ERR_DEF code) {
         UITool.hideProcessDialog(this);
         if (code != CRVIDEOSDK_ERR_DEF.CRVIDEOSDK_NOERR) {
@@ -462,6 +436,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         CloudroomVideoMeeting.getInstance().openVideo(myUserID);
         mCbCamera.setChecked(true);
 
+        //获取所有的参会者信息
         ArrayList<MemberInfo> members = CloudroomVideoMeeting.getInstance()
                 .getAllMembers();
         for (int i = 0; i < members.size(); i++) {
@@ -568,7 +543,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         } else if (mPeerUsrVideoId != null
                 && userID.equals(mPeerUsrVideoId.userId)) {
             if (!open) {
-                mPeerGLSV.getYUVRender().update(null, 0, 0);
+                mPeerGLSV2.getYUVRender().update(null, 0, 0);
                 mPeerUsrVideoId = null;
             }
         }
@@ -605,9 +580,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 if (!showFrame) {
                     return;
                 }
-                YUVVideoView view = isSelf ? mSelfGLSV : mPeerGLSV;
+                YUVVideoView view = isSelf ? mSelfGLSV : mPeerGLSV2;
                 view.getYUVRender().update(frame.dat, frame.frameWidth,
                         frame.frameHeight);
+                Log.d(TAG, "run: "+isSelf+"/"+frame.frameWidth+"/"+frame.frameHeight);
             }
         });
     }
@@ -752,7 +728,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private int screenHeight;
 
     /**
-     * 视频view拖到监听
+     * 视频view拖动监听
      */
     private OnTouchListener mDragListener = new OnTouchListener() {
 
@@ -824,6 +800,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mMainHandler.removeMessages(MSG_HIDE_OPTION);
         mOptionsView.setVisibility(View.VISIBLE);
         mTopOptions.setVisibility(View.VISIBLE);
+        mRlKeyboardAll.setVisibility(View.VISIBLE);
         mMainHandler.sendEmptyMessageDelayed(MSG_HIDE_OPTION, 3 * 1000);
     }
 
@@ -832,6 +809,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mMainHandler.removeMessages(MSG_HIDE_OPTION);
         mOptionsView.setVisibility(View.GONE);
         mTopOptions.setVisibility(View.GONE);
+        mRlKeyboardAll.setVisibility(View.GONE);
+
     }
 
     public void showVideoCfgDialog(final Button view, final String[] items) {
@@ -852,5 +831,69 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     }
                 });
         alertBuilder.create().show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart 2");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume 2");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause 2");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop 2");
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart 2");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        Log.d(TAG, "onDestroy 2");
+        mVideoThread.quit();
+        unwatchHeadset();
+        CloudroomVideoMeeting.getInstance().exitMeeting();
+        VideoCallback.getInstance().unregisterVideoCallback(mMainCallback);
+//        CloudroomVideoSDK.getInstance().uninit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }
