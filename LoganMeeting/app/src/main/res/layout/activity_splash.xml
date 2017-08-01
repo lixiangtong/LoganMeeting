@@ -28,7 +28,7 @@
         android:id="@+id/pbLoadingSplash"
         android:layout_width="150dp"
         android:layout_height="6dp"
-        android:progress="10"
+        android:progress="0"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:progressBackgroundTint="@color/gray_pb"
         android:progressTint="#4b96ca"

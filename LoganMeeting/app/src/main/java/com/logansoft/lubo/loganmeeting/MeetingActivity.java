@@ -36,6 +36,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMeeting;
+import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 import com.cloudroom.cloudroomvideosdk.model.ASTATUS;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MemberInfo;
@@ -94,7 +95,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             // TODO Auto-generated method stub
             switch (msg.what) {
                 case VideoCallback.MSG_VIDEODATA_UPDATED:
-                    videoDataUpdated((UsrVideoId) msg.obj);
+                    UsrVideoId userVideoId = (UsrVideoId) msg.obj;
+                    videoDataUpdated(userVideoId);
                     break;
                 case VideoCallback.MSG_ENTERMEETING_RSLT:
                     enterMeetingRslt((CRVIDEOSDK_ERR_DEF) msg.obj);
@@ -182,14 +184,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         @Override
         public boolean handleMessage(Message msg) {
             // TODO Auto-generated method stub
-            switch (msg.what) {
-                case VideoCallback.MSG_VIDEODATA_UPDATED:
-                    videoDataUpdated((UsrVideoId) msg.obj);
-                    return true;
-
-                default:
-                    break;
-            }
+//            switch (msg.what) {
+//                case VideoCallback.MSG_VIDEODATA_UPDATED:
+//                    videoDataUpdated((UsrVideoId) msg.obj);
+//                    return true;
+//
+//                default:
+//                    break;
+//            }
             return false;
         }
     };
@@ -212,6 +214,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private YUVVideoView mPeerGLSV3;
     private YUVVideoView mPeerGLSV4;
     private YUVVideoView mPeerGLSV5;
+    private ArrayList<YUVVideoView> yuvVideoViews;
+    private ArrayList<UsrVideoId> videos;
+    private int i = 1;;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -275,6 +280,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mPeerGLSV4 = ((YUVVideoView) findViewById(R.id.yuv_peer4));
         mPeerGLSV5 = ((YUVVideoView) findViewById(R.id.yuv_peer5));
         mSelfGLSV = (YUVVideoView) findViewById(R.id.yuv_self);
+        yuvVideoViews = new ArrayList<>();
+        yuvVideoViews.add(mSelfGLSV);
+        yuvVideoViews.add(mPeerGLSV2);
+        yuvVideoViews.add(mPeerGLSV3);
+        yuvVideoViews.add(mPeerGLSV4);
+        yuvVideoViews.add(mPeerGLSV5);
         mVideos = findViewById(R.id.videos);
 
         mScreenshareIV.setVisibility(View.GONE);
@@ -462,7 +473,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         CloudroomVideoMeeting.getInstance().setSpeakerOut(true);
         boolean speakerOut = CloudroomVideoMeeting.getInstance()
                 .getSpeakerOut();
-        if (speakerOut){
+        if (speakerOut) {
             mCbVolume.setChecked(true);
         }
         Log.d(TAG, "setSpeakerOut:" + speakerOut);
@@ -472,7 +483,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
     private void watchVideos() {
         // 订阅可订阅的视频
-        ArrayList<UsrVideoId> videos = CloudroomVideoMeeting.getInstance()
+        videos = CloudroomVideoMeeting.getInstance()
                 .getWatchableVideos();
         Log.d(TAG, "getWatchableVideos " + videos.size());
         if (videos.size() > 0) {
@@ -509,8 +520,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         } else {
             mCbMicphone.setChecked(false);
         }
-        boolean showMicPB = status == ASTATUS.AOPEN
-                || status == ASTATUS.AOPENING;
+//        boolean showMicPB = status == ASTATUS.AOPEN
+//                || status == ASTATUS.AOPENING;
 //		mMicPB.setVisibility(showMicPB ? View.VISIBLE : View.GONE);
     }
 
@@ -567,6 +578,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             return;
         }
         String myUserID = CloudroomVideoMeeting.getInstance().getMyUserID();
+        Log.d(TAG, "videoDataUpdated: userId.userId=" + userId.userId+"-----myUserID="+myUserID);
         final boolean isSelf = myUserID.equals(userId.userId);
         mVideoHandler.post(new Runnable() {
 
@@ -580,10 +592,19 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 if (!showFrame) {
                     return;
                 }
-                YUVVideoView view = isSelf ? mSelfGLSV : mPeerGLSV2;
-                view.getYUVRender().update(frame.dat, frame.frameWidth,
-                        frame.frameHeight);
-                Log.d(TAG, "run: "+isSelf+"/"+frame.frameWidth+"/"+frame.frameHeight);
+                YUVVideoView view = null;
+                if (isSelf) {
+                    view = mSelfGLSV;
+                } else if(userId.userId.equals("undef:20")){
+                    Log.d(TAG, "run: --------------------------------"+userId.userId);
+                    view = mPeerGLSV4;
+                }
+                view.getYUVRender().update(frame.dat, frame.frameWidth, frame.frameHeight);
+//                YUVVideoView view = isSelf ? mSelfGLSV : mPeerGLSV3;
+//                view.getYUVRender().update(frame.dat, frame.frameWidth,
+//                        frame.frameHeight);
+//                Log.d(TAG, "run: isSelf="+isSelf);
+//                Log.d(TAG, "run: "+isSelf+"/"+frame.frameWidth+"/"+frame.frameHeight);
             }
         });
     }
@@ -611,10 +632,11 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                         .getVideoStatus(userId);
                 if (status == VSTATUS.VOPEN || status == VSTATUS.VOPENING) {
                     CloudroomVideoMeeting.getInstance().closeVideo(userId);
-                    mCbCamera.setChecked(true);
+                    mCbCamera.setChecked(false);
+
                 } else {
                     CloudroomVideoMeeting.getInstance().openVideo(userId);
-                    mCbCamera.setChecked(false);
+                    mCbCamera.setChecked(true);
                 }
             }
             break;
@@ -876,6 +898,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         unwatchHeadset();
         CloudroomVideoMeeting.getInstance().exitMeeting();
         VideoCallback.getInstance().unregisterVideoCallback(mMainCallback);
+        CloudroomVideoMgr.getInstance().logout();
 //        CloudroomVideoSDK.getInstance().uninit();
     }
 

@@ -94,8 +94,8 @@ public class MeetingLoginActivity extends Activity {
         setContentView(R.layout.activity_meeting_login);
         ButterKnife.bind(this);
 
-        etMeeting.setText("36826479");
-        etMeetingNick.setText("哈哈");
+        etMeeting.setText("28166679");
+        etMeetingNick.setText("哈克");
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
     }
 
@@ -131,7 +131,7 @@ public class MeetingLoginActivity extends Activity {
         // 昵称
         loginDat.nickName = meetingNick;
         // 第三方账号
-        loginDat.privAcnt = "demo@cloudroom.com";
+        loginDat.privAcnt = meetingNick;
         //云屋鉴权账号
         loginDat.authAcnt = "demo@cloudroom.com";
         // 登录密码必须做MD5处理

@@ -31,31 +31,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name="com.logansoft.lubo.loganmeeting.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.logansoft.lubo.loganmeeting.MainActivity" />
         <activity
-            android:name=".AccountLoginActivity"
+            android:name="com.logansoft.lubo.loganmeeting.AccountLoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NetSettingActivity"
+            android:name="com.logansoft.lubo.loganmeeting.NetSettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name="com.logansoft.lubo.loganmeeting.ChangePasswordActivity" />
+        <activity android:name="com.logansoft.lubo.loganmeeting.AboutActivity" />
         <activity
-            android:name=".MeetingActivity"
+            android:name="com.logansoft.lubo.loganmeeting.MeetingActivity"
             android:keepScreenOn="true"
             android:launchMode="singleTop"
             android:screenOrientation="landscape"></activity>
         <activity
-            android:name=".MeetingLoginActivity"
+            android:name="com.logansoft.lubo.loganmeeting.MeetingLoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
     </application>

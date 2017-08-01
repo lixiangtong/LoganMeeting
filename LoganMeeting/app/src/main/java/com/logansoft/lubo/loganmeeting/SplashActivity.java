@@ -32,12 +32,12 @@ public class SplashActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_CRRENTTIME:
-                    long obj = (long) msg.obj;
-                    pbLoadingSplash.setProgress(((int) (obj - startTime) / 40));
-                    break;
-            }
+//            switch (msg.what) {
+//                case MSG_CRRENTTIME:
+//                    long obj = (long) msg.obj;
+//                    pbLoadingSplash.setProgress(((int) (obj - startTime) / 40));
+//                    break;
+//            }
         }
     };
 
@@ -56,27 +56,5 @@ public class SplashActivity extends Activity {
             }
         };
         timer.schedule(timerTask, 2000);
-        final Date date = new Date();
-        startTime = date.getTime();
-        new Thread(new Runnable() {
-            private long time;
-
-            @Override
-            public void run() {
-                for (int i = 0; i < 40; i++) {
-                    time = date.getTime();
-                }
-                Message message = handler.obtainMessage();
-                message.what = MSG_CRRENTTIME;
-                message.obj = time;
-                Log.d(TAG, "run: time=" + time);
-                handler.sendMessage(message);
-                try {
-                    Thread.sleep(50);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 }

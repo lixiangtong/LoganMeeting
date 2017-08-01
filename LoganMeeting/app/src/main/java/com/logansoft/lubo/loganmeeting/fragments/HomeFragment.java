@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
 
     private AlertDialog alertDialog;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
-    private List<MeetInfo> mData = new ArrayList<>();
+    private ArrayList<MeetInfo> mData = new ArrayList<>();
 
     private Callback mMgrCallback = new Callback() {
 
@@ -93,17 +93,17 @@ public class HomeFragment extends Fragment {
                 case VideoCallback.MSG_ENTERMEETING_RSLT:
 //                    enableOption(true);
                     break;
-//                case MgrCallback.MSG_GETMEETING_SUCCESS:
-//                    ArrayList<MeetInfo> meetInfos = (ArrayList<MeetInfo>) msg.obj;
-//                    for (MeetInfo meetInfo : meetInfos) {
-//                        Log.d(TAG, "handleMessage: meetInfo="+meetInfo.ID);
-//                    }
-//                    mData.addAll(meetInfos);
-//                    myRecyclerViewAdapter.notifyDataSetChanged();
-//                    break;
-//                case MgrCallback.MSG_GETMEETING_FAILED:
-//                    MyApplication.getInstance().showToast("获取会议列表失败");
-//                    break;
+                case MgrCallback.MSG_GETMEETING_SUCCESS:
+                    ArrayList<MeetInfo> meetInfos = (ArrayList<MeetInfo>) msg.obj;
+                    for (MeetInfo meetInfo : meetInfos) {
+                        Log.d(TAG, "handleMessage: meetInfo="+meetInfo.ID);
+                    }
+                    mData.addAll(meetInfos);
+                    myRecyclerViewAdapter.notifyDataSetChanged();
+                    break;
+                case MgrCallback.MSG_GETMEETING_FAILED:
+                    MyApplication.getInstance().showToast("获取会议列表失败");
+                    break;
                 default:
                     break;
             }
@@ -112,6 +112,7 @@ public class HomeFragment extends Fragment {
     };
     public Handler mMainHandler = new Handler(mMgrCallback);
     private RoomInfoBean roomInfoBean3;
+    private RoomInfoBean roomInfoBean4;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,49 +131,58 @@ public class HomeFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.home_fragment, container, false);
             unbinder = ButterKnife.bind(this, view);
+
+            CloudroomVideoMgr.getInstance().getMeetings();
+            nsv.smoothScrollTo(0,0);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            //设置布局管理器
+            rv.setLayoutManager(layoutManager);
+            //设置为垂直布局，这也是默认的
+            layoutManager.setOrientation(OrientationHelper.VERTICAL);
+            //设置分隔线
+            rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+            //设置增加或删除条目的动画
+            rv.setItemAnimator(new DefaultItemAnimator());
+
+            myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData,getActivity());
+            rv.setAdapter(myRecyclerViewAdapter);
         }
-        roomInfoBean1 = new RoomInfoBean();
-        roomInfoBean2 = new RoomInfoBean();
-        roomInfoBean3 = new RoomInfoBean();
+//        roomInfoBean1 = new RoomInfoBean();
+//        roomInfoBean2 = new RoomInfoBean();
+//        roomInfoBean3 = new RoomInfoBean();
+//        roomInfoBean4 = new RoomInfoBean();
+//
+//
+//        roomInfoBean1.setRoomName("语文教研室");
+//        roomInfoBean1.setModerator("张泽军");
+//        roomInfoBean1.setRoomNumber("74040371");
+//        roomInfoBean1.setWaitCount("2");
+//
+//        roomInfoBean2.setRoomName("人文教研室");
+//        roomInfoBean2.setModerator("张泽军");
+//        roomInfoBean2.setRoomNumber("36826479");
+//        roomInfoBean2.setWaitCount("2");
+//
+//        roomInfoBean3.setRoomName("生物教研室");
+//        roomInfoBean3.setModerator("李利群");
+//        roomInfoBean3.setRoomNumber("28166679");
+//        roomInfoBean3.setWaitCount("5");
+//
+//        roomInfoBean4.setRoomName("数学教研室");
+//        roomInfoBean4.setModerator("李林丽");
+//        roomInfoBean4.setRoomNumber("36826479");
+//        roomInfoBean4.setWaitCount("1");
+//
+//        data.add(roomInfoBean1);
+//        data.add(roomInfoBean2);
+//        data.add(roomInfoBean3);
+//        data.add(roomInfoBean4);
 
 
-        roomInfoBean1.setRoomName("语文教研室");
-        roomInfoBean1.setModerator("张泽军");
-        roomInfoBean1.setRoomNumber("74040371");
-        roomInfoBean1.setWaitCount("2");
 
-        roomInfoBean2.setRoomName("人文教研室");
-        roomInfoBean2.setModerator("张泽军");
-        roomInfoBean2.setRoomNumber("36826479");
-        roomInfoBean2.setWaitCount("2");
-
-        roomInfoBean3.setRoomName("数学教研室");
-        roomInfoBean3.setModerator("李林丽");
-        roomInfoBean3.setRoomNumber("36826479");
-        roomInfoBean3.setWaitCount("1");
-
-        data.add(roomInfoBean1);
-        data.add(roomInfoBean2);
-        data.add(roomInfoBean3);
-
-//        CloudroomVideoMgr.getInstance().getMeetings();
-        nsv.smoothScrollTo(0,0);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        //设置布局管理器
-        rv.setLayoutManager(layoutManager);
-        //设置为垂直布局，这也是默认的
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
-        //设置分隔线
-        rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        //设置增加或删除条目的动画
-        rv.setItemAnimator(new DefaultItemAnimator());
-
-//        myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData,getActivity());
-//        rv.setAdapter(myRecyclerViewAdapter);
-
-        myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
-        Log.d(TAG, "onCreateView: " + data.size());
-        rv.setAdapter(myRecyclerViewAdapterI);
+//        myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
+//        Log.d(TAG, "onCreateView: " + data.size());
+//        rv.setAdapter(myRecyclerViewAdapterI);
 
         setAdapterListener();
 
@@ -180,11 +190,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void setAdapterListener() {
-        myRecyclerViewAdapterI.setMyOnItemClickListener(new MyRecyclerViewAdapterI.OnMyItemClickListener() {
+        myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
             @Override
             public void onClick(int position) {
-                String roomNumber = data.get(position).getRoomNumber();
-                int meetID = Integer.parseInt(roomNumber);
+                int meetID = mData.get(position).ID;
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), MeetingActivity.class);
 //                intent.setClass(getActivity(), MeetingPerfoActivity.class);

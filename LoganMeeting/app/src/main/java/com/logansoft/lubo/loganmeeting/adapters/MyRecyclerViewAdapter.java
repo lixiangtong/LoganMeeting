@@ -47,7 +47,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         MeetInfo meetInfo = mDatas.get(position);
         holder.tvRoomName.setText(meetInfo.subject);
-        holder.tvRoomNumber.setText(meetInfo.ID);
+        holder.tvRoomNumber.setText(meetInfo.ID+"");
 
         if (mOnItemClickListener!=null){
             holder.rvItem.setOnClickListener(new View.OnClickListener() {

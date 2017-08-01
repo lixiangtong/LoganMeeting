@@ -89,20 +89,20 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	@Override
 	public void getMeetingSuccess(ArrayList<MeetInfo> arrayList, String s) {
 		Log.d(TAG, "getMeetingSuccess");
-//		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_SUCCESS);
-//		msg.obj = arrayList;
-//		Bundle data = msg.getData();
-//		data.putString("cookie",s);
-//		msg.setData(data);
-//		msg.sendToTarget();
+		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_SUCCESS);
+		msg.obj = arrayList;
+		Bundle data = msg.getData();
+		data.putString("cookie",s);
+		msg.setData(data);
+		msg.sendToTarget();
 	}
 
 	@Override
 	public void getMeetingFailed(CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s) {
 		Log.d(TAG, "getMeetingFailed");
-//		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_FAILED);
-//		msg.obj = crvideosdk_err_def;
-//		msg.sendToTarget();
+		Message msg = mMainHandler.obtainMessage(MSG_GETMEETING_FAILED);
+		msg.obj = crvideosdk_err_def;
+		msg.sendToTarget();
 	}
 
 	@Override
