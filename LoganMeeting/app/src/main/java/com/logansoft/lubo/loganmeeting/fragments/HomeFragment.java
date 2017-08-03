@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
+import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 import com.logansoft.lubo.loganmeeting.MeetingActivity;
 import com.logansoft.lubo.loganmeeting.MeetingPerfoActivity;
@@ -102,7 +103,8 @@ public class HomeFragment extends Fragment {
                     myRecyclerViewAdapter.notifyDataSetChanged();
                     break;
                 case MgrCallback.MSG_GETMEETING_FAILED:
-                    MyApplication.getInstance().showToast("获取会议列表失败");
+                    CRVIDEOSDK_ERR_DEF sdkError = (CRVIDEOSDK_ERR_DEF) msg.obj;
+                    MyApplication.getInstance().showToast("获取会议列表失败",sdkError);
                     break;
                 default:
                     break;
@@ -120,9 +122,11 @@ public class HomeFragment extends Fragment {
         // 设置呼叫处理对象
         MgrCallback.getInstance().registerMgrCallback(mMgrCallback);
 
-        String loginUserID = VideoSDKHelper.getInstance().getLoginUserID();
-
-        Log.d(TAG, "onCreate: "+loginUserID);
+        String userID = VideoSDKHelper.getInstance().getLoginUserID();
+        Log.d(TAG, "onCreate: userID"+userID);
+        if (TextUtils.isEmpty(userID)) {
+            getActivity().finish();
+        }
     }
 
     @Nullable
@@ -177,9 +181,9 @@ public class HomeFragment extends Fragment {
 //        data.add(roomInfoBean2);
 //        data.add(roomInfoBean3);
 //        data.add(roomInfoBean4);
-
-
-
+//
+//
+//
 //        myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
 //        Log.d(TAG, "onCreateView: " + data.size());
 //        rv.setAdapter(myRecyclerViewAdapterI);
@@ -194,6 +198,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(int position) {
                 int meetID = mData.get(position).ID;
+//                String roomNumber = data.get(position).getRoomNumber();
+//                int meetID = Integer.parseInt(roomNumber);
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), MeetingActivity.class);
 //                intent.setClass(getActivity(), MeetingPerfoActivity.class);

@@ -11,9 +11,11 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +71,8 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
     Button btnMeeting;
     @BindView(R.id.tvNetworkSetting)
     TextView tvNetworkSetting;
+    @BindView(R.id.nsv)
+    NestedScrollView nsv;
 
 
     private AlertDialog mAssignDailog = null;
@@ -124,6 +128,20 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
 
         // 设置登录相关处理对象
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
+
+        //NestedScrollView禁止滑动事件
+        nsv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 
@@ -196,7 +214,6 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
         loginDat.authPswd = MD5Util.MD5(accountPass);
         // 登录
         CloudroomVideoMgr.getInstance().login(loginDat);
-
 
 
 //        String server = etAccount.getText().toString();

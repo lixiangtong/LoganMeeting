@@ -7,9 +7,10 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +53,8 @@ public class MeetingLoginActivity extends Activity {
     Button btnAccount;
     @BindView(R.id.tvNetworkSetting)
     TextView tvNetworkSetting;
+    @BindView(R.id.nsv)
+    NestedScrollView nsv;
     private int meetID = -1;
 
     public Callback mLoginCallback = new Callback() {
@@ -66,7 +69,7 @@ public class MeetingLoginActivity extends Activity {
 
                     Intent intent = new Intent(MeetingLoginActivity.this, MeetingActivity.class);
                     intent.putExtra("meetID", meetID);
-                    intent.putExtra("password","");
+                    intent.putExtra("password", "");
                     startActivity(intent);
 
                     MyApplication.getInstance().showToast(R.string.meeting_login_success);
@@ -94,9 +97,23 @@ public class MeetingLoginActivity extends Activity {
         setContentView(R.layout.activity_meeting_login);
         ButterKnife.bind(this);
 
-        etMeeting.setText("28166679");
+        etMeeting.setText("36826479");
         etMeetingNick.setText("哈克");
         MgrCallback.getInstance().registerMgrCallback(mLoginCallback);
+
+        //NestedScrollView禁止滑动事件
+        nsv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     //会议号登录

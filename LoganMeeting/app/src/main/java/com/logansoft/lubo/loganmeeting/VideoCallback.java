@@ -37,6 +37,7 @@ public class VideoCallback implements CloudroomVideoCallback {
 
 	public static final int MSG_SYSTEM_DROPPED = 107;
 	public static final int MSG_USER_ENTERMEETING = 108;
+	public static final int MSG_USER_LEFTMEETING = 1081;
 
 	public static final int MSG_SYSTEM_STOPED = 109;
 	public static final int MSG_DEFVIDEO_CHANGED = 110;
@@ -49,6 +50,7 @@ public class VideoCallback implements CloudroomVideoCallback {
 	public static final int MSG_NOTIFY_MEDIA_STARTRD = 115;
 	public static final int MSG_NOTIFY_MEDIA_PAUSED = 116;
 	public static final int MSG_NOTIFY_MEDIA_STOPPED = 117;
+	public static final int MSG_NOTIFY_VIDEOWALL_MODE = 118;
 
 	private LinkedList<Callback> mVideoCallbacks = new LinkedList<Callback>();
 
@@ -230,6 +232,10 @@ public class VideoCallback implements CloudroomVideoCallback {
 	public void userLeftMeeting(String userID) {
 		// TODO Auto-generated method stub
 		Log.d(TAG, "userLeftMeeting");
+		Message msg = mMainHandler.obtainMessage(MSG_USER_LEFTMEETING);
+		msg.obj = userID;
+		msg.sendToTarget();
+		MyApplication.getInstance().showToast(userID + "离开会议");
 	}
 
 	@Override
@@ -313,7 +319,10 @@ public class VideoCallback implements CloudroomVideoCallback {
 
 	@Override
 	public void notifyVideoWallMode(int wallMode) {
-		Log.d(TAG, "notifyVideoWallMode");
+		Log.d(TAG, "notifyVideoWallMode wallMode="+wallMode);
+        Message msg = mMainHandler.obtainMessage(MSG_NOTIFY_VIDEOWALL_MODE);
+        msg.obj = wallMode;
+        msg.sendToTarget();
 	}
 
 	@Override

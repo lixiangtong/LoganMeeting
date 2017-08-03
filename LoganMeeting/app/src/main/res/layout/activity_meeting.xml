@@ -257,7 +257,7 @@
             android:layout_height="match_parent"
             android:drawableTop="@drawable/selector_volume"
             android:onClick="onViewClick"
-            android:text="@string/volume" />
+            android:text="@string/speaker" />
 
         <CheckBox
             android:id="@+id/cbMicphone"

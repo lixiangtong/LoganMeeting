@@ -45,6 +45,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
@@ -78,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     style="@style/EditText_Meeting_Style"
+                    android:inputType="number"
                     android:drawableRight="@mipmap/office_icon" />
 
                 <TextView
