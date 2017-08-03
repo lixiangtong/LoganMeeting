@@ -122,4 +122,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
     compile 'pub.devrel:easypermissions:0.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.github.pwittchen:swipe:0.1.0'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }

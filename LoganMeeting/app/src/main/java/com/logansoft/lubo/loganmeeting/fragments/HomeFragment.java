@@ -9,8 +9,10 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +23,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +34,6 @@ import com.cloudroom.cloudroomvideosdk.CloudroomVideoMgr;
 import com.cloudroom.cloudroomvideosdk.model.CRVIDEOSDK_ERR_DEF;
 import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 import com.logansoft.lubo.loganmeeting.MeetingActivity;
-import com.logansoft.lubo.loganmeeting.MeetingPerfoActivity;
 import com.logansoft.lubo.loganmeeting.MgrCallback;
 import com.logansoft.lubo.loganmeeting.MyApplication;
 import com.logansoft.lubo.loganmeeting.R;
@@ -70,8 +73,14 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
+    @BindView(R.id.cl)
+    CoordinatorLayout cl;
     @BindView(R.id.nsv)
     NestedScrollView nsv;
+    @BindView(R.id.lv)
+    ListView lv;
+    @BindView(R.id.srl_home_root)
+    SwipeRefreshLayout srlHomeRoot;
     private View view;
     private RoomInfoBean roomInfoBean1;
     private RoomInfoBean roomInfoBean2;
@@ -97,14 +106,14 @@ public class HomeFragment extends Fragment {
                 case MgrCallback.MSG_GETMEETING_SUCCESS:
                     ArrayList<MeetInfo> meetInfos = (ArrayList<MeetInfo>) msg.obj;
                     for (MeetInfo meetInfo : meetInfos) {
-                        Log.d(TAG, "handleMessage: meetInfo="+meetInfo.ID);
+                        Log.d(TAG, "handleMessage: meetInfo=" + meetInfo.ID);
                     }
                     mData.addAll(meetInfos);
                     myRecyclerViewAdapter.notifyDataSetChanged();
                     break;
                 case MgrCallback.MSG_GETMEETING_FAILED:
                     CRVIDEOSDK_ERR_DEF sdkError = (CRVIDEOSDK_ERR_DEF) msg.obj;
-                    MyApplication.getInstance().showToast("获取会议列表失败",sdkError);
+                    MyApplication.getInstance().showToast("获取会议列表失败", sdkError);
                     break;
                 default:
                     break;
@@ -123,7 +132,7 @@ public class HomeFragment extends Fragment {
         MgrCallback.getInstance().registerMgrCallback(mMgrCallback);
 
         String userID = VideoSDKHelper.getInstance().getLoginUserID();
-        Log.d(TAG, "onCreate: userID"+userID);
+        Log.d(TAG, "onCreate: userID" + userID);
         if (TextUtils.isEmpty(userID)) {
             getActivity().finish();
         }
@@ -137,7 +146,7 @@ public class HomeFragment extends Fragment {
             unbinder = ButterKnife.bind(this, view);
 
             CloudroomVideoMgr.getInstance().getMeetings();
-            nsv.smoothScrollTo(0,0);
+            nsv.smoothScrollTo(0, 0);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             //设置布局管理器
             rv.setLayoutManager(layoutManager);
@@ -147,8 +156,10 @@ public class HomeFragment extends Fragment {
             rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
             //设置增加或删除条目的动画
             rv.setItemAnimator(new DefaultItemAnimator());
+            //解决RecyclerView和NestedScrollViewd的滑动冲突
+            rv.setNestedScrollingEnabled(false);
 
-            myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData,getActivity());
+            myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData, getActivity());
             rv.setAdapter(myRecyclerViewAdapter);
         }
 //        roomInfoBean1 = new RoomInfoBean();
@@ -188,12 +199,13 @@ public class HomeFragment extends Fragment {
 //        Log.d(TAG, "onCreateView: " + data.size());
 //        rv.setAdapter(myRecyclerViewAdapterI);
 
-        setAdapterListener();
+        setViewListener();
 
         return view;
     }
 
-    private void setAdapterListener() {
+    private void setViewListener() {
+        //MyRecyclerViewAdapter的item点击事件
         myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
             @Override
             public void onClick(int position) {
@@ -214,6 +226,37 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        nsv.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                srlHomeRoot.setEnabled(nsv.getScrollY()==0);
+            }
+        });
+
+//        abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                srlHomeRoot.setEnabled(abl.getScrollY()==0);
+//            }
+//        });
+        srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+        srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyApplication.getInstance().showToast("正在刷新");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mData.clear();
+                        CloudroomVideoMgr.getInstance().getMeetings();
+                        MyApplication.getInstance().showToast("刷新完成");
+                        srlHomeRoot.setRefreshing(false);
+                    }
+                },3000);
+            }
+        });
+
     }
 
     @Override
