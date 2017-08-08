@@ -205,7 +205,7 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
 
         LoginDat loginDat = new LoginDat();
         // 昵称
-        loginDat.nickName = "木子兮";
+//        loginDat.nickName = account;
         // 第三方账号
         loginDat.privAcnt = account;
         //云屋鉴权账号

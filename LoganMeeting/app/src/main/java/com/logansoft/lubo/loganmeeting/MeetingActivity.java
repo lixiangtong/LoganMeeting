@@ -110,7 +110,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private YUVVideoView mPeerGLSV5;
     private ArrayList<YUVVideoView> yuvVideoViews;
     private ArrayList<UsrVideoId> videos;
-    private int i = 1;;
+    private int i = 1;
+    ;
     private Callback mMainCallback = new Callback() {
 
         @Override
@@ -128,9 +129,6 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     String myUserID = CloudroomVideoMeeting.getInstance()
                             .getMyUserID();
                     String userId = (String) msg.obj;
-//				if (myUserID.equals(userId)) {
-//					mMicPB.setProgress(msg.arg2 % mMicPB.getMax());
-//				}
                 }
                 break;
                 case VideoCallback.MSG_VIDEODEV_CHANGED:
@@ -143,7 +141,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     updateMicBtn();
                     break;
                 case VideoCallback.MSG_VIDEOSTATUS_CHANGED: {
-                    Log.d(TAG, "handleMessage: "+"视频状态改变");
+                    Log.d(TAG, "handleMessage: " + "视频状态改变");
                     String userId = (String) msg.obj;
                     VSTATUS newStatus = VSTATUS.values()[msg.arg2];
                     VSTATUS oldStatus = VSTATUS.values()[msg.arg1];
@@ -192,7 +190,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 break;
                 case VideoCallback.MSG_NOTIFY_VIDEOWALL_MODE:
                     wallMode = (int) msg.obj;
-                    Log.d(TAG, "handleMessage: wallMode="+wallMode);
+                    Log.d(TAG, "handleMessage: wallMode=" + wallMode);
                     break;
                 case MSG_CHECK_BACKGROUND:
                     checkBackground();
@@ -228,6 +226,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private int wallMode;
     private View mRlKeyboard;
     private VIDEO_WALL_MODE videoWallMode;
+    private TextView tvVideoID1;
+    private TextView tvVideoID2;
+    private TextView tvVideoID3;
+    private TextView tvVideoID4;
+    private TextView tvVideoID5;
+    private ArrayList<TextView> textViews;
+    private ArrayList<MemberInfo> members;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -262,17 +267,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate 1");
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Log.d(TAG, "onCreate 2");
         setContentView(R.layout.activity_meeting);
-        Log.d(TAG, "onCreate 3");
         mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        Log.d(TAG, "onCreate 4");
 
         screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
@@ -299,6 +300,18 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         yuvVideoViews.add(mPeerGLSV4);
         yuvVideoViews.add(mPeerGLSV5);
         mVideos = findViewById(R.id.videos);
+
+        tvVideoID1 = ((TextView) findViewById(R.id.tvVideoID));
+        tvVideoID2 = ((TextView) findViewById(R.id.tvVideoID2));
+        tvVideoID3 = ((TextView) findViewById(R.id.tvVideoID3));
+        tvVideoID4 = ((TextView) findViewById(R.id.tvVideoID4));
+        tvVideoID5 = ((TextView) findViewById(R.id.tvVideoID5));
+        textViews = new ArrayList<>();
+        textViews.add(tvVideoID1);
+        textViews.add(tvVideoID2);
+        textViews.add(tvVideoID3);
+        textViews.add(tvVideoID4);
+        textViews.add(tvVideoID5);
 
         mScreenshareIV.setVisibility(View.GONE);
 
@@ -366,58 +379,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         tvMeetInfo.setText(getString(R.string.meet_prompt, meetID));
         Log.d(TAG, "onCreate 5");
 
-//		String[] videoModes = { getString(R.string.mode_fluency),
-//				getString(R.string.mode_quality) };
-//		mVideoModes = videoModes;
-//
-//		String[] videoSizes = { "144*80", "224*128", "288*160", "336*192",
-//				"448*256", "512*288", "576*320", "640*360", "720*400",
-//				"848*480", "1024*576", "1280*720", "1920*1080" };
-//		mVideoSizes = videoSizes;
-//
-//		int index = 0;
-//		mVideoModeBtn.setTag(index);
-//		mVideoModeBtn.setText(mVideoModes[index]);
-//		index = VIDEO_SIZE_TYPE.VSIZE_SZ_360.ordinal();
-//		mVideoSizeBtn.setTag(index);
-//		mVideoSizeBtn.setText(mVideoSizes[index]);
-
         //系统音量控制
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         View view = getWindow().getDecorView();
         view.setOnTouchListener(this);
 
     }
-
-//	private void resetVideoCfg() {
-//		VideoCfg cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
-//		int index = (Integer) mVideoModeBtn.getTag();
-//		if (index <= 0) {
-//			cfg.maxQuality = 36;
-//			cfg.minQuality = 22;
-//		} else {
-//			cfg.maxQuality = 25;
-//			cfg.minQuality = 22;
-//		}
-//
-//		index = (Integer) mVideoSizeBtn.getTag();
-//		VIDEO_SIZE_TYPE size = VIDEO_SIZE_TYPE.values()[index];
-//		cfg.sizeType = size;
-//
-//		cfg.fps = 12;
-//		cfg.maxbps = -1;
-//
-//		String log = String.format(
-//				"resetVideoCfg sizeType:%s(%d) Quality:%d-%d", cfg.sizeType,
-//				cfg.sizeType.ordinal(), cfg.minQuality, cfg.maxQuality);
-//		Log.d(TAG, log);
-//		CloudroomVideoMeeting.getInstance().setVideoCfg(cfg);
-//
-//		cfg = CloudroomVideoMeeting.getInstance().getVideoCfg();
-//		Log.d(TAG, "resetVideoCfg rslt sizeType:" + cfg.sizeType
-//				+ " minQuality:" + cfg.minQuality + " maxQuality:"
-//				+ cfg.maxQuality);
-//	}
 
     private void showEntering() {
         Log.d(TAG, "showEntering 2");
@@ -465,24 +432,24 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mCbCamera.setChecked(true);
 
         //获取所有的参会者信息
-        ArrayList<MemberInfo> members = CloudroomVideoMeeting.getInstance()
-                .getAllMembers();
-        for (int i = 0; i < members.size(); i++) {
-            Log.d(TAG, "enterMeetingRslt: members=" + members.get(i).nickName);
-        }
-        for (MemberInfo info : members) {
-            String nickname = CloudroomVideoMeeting.getInstance().getNickName(
-                    info.userId);
-            MemberInfo memInfo = CloudroomVideoMeeting.getInstance()
-                    .getMemberInfo(info.userId);
-            VSTATUS vStatus = CloudroomVideoMeeting.getInstance()
-                    .getVideoStatus(info.userId);
-            ASTATUS aStatus = CloudroomVideoMeeting.getInstance()
-                    .getAudioStatus(info.userId);
-            Log.d(TAG, "userId:" + memInfo.userId + "  nickname:" + nickname
-                    + " audioStatus:" + aStatus + "  videoStatus:" + vStatus);
-            CloudroomVideoMeeting.getInstance().sendIMmsg("test", info.userId);
-        }
+//        ArrayList<MemberInfo> members = CloudroomVideoMeeting.getInstance()
+//                .getAllMembers();
+//        for (int i = 0; i < members.size(); i++) {
+//            Log.d(TAG, "enterMeetingRslt: members=" + members.get(i).nickName);
+//        }
+//        for (MemberInfo info : members) {
+//            String nickname = CloudroomVideoMeeting.getInstance().getNickName(
+//                    info.userId);
+//            MemberInfo memInfo = CloudroomVideoMeeting.getInstance()
+//                    .getMemberInfo(info.userId);
+//            VSTATUS vStatus = CloudroomVideoMeeting.getInstance()
+//                    .getVideoStatus(info.userId);
+//            ASTATUS aStatus = CloudroomVideoMeeting.getInstance()
+//                    .getAudioStatus(info.userId);
+//            Log.d(TAG, "userId:" + memInfo.userId + "  nickname:" + nickname
+//                    + " audioStatus:" + aStatus + "  videoStatus:" + vStatus);
+//            CloudroomVideoMeeting.getInstance().sendIMmsg("test", info.userId);
+//        }
 
 //		resetVideoCfg();
 
@@ -499,6 +466,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     }
 
     private void watchVideos() {
+        //获取所有的参会者信息
+        members = CloudroomVideoMeeting.getInstance()
+                .getAllMembers();
         // 订阅可订阅的视频
         videos = CloudroomVideoMeeting.getInstance()
                 .getWatchableVideos();
@@ -600,7 +570,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         }
         //获取我的ID
         String myUserID = CloudroomVideoMeeting.getInstance().getMyUserID();
-        Log.d(TAG, "videoDataUpdated: userId.userId=" + userId.userId+"-----myUserID="+myUserID);
+        Log.d(TAG, "videoDataUpdated: userId.userId=" + userId.userId + "-----myUserID=" + myUserID);
         final boolean isSelf = myUserID.equals(userId.userId);
         mVideoHandler.post(new Runnable() {
 
@@ -618,9 +588,17 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 for (int i = 0; i < videos.size(); i++) {
                     if (userId.userId.equals(videos.get(i).userId)) {
                         view = yuvVideoViews.get(i);
+                        final int finalI = i;
+                        view.getYUVRender().update(frame.dat, frame.frameWidth, frame.frameHeight);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                textViews.get(finalI).setText(members.get(finalI).nickName);
+                            }
+                        });
+                        return;
                     }
                 }
-                view.getYUVRender().update(frame.dat, frame.frameWidth, frame.frameHeight);
 //                YUVVideoView view = isSelf ? mPeerGLSV1 : mPeerGLSV3;
 //                view.getYUVRender().update(frame.dat, frame.frameWidth,
 //                        frame.frameHeight);
@@ -845,11 +823,11 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mMainHandler.removeMessages(MSG_HIDE_OPTION);
         mOptionsView.setVisibility(View.VISIBLE);
         mTopOptions.setVisibility(View.VISIBLE);
-        Log.d(TAG, "showOption -----"+mainVideoID+"/"+myUserID);
+        Log.d(TAG, "showOption -----" + mainVideoID + "/" + myUserID);
         if (mainVideoID.equals(myUserID)) {
             Log.d(TAG, "showOption -----");
             mRlKeyboard.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             Log.d(TAG, "showOption =====");
             mRlKeyboard.setVisibility(View.GONE);
         }
