@@ -14,6 +14,7 @@ import com.cloudroom.cloudroomvideosdk.model.ElementID;
 import com.cloudroom.cloudroomvideosdk.model.MEDIA_STOP_REASON;
 import com.cloudroom.cloudroomvideosdk.model.MainPage;
 import com.cloudroom.cloudroomvideosdk.model.RECORD_FILE_STATE;
+import com.cloudroom.cloudroomvideosdk.model.ScreenMarkData;
 import com.cloudroom.cloudroomvideosdk.model.Size;
 import com.cloudroom.cloudroomvideosdk.model.SubPage;
 import com.cloudroom.cloudroomvideosdk.model.SubPageInfo;
@@ -193,6 +194,36 @@ public class VideoCallback implements CloudroomVideoCallback {
 		Bundle data = msg.getData();
 		data.putString("userID", userID);
 		msg.sendToTarget();
+	}
+
+	@Override
+	public void notifyScreenMarkStarted() {
+
+	}
+
+	@Override
+	public void notifyScreenMarkStopped() {
+
+	}
+
+	@Override
+	public void enableOtherMark(boolean b) {
+
+	}
+
+	@Override
+	public void sendMarkData(ScreenMarkData screenMarkData) {
+
+	}
+
+	@Override
+	public void sendAllMarkData(ArrayList<ScreenMarkData> arrayList) {
+
+	}
+
+	@Override
+	public void clearAllMarks() {
+
 	}
 
 	@Override
