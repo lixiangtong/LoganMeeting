@@ -70,6 +70,7 @@ public class MeetingLoginActivity extends Activity {
                     Intent intent = new Intent(MeetingLoginActivity.this, MeetingActivity.class);
                     intent.putExtra("meetID", meetID);
                     intent.putExtra("password", "");
+                    intent.putExtra("isLogout",true);
                     startActivity(intent);
 
                     MyApplication.getInstance().showToast(R.string.meeting_login_success);

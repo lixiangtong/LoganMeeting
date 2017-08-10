@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlMode1v1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+        android:id="@+id/yuv_self1V1"
+        android:layout_width="160dp"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitCenter"
+        android:background="@mipmap/video_background"
+        />
+
+    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+        android:id="@+id/yuv_peer1V1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:background="@mipmap/video_background"
+        />
+
+</RelativeLayout>

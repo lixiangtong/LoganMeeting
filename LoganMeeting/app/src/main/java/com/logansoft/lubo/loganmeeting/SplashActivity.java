@@ -16,7 +16,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends Activity implements Runnable{
 
     private static final int MSG_CRRENTTIME = 500;
     private static final String TAG = "SplashActivity";
@@ -26,18 +26,11 @@ public class SplashActivity extends Activity {
     TextView tv;
     @BindView(R.id.pbLoadingSplash)
     ProgressBar pbLoadingSplash;
-    private long startTime;
-
+    private int max=100,current,step;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-//            switch (msg.what) {
-//                case MSG_CRRENTTIME:
-//                    long obj = (long) msg.obj;
-//                    pbLoadingSplash.setProgress(((int) (obj - startTime) / 40));
-//                    break;
-//            }
         }
     };
 
@@ -56,5 +49,17 @@ public class SplashActivity extends Activity {
             }
         };
         timer.schedule(timerTask, 2000);
+
+        pbLoadingSplash.setMax(max);
+        pbLoadingSplash.setProgress(0);
+        step = max/100;
+        handler.post(this);
+    }
+
+    @Override
+    public void run() {
+        current = pbLoadingSplash.getProgress();
+        pbLoadingSplash.setProgress(current+step);
+        handler.postDelayed(this, 20);
     }
 }

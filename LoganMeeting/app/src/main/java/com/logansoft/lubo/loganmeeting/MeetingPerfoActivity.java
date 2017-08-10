@@ -254,7 +254,7 @@ public class MeetingPerfoActivity extends Activity implements OnTouchListener {
         });
         mPeerGLSV = (YUVVideoView) findViewById(R.id.yuv_peer);
         mSelfGLSV = (YUVVideoView) findViewById(R.id.yuv_self);
-        mVideos = findViewById(R.id.videos);
+        mVideos = findViewById(R.id.videos5);
 
         mScreenshareIV.setVisibility(View.GONE);
 

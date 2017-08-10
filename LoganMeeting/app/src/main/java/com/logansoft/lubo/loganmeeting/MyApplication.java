@@ -86,7 +86,7 @@ public class MyApplication extends Application {
                     }
                 }
                 mToast = Toast.makeText(getApplicationContext(), txt,
-                        Toast.LENGTH_LONG);
+                        Toast.LENGTH_SHORT);
                 mToast.show();
             }
         });

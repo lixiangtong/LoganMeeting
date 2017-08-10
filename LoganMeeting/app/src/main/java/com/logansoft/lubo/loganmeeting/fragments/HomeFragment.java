@@ -217,6 +217,7 @@ public class HomeFragment extends Fragment {
 //                intent.setClass(getActivity(), MeetingPerfoActivity.class);
                 intent.putExtra("meetID", meetID);
                 intent.putExtra("password", "");
+                intent.putExtra("isLogout",false);
                 startActivity(intent);
             }
 

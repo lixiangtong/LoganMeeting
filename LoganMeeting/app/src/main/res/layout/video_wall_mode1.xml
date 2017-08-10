@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llMode1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+        android:id="@+id/yuv_peer11"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:background="@mipmap/video_background"
+        />
+</LinearLayout>

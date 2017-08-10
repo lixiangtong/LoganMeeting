@@ -11,108 +11,130 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
 
-    <RelativeLayout
-        android:id="@+id/videos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        >
+    <include
+        layout="@layout/video_wall_mode1v1"
+        android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/rlVideo1"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            >
-            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-                android:id="@+id/yuv_self"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter" />
+    <include
+        layout="@layout/video_wall_mode1"
+        android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tvVideoID"
-                style="@style/textView_meeting_video"
-                />
-        </RelativeLayout>
+    <include
+        layout="@layout/video_wall_mode2"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/video_wall_mode4"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/video_wall_mode5"
+        android:visibility="gone"
+        />
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/videos5"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:visibility="gone"-->
+    <!--&gt;-->
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlVideo1"-->
+    <!--android:layout_width="130dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--&gt;-->
+    <!--<com.logansoft.lubo.loganmeeting.utils.YUVVideoView-->
+    <!--android:id="@+id/yuv_self"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:scaleType="fitCenter" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvVideoID"-->
+    <!--style="@style/textView_meeting_video"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
 
 
-        <RelativeLayout
-            android:id="@+id/rlVideo2"
-            android:layout_toRightOf="@+id/rlVideo1"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            >
-            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-                android:id="@+id/yuv_peer2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="fitCenter" />
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlVideo2"-->
+    <!--android:layout_toRightOf="@+id/rlVideo1"-->
+    <!--android:layout_width="130dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--&gt;-->
+    <!--<com.logansoft.lubo.loganmeeting.utils.YUVVideoView-->
+    <!--android:id="@+id/yuv_peer2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:scaleType="fitCenter" />-->
 
-            <TextView
-                android:id="@+id/tvVideoID2"
-                style="@style/textView_meeting_video"
-                />
-        </RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/tvVideoID2"-->
+    <!--style="@style/textView_meeting_video"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rlVideo3"
-            android:layout_toRightOf="@+id/rlVideo2"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            >
-            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-                android:id="@+id/yuv_peer3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="fitCenter" />
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlVideo3"-->
+    <!--android:layout_toRightOf="@+id/rlVideo2"-->
+    <!--android:layout_width="130dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--&gt;-->
+    <!--<com.logansoft.lubo.loganmeeting.utils.YUVVideoView-->
+    <!--android:id="@+id/yuv_peer3"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:scaleType="fitCenter" />-->
 
-            <TextView
-                android:id="@+id/tvVideoID3"
-                style="@style/textView_meeting_video"
-                />
-        </RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/tvVideoID3"-->
+    <!--style="@style/textView_meeting_video"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rlVideo4"
-            android:layout_toRightOf="@+id/rlVideo3"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            >
-            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-                android:id="@+id/yuv_peer4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="fitCenter" />
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlVideo4"-->
+    <!--android:layout_toRightOf="@+id/rlVideo3"-->
+    <!--android:layout_width="130dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--&gt;-->
+    <!--<com.logansoft.lubo.loganmeeting.utils.YUVVideoView-->
+    <!--android:id="@+id/yuv_peer4"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:scaleType="fitCenter" />-->
 
-            <TextView
-                android:id="@+id/tvVideoID4"
-                style="@style/textView_meeting_video"
-                />
-        </RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/tvVideoID4"-->
+    <!--style="@style/textView_meeting_video"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/rlVideo5"
-            android:layout_toRightOf="@+id/rlVideo4"
-            android:layout_width="130dp"
-            android:layout_height="90dp"
-            >
-            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-                android:id="@+id/yuv_peer5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="fitCenter" />
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlVideo5"-->
+    <!--android:layout_toRightOf="@+id/rlVideo4"-->
+    <!--android:layout_width="130dp"-->
+    <!--android:layout_height="90dp"-->
+    <!--&gt;-->
+    <!--<com.logansoft.lubo.loganmeeting.utils.YUVVideoView-->
+    <!--android:id="@+id/yuv_peer5"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight="1"-->
+    <!--android:scaleType="fitCenter" />-->
 
-            <TextView
-                android:id="@+id/tvVideoID5"
-                style="@style/textView_meeting_video"
-                />
-        </RelativeLayout>
-    </RelativeLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/tvVideoID5"-->
+    <!--style="@style/textView_meeting_video"-->
+    <!--/>-->
+    <!--</RelativeLayout>-->
+    <!--</RelativeLayout>-->
 
 
     <RelativeLayout
@@ -159,18 +181,17 @@
         android:id="@+id/rlKeyboardAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="63dp"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_marginBottom="63dp"
+        android:layout_marginLeft="12dp">
 
         <RelativeLayout
             android:id="@+id/rlKeyboard"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:background="@drawable/shape_btn_keyboard">
+            android:background="@drawable/shape_btn_keyboard"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvHideState"
@@ -184,26 +205,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:background="@mipmap/close_btn"
-                />
+                android:background="@mipmap/close_btn" />
         </RelativeLayout>
 
         <RadioGroup
             android:id="@+id/rgKeyboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/rlKeyboard"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/rlKeyboard"
             android:orientation="horizontal"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <RadioButton
                 android:id="@+id/rbFirst"
                 style="@style/keyboard_radioButton"
-                android:text="1"
                 android:checked="true"
-                />
+                android:text="1" />
 
             <RadioButton
                 android:id="@+id/rbSecond"
@@ -338,6 +356,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="设置"
+                android:layout_marginLeft="5dp"
                 android:textColor="@color/white" />
 
             <TextView
