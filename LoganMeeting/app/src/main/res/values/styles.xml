@@ -220,8 +220,16 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@mipmap/video_background</item>
-        <item name="android:layout_marginLeft">2dp</item>
-        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginLeft">1dp</item>
+        <item name="android:layout_marginRight">1dp</item>
+    </style>
+
+    <style name="video_wall_mode2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">180dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@mipmap/video_background</item>
     </style>
 
 </resources>

@@ -9,19 +9,13 @@
     
     <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
         android:id="@+id/yuv_peer21"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:scaleType="fitCenter"
-        android:layout_weight="1"
-        android:layout_marginRight="2dp"
+        style="@style/video_wall_mode2"
+        android:layout_marginRight="1dp"
         />
     <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
         android:id="@+id/yuv_peer22"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:scaleType="fitCenter"
-        android:layout_weight="1"
-        android:layout_marginLeft="2dp"
+        style="@style/video_wall_mode2"
+        android:layout_marginLeft="1dp"
         />
 
 </LinearLayout>

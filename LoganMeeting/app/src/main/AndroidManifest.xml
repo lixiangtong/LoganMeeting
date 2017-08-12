@@ -54,6 +54,7 @@
             android:name="com.logansoft.lubo.loganmeeting.MeetingLoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+        <service android:name=".service.MediaService"/>
     </application>
 
 </manifest>

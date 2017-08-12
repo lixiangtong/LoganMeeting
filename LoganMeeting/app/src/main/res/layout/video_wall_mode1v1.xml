@@ -6,12 +6,12 @@
 
     <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
         android:id="@+id/yuv_self1V1"
-        android:layout_width="160dp"
-        android:layout_height="90dp"
+        android:layout_width="240dp"
+        android:layout_height="135dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:scaleType="fitCenter"
-        android:background="@mipmap/video_background"
+
         />
 
     <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:background="@mipmap/video_background"
         />
 
 </RelativeLayout>

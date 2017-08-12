@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
+import android.os.IBinder;
 import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -46,14 +49,16 @@ import com.cloudroom.cloudroomvideosdk.model.UsrVideoInfo;
 import com.cloudroom.cloudroomvideosdk.model.VIDEO_WALL_MODE;
 import com.cloudroom.cloudroomvideosdk.model.VSTATUS;
 import com.cloudroom.tool.AndroidTool;
+import com.logansoft.lubo.loganmeeting.service.MediaService;
 import com.logansoft.lubo.loganmeeting.utils.PinyinComparator;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
 import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 import com.logansoft.lubo.loganmeeting.utils.YUVVideoView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -161,8 +166,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     exitMeeting();
                     break;
                 case VideoCallback.MSG_USER_ENTERMEETING:
+                    watchVideos();
                     break;
                 case VideoCallback.MSG_USER_LEFTMEETING:
+                    watchVideos();
                     break;
                 case VideoCallback.MSG_NOTIFY_SCREENSHARE_DATA: {
                     String userID = msg.getData().getString("userId");
@@ -193,6 +200,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 break;
                 case VideoCallback.MSG_NOTIFY_VIDEOWALL_MODE:
                     wallMode = (int) msg.obj;
+                    if (previousMode==4&&wallMode>=4){
+                        break;
+                    }
+                    wallModeChangeListener(wallMode);
                     Log.d(TAG, "handleMessage: wallMode=" + wallMode);
                     break;
                 case MSG_CHECK_BACKGROUND:
@@ -245,12 +256,31 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private YUVVideoView yuv_peer43;
     private YUVVideoView yuv_peer44;
     private int wallMode;
+    private int previousMode ;
     private ArrayList<YUVVideoView> yuvVideoViews2;
     private ArrayList<YUVVideoView> yuvVideoViews1v1;
     private ArrayList<YUVVideoView> yuvVideoViews4;
     private ArrayList<YUVVideoView> yuvVideoViews1;
     private ArrayList<String> userIDs;
     private boolean isLogout;
+    private TextView tvMeetingID;
+    private TextView tvMeetingStartTime;
+    private TextView tvMeetingPass;
+    private TextView tvLockState;
+    private int meetID;
+    private ArrayList<YUVVideoView> previousViews = new ArrayList<>();
+    private ServiceConnection conn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            MediaService.MyBinder myBinder = (MediaService.MyBinder) binder;
+            MediaService mediaService = myBinder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -290,6 +320,15 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_meeting);
         ButterKnife.bind(this);
+
+        //启动服务，防止Activity被杀死
+        boolean isBindSuccess = bindService(new Intent(this, MediaService.class), conn, Context.BIND_AUTO_CREATE);
+        if (isBindSuccess){
+            MyApplication.getInstance().showToast("媒体服务绑定成功");
+        }else{
+            MyApplication.getInstance().showToast("媒体服务绑定失败");
+        }
+
         mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
         DisplayMetrics dm = getResources().getDisplayMetrics();
 
@@ -366,6 +405,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mTvRightSetting = ((TextView) findViewById(R.id.right_setting));
         mLiRightSettings = ((LinearLayout) findViewById(R.id.llRightSettings));
         mTvClose = ((TextView) mLiRightSettings.findViewById(R.id.tvClose));
+        tvMeetingID = ((TextView) findViewById(R.id.tvMeetingID));
+        tvMeetingStartTime = ((TextView) findViewById(R.id.tvMeetingStartTime));
+        tvMeetingPass = ((TextView) findViewById(R.id.tvMeetingPass));
+        tvLockState = ((TextView) findViewById(R.id.tvLockState));
 
         VideoCallback.getInstance().registerVideoCallback(mMainCallback);
         VideoCallback.getInstance().registerVideoCallback(mVideoCallback);
@@ -373,9 +416,10 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
         updateCameraBtn();
 
-        int meetID = getIntent().getIntExtra("meetID", 0);
+        meetID = getIntent().getIntExtra("meetID", 0);
         String password = getIntent().getStringExtra("password");
-        isLogout = getIntent().getBooleanExtra("isLogout",false);
+        isLogout = getIntent().getBooleanExtra("isLogout", false);
+        //进入会议
         if (meetID > 0) {
             VideoSDKHelper.getInstance().enterMeeting(meetID, password);
             mMainHandler.post(new Runnable() {
@@ -412,10 +456,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         MyApplication.getInstance().showToast(R.string.enter_success);
         updateCameraBtn();
         updateMicBtn();
-
+        //获取视频墙
         VIDEO_WALL_MODE videoWallMode = CloudroomVideoMeeting.getInstance().getVideoWallMode();
         wallMode = videoWallMode.ordinal();
         Log.d(TAG, "videoDataUpdated wallMode111=" + wallMode);
+        //视频墙监听
+        wallModeChangeListener(wallMode);
+
+        CloudroomVideoMeeting.getInstance();
 
         ArrayList<String> mics = new ArrayList<String>();
         ArrayList<String> spearks = new ArrayList<String>();
@@ -477,31 +525,47 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 }
                 YUVVideoView view = null;
 //                getYuvView(frame,userId,yuvVideoViews5,5);
-                switch (wallMode){
+                switch (wallMode) {
                     case 0:
-                        stopOthersViewUpdate(yuvVideoViews1,yuvVideoViews2,yuvVideoViews4,yuvVideoViews5);
-                        showOrHideView(rlMode1v1,llMode1,llMode2,llMode4,llMode5);
-                        getYuvView(frame, userId,yuvVideoViews1v1,2);
+//                        stopOthersViewUpdate(yuvVideoViews1, yuvVideoViews2, yuvVideoViews4, yuvVideoViews5);
+//                        showOrHideView(rlMode1v1, llMode1, llMode2, llMode4, llMode5);
+                        if (userIDs.size() == 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    yuvVideoViews1v1.get(1).setVisibility(View.GONE);
+                                }
+                            });
+                            getYuvView(frame, userId, yuvVideoViews1v1, 1);
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    yuvVideoViews1v1.get(1).setVisibility(View.VISIBLE);
+                                }
+                            });
+                            getYuvView(frame, userId, yuvVideoViews1v1, 2);
+                        }
                         break;
                     case 1:
-                        stopOthersViewUpdate(yuvVideoViews1v1,yuvVideoViews2,yuvVideoViews4,yuvVideoViews5);
-                        showOrHideView(llMode1,rlMode1v1,llMode2,llMode4,llMode5);
-                        getYuvView(frame, userId,yuvVideoViews1,1);
+//                        stopOthersViewUpdate(yuvVideoViews1v1, yuvVideoViews2, yuvVideoViews4, yuvVideoViews5);
+//                        showOrHideView(llMode1, rlMode1v1, llMode2, llMode4, llMode5);
+                        getYuvView(frame, userId, yuvVideoViews1, 1);
                         break;
                     case 2:
-                        stopOthersViewUpdate(yuvVideoViews1v1,yuvVideoViews1,yuvVideoViews4,yuvVideoViews5);
-                        showOrHideView(llMode2,rlMode1v1,llMode1,llMode4,llMode5);
-                        getYuvView(frame, userId,yuvVideoViews2,2);
+//                        stopOthersViewUpdate(yuvVideoViews1v1, yuvVideoViews1, yuvVideoViews4, yuvVideoViews5);
+//                        showOrHideView(llMode2, rlMode1v1, llMode1, llMode4, llMode5);
+                        getYuvView(frame, userId, yuvVideoViews2, 2);
                         break;
                     case 3:
-                        stopOthersViewUpdate(yuvVideoViews1v1,yuvVideoViews1,yuvVideoViews2,yuvVideoViews5);
-                        showOrHideView(llMode4,rlMode1v1,llMode1,llMode2,llMode5);
-                        getYuvView(frame, userId,yuvVideoViews4,4);
+//                        stopOthersViewUpdate(yuvVideoViews1v1, yuvVideoViews1, yuvVideoViews2, yuvVideoViews5);
+//                        showOrHideView(llMode4, rlMode1v1, llMode1, llMode2, llMode5);
+                        getYuvView(frame, userId, yuvVideoViews4, 4);
                         break;
                     case 4:
-                        stopOthersViewUpdate(yuvVideoViews1v1,yuvVideoViews1,yuvVideoViews2,yuvVideoViews4);
-                        showOrHideView(llMode5,rlMode1v1,llMode1,llMode2,llMode4);
-                        getYuvView(frame, userId,yuvVideoViews5,5);
+//                        stopOthersViewUpdate(yuvVideoViews1v1, yuvVideoViews1, yuvVideoViews2, yuvVideoViews4);
+//                        showOrHideView(llMode5, rlMode1v1, llMode1, llMode2, llMode4);
+                        getYuvView(frame, userId, yuvVideoViews5, 5);
                         break;
                     default:
                         break;
@@ -510,27 +574,52 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         });
     }
 
-    private void stopOthersViewUpdate(ArrayList<YUVVideoView> yuvVideoViews1,ArrayList<YUVVideoView> yuvVideoViews2,ArrayList<YUVVideoView> yuvVideoViews3,ArrayList<YUVVideoView> yuvVideoViews4) {
-        for (int i = 0; i < yuvVideoViews1.size(); i++) {
-            YUVVideoView yuvVideoView = yuvVideoViews1.get(i);
-            yuvVideoView.getYUVRender().update(null,0,0);
-//            yuvVideoView.setBackground(null);
+    private void wallModeChangeListener(int wallMode) {
+        switch (wallMode){
+            case 0:
+                stopOthersViewUpdate(yuvVideoViews1v1,previousViews);
+                previousViews.addAll(yuvVideoViews1v1);
+                showOrHideView(rlMode1v1, llMode1, llMode2, llMode4, llMode5);
+                break;
+            case 1:
+                stopOthersViewUpdate(yuvVideoViews1,previousViews);
+                previousViews.addAll(yuvVideoViews1);
+                showOrHideView(llMode1, rlMode1v1, llMode2, llMode4, llMode5);
+                break;
+            case 2:
+                stopOthersViewUpdate(yuvVideoViews2,previousViews);
+                previousViews.addAll(yuvVideoViews2);
+                showOrHideView(llMode2, rlMode1v1, llMode1, llMode4, llMode5);
+                break;
+            case 3:
+                stopOthersViewUpdate(yuvVideoViews4,previousViews);
+                previousViews.addAll(yuvVideoViews4);
+                showOrHideView(llMode4, rlMode1v1, llMode1, llMode2, llMode5);
+                break;
+            default:
+                stopOthersViewUpdate(yuvVideoViews5,previousViews);
+                previousViews.addAll(yuvVideoViews5);
+                showOrHideView(llMode5, rlMode1v1, llMode1, llMode2, llMode4);
+                break;
         }
-        for (int i = 0; i < yuvVideoViews2.size(); i++) {
-            YUVVideoView yuvVideoView = yuvVideoViews2.get(i);
-            yuvVideoView.getYUVRender().update(null,0,0);
-//            yuvVideoView.setBackground(null);
+        previousMode = wallMode;
+    }
+
+    private void stopOthersViewUpdate(ArrayList<YUVVideoView> showVideoViews,ArrayList<YUVVideoView> hideVideoViews) {
+        if (hideVideoViews.size()!=0) {
+            for (int i = 0; i < hideVideoViews.size(); i++) {
+                final YUVVideoView yuvVideoView = hideVideoViews.get(i);
+                yuvVideoView.getYUVRender().update(null, 0, 0);
+                yuvVideoView.setVisibility(View.GONE);
+                Log.d(TAG, "stopOthersViewUpdate="+yuvVideoView.getVisibility());
+            }
+            hideVideoViews.clear();
         }
-        for (int i = 0; i < yuvVideoViews3.size(); i++) {
-            YUVVideoView yuvVideoView = yuvVideoViews3.get(i);
-            yuvVideoView.getYUVRender().update(null,0,0);
-//            yuvVideoView.setBackground(null);
+        for (int i = 0; i < showVideoViews.size(); i++) {
+            YUVVideoView yuvVideoView = showVideoViews.get(i);
+            yuvVideoView.setVisibility(View.VISIBLE);
         }
-        for (int i = 0; i < yuvVideoViews4.size(); i++) {
-            YUVVideoView yuvVideoView = yuvVideoViews4.get(i);
-            yuvVideoView.getYUVRender().update(null,0,0);
-//            yuvVideoView.setBackground(null);
-        }
+        return;
     }
 
     private void showOrHideView(final View showView, final View hideView1, final View hideView2, final View hideView3, final View hideView4) {
@@ -538,15 +627,21 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             @Override
             public void run() {
                 showView.setVisibility(View.VISIBLE);
+                Log.d(TAG, "run() called showView="+showView.getVisibility());
                 hideView1.setVisibility(View.GONE);
+                Log.d(TAG, "run() called hideView1="+hideView1.getVisibility());
                 hideView2.setVisibility(View.GONE);
+                Log.d(TAG, "run() called hideView2="+hideView2.getVisibility());
                 hideView3.setVisibility(View.GONE);
+                Log.d(TAG, "run() called hideView3="+hideView3.getVisibility());
                 hideView4.setVisibility(View.GONE);
+                Log.d(TAG, "run() called hideView4="+hideView4.getVisibility());
+
             }
         });
     }
 
-    private void getYuvView(RawFrame frame, UsrVideoId userId,ArrayList<YUVVideoView> yuvVideoViews,int mode) {
+    private void getYuvView(RawFrame frame, UsrVideoId userId, ArrayList<YUVVideoView> yuvVideoViews, int mode) {
         YUVVideoView view;
         for (int i = 0; i < mode; i++) {
             if (userIDs.get(i).equals(userId.userId)) {
@@ -595,14 +690,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         userIDs = new ArrayList<>();
         for (int i = 0; i < videos.size(); i++) {
             userIDs.add(videos.get(i).userId);
-            Log.d(TAG, "watchVideos: videos.get(i).userId="+videos.get(i).userId);
+            Log.d(TAG, "watchVideos: videos.get(i).userId=" + videos.get(i).userId);
         }
         PinyinComparator pinyinComparator = new PinyinComparator();
-        Collections.sort(userIDs,pinyinComparator);
+        Collections.sort(userIDs, pinyinComparator);
         for (int i = 0; i < videos.size(); i++) {
             Log.d(TAG, "watchVideos: userIDs.get(i)=" + userIDs.get(i));
         }
-
         Log.d(TAG, "getWatchableVideos videos.size()=" + videos.size());
         for (UsrVideoId id : videos) {
             Log.d(TAG, "getWatchableVideos " + id);
@@ -733,6 +827,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 break;
             case R.id.right_setting:
                 mLiRightSettings.setVisibility(View.VISIBLE);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+                Date date = new Date(System.currentTimeMillis());
+                String startTime = simpleDateFormat.format(date);
+                tvMeetingID.setText("会议ID："+meetID);
+                tvMeetingStartTime.setText("开始时间："+startTime);
+                tvMeetingPass.setText("会议密码：无密码");
+                tvLockState.setText("锁门状态：未锁门");
                 break;
             case R.id.tvClose:
                 mLiRightSettings.setVisibility(View.GONE);
