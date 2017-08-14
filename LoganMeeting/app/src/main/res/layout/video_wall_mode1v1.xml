@@ -4,21 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-        android:id="@+id/yuv_self1V1"
+    <RelativeLayout
         android:layout_width="240dp"
         android:layout_height="135dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:scaleType="fitCenter"
+        >
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_self1v11"
+            android:layout_width="240dp"
+            android:layout_height="135dp"
+            android:scaleType="fitCenter" />
 
-        />
+        <TextView
+            android:id="@+id/tvVideoID1v11"
+            style="@style/textView_meeting_video" />
+    </RelativeLayout>
 
-    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-        android:id="@+id/yuv_peer1V1"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        />
+        >
+
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer1V1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+        <TextView
+            android:id="@+id/tvVideoID1v12"
+            style="@style/textView_meeting_video" />
+    </RelativeLayout>
 
 </RelativeLayout>

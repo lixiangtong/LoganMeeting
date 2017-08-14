@@ -199,14 +199,28 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/shape_textview_videoid</item>
         <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
         <item name="android:text">视频ID</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:padding">3dp</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="video_wall_mode4">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">@mipmap/video_background</item>
+    </style>
+    <style name="relativelayout_video_wall_mode4">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="linearlayout_video_wall_mode4">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -215,19 +229,23 @@
     </style>
 
     <style name="video_wall_mode5">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:scaleType">fitCenter</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:background">@mipmap/video_background</item>
+    </style>
+
+    <style name="relativelayout_video_wall_mode5">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_marginLeft">1dp</item>
         <item name="android:layout_marginRight">1dp</item>
     </style>
 
     <style name="video_wall_mode2">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">180dp</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@mipmap/video_background</item>
     </style>

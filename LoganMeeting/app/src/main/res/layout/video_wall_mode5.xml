@@ -5,15 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-        android:id="@+id/yuv_peer51"
+    <RelativeLayout
         android:layout_width="450dp"
         android:layout_height="0dp"
         android:layout_weight="3"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="1dp"
-        android:background="@mipmap/video_background"
-        />
+        >
+
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer51"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/video_background" />
+
+        <TextView
+            android:id="@+id/tvVideoID51"
+            style="@style/textView_meeting_video" />
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,21 +31,57 @@
         android:layout_weight="1"
         android:layout_marginTop="1dp"
         >
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer52"
-            style="@style/video_wall_mode5"
-            />
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer53"
-            style="@style/video_wall_mode5"
-            />
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer54"
-            style="@style/video_wall_mode5"
-            />
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer55"
-            style="@style/video_wall_mode5"
-            />
+
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode5"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer52"
+                style="@style/video_wall_mode5" />
+
+            <TextView
+                android:id="@+id/tvVideoID52"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode5"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer53"
+                style="@style/video_wall_mode5" />
+
+            <TextView
+                android:id="@+id/tvVideoID53"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode5"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer54"
+                style="@style/video_wall_mode5" />
+
+            <TextView
+                android:id="@+id/tvVideoID54"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode5"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer55"
+                style="@style/video_wall_mode5" />
+
+            <TextView
+                android:id="@+id/tvVideoID55"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

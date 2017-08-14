@@ -11,15 +11,35 @@
         android:layout_marginBottom="1dp"
         android:layout_weight="1">
 
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer41"
-            style="@style/video_wall_mode4"
-            android:layout_marginRight="1dp" />
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode4"
+            android:layout_marginRight="1dp"
+            >
 
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer42"
-            style="@style/video_wall_mode4"
-            android:layout_marginLeft="1dp" />
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer41"
+                style="@style/video_wall_mode4"
+                 />
+            <TextView
+                android:id="@+id/tvVideoID41"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer42"
+                style="@style/video_wall_mode4"
+                />
+            <TextView
+                android:id="@+id/tvVideoID42"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -28,15 +48,33 @@
         android:layout_marginTop="1dp"
         android:layout_weight="1">
 
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer43"
-            style="@style/video_wall_mode4"
-            android:layout_marginRight="1dp" />
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode4"
+            android:layout_marginRight="1dp"
+            >
 
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer44"
-            style="@style/video_wall_mode4"
-            android:layout_marginLeft="1dp" />
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer43"
+                style="@style/video_wall_mode4"
+                />
+            <TextView
+                android:id="@+id/tvVideoID43"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/relativelayout_video_wall_mode4"
+            android:layout_marginLeft="1dp"
+            >
+
+            <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+                android:id="@+id/yuv_peer44"
+                style="@style/video_wall_mode4"
+                />
+            <TextView
+                android:id="@+id/tvVideoID44"
+                style="@style/textView_meeting_video" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
