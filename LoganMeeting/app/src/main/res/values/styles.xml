@@ -211,8 +211,9 @@
     <style name="video_wall_mode4">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">fitXY</item>
         <item name="android:background">@mipmap/video_background</item>
+        <item name="android:visibility">gone</item>
     </style>
     <style name="relativelayout_video_wall_mode4">
         <item name="android:layout_width">0dp</item>
@@ -224,15 +225,16 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">fitXY</item>
         <item name="android:background">@mipmap/video_background</item>
     </style>
 
     <style name="video_wall_mode5">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">fitXY</item>
         <item name="android:background">@mipmap/video_background</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="relativelayout_video_wall_mode5">
@@ -246,8 +248,9 @@
     <style name="video_wall_mode2">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:scaleType">fitXY</item>
         <item name="android:background">@mipmap/video_background</item>
+        <item name="android:visibility">gone</item>
     </style>
 
 </resources>

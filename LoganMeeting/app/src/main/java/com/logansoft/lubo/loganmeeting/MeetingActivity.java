@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -129,7 +130,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             switch (msg.what) {
                 case VideoCallback.MSG_VIDEODATA_UPDATED:
                     UsrVideoId userVideoId = (UsrVideoId) msg.obj;
-                    videoDataUpdated(userVideoId);
+                    videoDataUpdated(userVideoId,userIDs,wallMode);
                     break;
                 case VideoCallback.MSG_ENTERMEETING_RSLT:
                     enterMeetingRslt((CRVIDEOSDK_ERR_DEF) msg.obj);
@@ -228,7 +229,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             // TODO Auto-generated method stub
             switch (msg.what) {
                 case VideoCallback.MSG_VIDEODATA_UPDATED:
-                    videoDataUpdated((UsrVideoId) msg.obj);
+                    UsrVideoId userId = (UsrVideoId) msg.obj;
+                    videoDataUpdated(userId,userIDs,wallMode);
                     return true;
 
                 default:
@@ -242,8 +244,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private YUVVideoView yuv_peer11;
     private YUVVideoView yuv_peer21;
     private YUVVideoView yuv_peer22;
-    private YUVVideoView yuv_peer1v1;
-    private YUVVideoView yuv_self1v1;
+    private YUVVideoView yuv_peer1v11;
+    private YUVVideoView yuv_peer1v12;
     private YUVVideoView yuv_peer41;
     private YUVVideoView yuv_peer42;
     private YUVVideoView yuv_peer43;
@@ -296,6 +298,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private ArrayList<TextView> textViews4;
     private ArrayList<TextView> textViews5;
     private ArrayList<TextView> previousTextViews = new ArrayList<>();
+    private AlertDialog leaveMeetingDialog;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -337,12 +340,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         ButterKnife.bind(this);
 
         //启动服务，防止Activity被杀死
-        boolean isBindSuccess = bindService(new Intent(this, MediaService.class), conn, Context.BIND_AUTO_CREATE);
-        if (isBindSuccess) {
-            MyApplication.getInstance().showToast("媒体服务绑定成功");
-        } else {
-            MyApplication.getInstance().showToast("媒体服务绑定失败");
-        }
+//        boolean isBindSuccess = bindService(new Intent(this, MediaService.class), conn, Context.BIND_AUTO_CREATE);
+//        if (isBindSuccess) {
+////            MyApplication.getInstance().showToast("媒体服务绑定成功");
+//        } else {
+////            MyApplication.getInstance().showToast("媒体服务绑定失败");
+//        }
 
         mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -376,16 +379,16 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         textViews2.add(tvVideoID21);
         textViews2.add(tvVideoID22);
         //1v1分屏
-        yuv_peer1v1 = ((YUVVideoView) findViewById(R.id.yuv_peer1V1));
-        yuv_self1v1 = ((YUVVideoView) findViewById(R.id.yuv_self1v11));
+        yuv_peer1v11 = ((YUVVideoView) findViewById(R.id.yuv_peer1v11));
+        yuv_peer1v12 = ((YUVVideoView) findViewById(R.id.yuv_peer1v12));
         yuvVideoViews1v1 = new ArrayList<>();
-        yuvVideoViews1v1.add(yuv_peer1v1);
-        yuvVideoViews1v1.add(yuv_self1v1);
+        yuvVideoViews1v1.add(yuv_peer1v11);
+        yuvVideoViews1v1.add(yuv_peer1v12);
         tvVideoID1v11 = ((TextView) findViewById(R.id.tvVideoID1v11));
         tvVideoID1v12 = ((TextView) findViewById(R.id.tvVideoID1v12));
         textViews1v1 = new ArrayList<>();
-        textViews1v1.add(tvVideoID1v12);
         textViews1v1.add(tvVideoID1v11);
+        textViews1v1.add(tvVideoID1v12);
         //4分屏
         yuv_peer41 = ((YUVVideoView) findViewById(R.id.yuv_peer41));
         yuv_peer42 = ((YUVVideoView) findViewById(R.id.yuv_peer42));
@@ -459,13 +462,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         tvLockState = ((TextView) findViewById(R.id.tvLockState));
 
         VideoCallback.getInstance().registerVideoCallback(mMainCallback);
-        VideoCallback.getInstance().registerVideoCallback(mVideoCallback);
+//        VideoCallback.getInstance().registerVideoCallback(mVideoCallback);
         mMainHandler.sendEmptyMessageDelayed(MSG_CHECK_BACKGROUND, 10 * 1000);
 
         updateCameraBtn();
 
         meetID = getIntent().getIntExtra("meetID", 0);
         String password = getIntent().getStringExtra("password");
+        //判断是否是会议号登陆
         isLogout = getIntent().getBooleanExtra("isLogout", false);
         //进入会议
         if (meetID > 0) {
@@ -550,7 +554,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
 
     private UsrVideoId mPeerUsrVideoId = null;
 
-    private void videoDataUpdated(final UsrVideoId userId) {
+    private void videoDataUpdated(final UsrVideoId userId, final ArrayList<String> userIDs, final int wallMode) {
         if (mBScreenShareStarted) {
             return;
         }
@@ -579,44 +583,46 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                                 @Override
                                 public void run() {
 //                                    yuvVideoViews1v1.get(1).getHolder().setFormat(PixelFormat.TRANSPARENT);
-                                    yuvVideoViews1v1.get(1).setVisibility(View.GONE);
-                                    textViews1v1.get(1).setVisibility(View.GONE);
+                                    yuv_peer1v12.setVisibility(View.GONE);
+                                    tvVideoID1v12.setVisibility(View.GONE);
                                 }
                             });
-                            getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1, 1);
+                            getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1,userIDs, 1);
                         } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    yuvVideoViews1v1.get(1).setVisibility(View.VISIBLE);
-                                    Log.d(TAG, "run()1 called yuvVideoViews1v1.get(1).getVisibility()=" + yuvVideoViews1v1.get(1).getVisibility());
-//                                    textViews1v1.get(1).setVisibility(View.VISIBLE);
+                                    yuv_peer1v12.setVisibility(View.VISIBLE);
+                                    yuv_peer1v12.getHolder().setFormat(PixelFormat.TRANSPARENT);
+                                    Log.d(TAG, "run()1 called yuvVideoViews1v1.get(1).getVisibility()=" + yuvVideoViews1v1.get(0).getX()+"/"+yuvVideoViews1v1.get(1).getY());
+                                    tvVideoID1v12.setVisibility(View.VISIBLE);
+                                    Log.d(TAG, "run()1 called textViews1v1.get(1).getVisibility()=" + textViews1v1.get(1).getVisibility());
+
                                 }
                             });
-                            getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1, 2);
+                            getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1,userIDs, 2);
                         }
-//                        getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1, 2);
+//                        getYuvView(frame, userId, yuvVideoViews1v1, textViews1v1,userIDs, 2);
                         break;
                     case 1:
-                        getYuvView(frame, userId, yuvVideoViews1, textViews1, 1);
+                        getYuvView(frame, userId, yuvVideoViews1, textViews1,userIDs, 1);
+                        Log.d(TAG, "run()1 called textViews1v1.get(1).getVisibility()=" + textViews1v1.get(1).getVisibility());
                         break;
                     case 2:
-                        getYuvView(frame, userId, yuvVideoViews2, textViews2, 2);
+                        getYuvView(frame, userId, yuvVideoViews2, textViews2,userIDs, 2);
                         break;
                     case 3:
-                        getYuvView(frame, userId, yuvVideoViews4, textViews4, 4);
-                        break;
-                    case 4:
-                        getYuvView(frame, userId, yuvVideoViews5, textViews5, 5);
+                        getYuvView(frame, userId, yuvVideoViews4, textViews4,userIDs, 4);
                         break;
                     default:
+                        getYuvView(frame, userId, yuvVideoViews5, textViews5,userIDs, 5);
                         break;
                 }
             }
         });
     }
 
-    private void getYuvView(RawFrame frame, final UsrVideoId userId, ArrayList<YUVVideoView> yuvVideoViews, final ArrayList<TextView> textViews, int mode) {
+    private void getYuvView(RawFrame frame, final UsrVideoId userId, ArrayList<YUVVideoView> yuvVideoViews, final ArrayList<TextView> textViews,ArrayList<String> userIDs, int mode) {
         final YUVVideoView view;
         for (int i = 0; i < mode; i++) {
             if (userIDs.get(i).equals(userId.userId)) {
@@ -628,13 +634,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     public void run() {
                         finalView.setBackground(null);
                         TextView textView = textViews.get(finalI);
+                        textView.setVisibility(View.VISIBLE);
                         textView.setText(userId.userId + "");
-                        Log.d(TAG, "test:"+ yuv_self1v1.getVisibility()+"/"+userId.userId);
+                        Log.d(TAG, "test:"+ yuv_peer1v12.getVisibility()+"/"+userId.userId);
                     }
                 });
                 view.getYUVRender().update(frame.dat, frame.frameWidth, frame.frameHeight);
-                Log.d(TAG, "run() called tvVideoID1v11.getVisibility()="+tvVideoID1v11.getVisibility());
-                Log.d(TAG, "run() called yuv_self1v1.getVisibility()="+ yuv_self1v1.getVisibility());
+                Log.d(TAG, "test() called tvVideoID1v12.getVisibility()="+tvVideoID1v12.getVisibility());
+                Log.d(TAG, "test() called yuv_peer1v12.getVisibility()="+ yuv_peer1v12.getVisibility());
                 return;
             }
         }
@@ -694,14 +701,15 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             for (int i = 0; i < hideTextViews.size(); i++) {
                 hideTextViews.get(i).setVisibility(View.GONE);
             }
+            hideTextViews.clear();
         }
         for (int i = 0; i < showVideoViews.size(); i++) {
             YUVVideoView yuvVideoView = showVideoViews.get(i);
             yuvVideoView.setVisibility(View.VISIBLE);
         }
-        for (int i = 0; i < showTextViews.size(); i++) {
-            showTextViews.get(i).setVisibility(View.VISIBLE);
-        }
+//        for (int i = 0; i < showTextViews.size(); i++) {
+//            showTextViews.get(i).setVisibility(View.VISIBLE);
+//        }
         return;
     }
 
@@ -828,7 +836,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         String userId = CloudroomVideoMeeting.getInstance().getMyUserID();
         switch (v.getId()) {
             case R.id.left_button:
-                exitMeeting();
+                leaveMeetinglistener();
                 break;
             case R.id.cbMicphone: {
                 ASTATUS status = CloudroomVideoMeeting.getInstance()
@@ -907,6 +915,22 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 break;
         }
 
+    }
+
+    private void leaveMeetinglistener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View mView = this.getLayoutInflater().inflate(R.layout.dialog_leave_meeting, null, false);
+        final Button btnLeaveMeeting = (Button) mView.findViewById(R.id.btnLeaveMeeting);
+        btnLeaveMeeting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnLeaveMeeting.setText(getResources().getString(R.string.leaving_meeting));
+                btnLeaveMeeting.setClickable(false);
+                exitMeeting();
+            }
+        });
+        leaveMeetingDialog = builder.setView(mView).create();
+        leaveMeetingDialog.show();
     }
 
     private void notifyScreenShareData(String userID, Rect changeRect) {
@@ -1069,9 +1093,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         Log.d(TAG, "onDestroy 2");
         mVideoThread.quit();
         unwatchHeadset();
-//        CloudroomVideoMeeting.getInstance().exitMeeting();
+        leaveMeetingDialog.dismiss();
         VideoCallback.getInstance().unregisterVideoCallback(mMainCallback);
-        VideoCallback.getInstance().unregisterVideoCallback(mVideoCallback);
+//        VideoCallback.getInstance().unregisterVideoCallback(mVideoCallback);
         if (isLogout) {
             CloudroomVideoMgr.getInstance().logout();
         }

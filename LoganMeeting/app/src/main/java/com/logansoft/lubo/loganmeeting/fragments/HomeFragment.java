@@ -108,6 +108,9 @@ public class HomeFragment extends Fragment {
                     for (MeetInfo meetInfo : meetInfos) {
                         Log.d(TAG, "handleMessage: meetInfo=" + meetInfo.ID);
                     }
+                    if (mData.size()!=0){
+                        mData.clear();
+                    }
                     mData.addAll(meetInfos);
                     myRecyclerViewAdapter.notifyDataSetChanged();
                     break;
@@ -199,12 +202,12 @@ public class HomeFragment extends Fragment {
 //        Log.d(TAG, "onCreateView: " + data.size());
 //        rv.setAdapter(myRecyclerViewAdapterI);
 
-        setViewListener();
+        setViewListener(myRecyclerViewAdapter,mData);
 
         return view;
     }
 
-    private void setViewListener() {
+    private void setViewListener(MyRecyclerViewAdapter myRecyclerViewAdapter, final ArrayList<MeetInfo> mData) {
         //MyRecyclerViewAdapter的item点击事件
         myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
             @Override
@@ -223,7 +226,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onLongClick(int position) {
-                MyApplication.getInstance().showToast("你长击了第" + position + "个Item");
+//                MyApplication.getInstance().showToast("你长击了第" + position + "个Item");
 
             }
         });
@@ -235,23 +238,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-//        abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                srlHomeRoot.setEnabled(abl.getScrollY()==0);
-//            }
-//        });
         srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
         srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                srlHomeRoot.setRefreshing(true);
                 MyApplication.getInstance().showToast("正在刷新");
+                CloudroomVideoMgr.getInstance().getMeetings();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mData.clear();
-                        CloudroomVideoMgr.getInstance().getMeetings();
-                        MyApplication.getInstance().showToast("刷新完成");
                         srlHomeRoot.setRefreshing(false);
                     }
                 },3000);
@@ -316,7 +312,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         MgrCallback.getInstance().unregisterMgrCallback(mMgrCallback);
     }
 }

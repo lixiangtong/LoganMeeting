@@ -2,38 +2,45 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlMode1v1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    >
 
-    <RelativeLayout
-        android:layout_width="240dp"
-        android:layout_height="135dp"
+    <FrameLayout
+        android:layout_width="224dp"
+        android:layout_height="126dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         >
         <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_self1v11"
-            android:layout_width="240dp"
-            android:layout_height="135dp"
-            android:scaleType="fitCenter" />
+            android:id="@+id/yuv_peer1v12"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
 
         <TextView
-            android:id="@+id/tvVideoID1v11"
-            style="@style/textView_meeting_video" />
-    </RelativeLayout>
+            android:id="@+id/tvVideoID1v12"
+            style="@style/textView_meeting_video"
+            />
+    </FrameLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer1V1"
+            android:id="@+id/yuv_peer1v11"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
         <TextView
-            android:id="@+id/tvVideoID1v12"
+            android:id="@+id/tvVideoID1v11"
             style="@style/textView_meeting_video" />
-    </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

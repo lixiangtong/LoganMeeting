@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/out_meeting"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sure_leave_meeting"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"
+        />
+
+    <Button
+        android:id="@+id/btnLeaveMeeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/leave_meeting"
+        android:background="@color/start_color"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        />
+
+</LinearLayout>

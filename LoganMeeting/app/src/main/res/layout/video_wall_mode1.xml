@@ -9,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/video_background"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/tvVideoID11"

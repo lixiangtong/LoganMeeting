@@ -23,7 +23,8 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/about_logo_icon"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/logo_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -34,7 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.logansoft.lubo.loganmeeting.MainActivity" />
+        <activity
+            android:name="com.logansoft.lubo.loganmeeting.MainActivity"
+            android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name="com.logansoft.lubo.loganmeeting.AccountLoginActivity"
             android:launchMode="singleTop"
@@ -49,12 +52,13 @@
             android:name="com.logansoft.lubo.loganmeeting.MeetingActivity"
             android:keepScreenOn="true"
             android:launchMode="singleTop"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity
             android:name="com.logansoft.lubo.loganmeeting.MeetingLoginActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <service android:name=".service.MediaService"/>
+            android:screenOrientation="portrait" />
+
+        <service android:name=".service.MediaService" />
     </application>
 
 </manifest>

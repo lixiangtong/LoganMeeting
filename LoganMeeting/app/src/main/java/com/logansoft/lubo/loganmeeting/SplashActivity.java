@@ -44,7 +44,7 @@ public class SplashActivity extends Activity implements Runnable{
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, AccountLoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, MeetingLoginActivity.class));
                 SplashActivity.this.finish();
             }
         };
