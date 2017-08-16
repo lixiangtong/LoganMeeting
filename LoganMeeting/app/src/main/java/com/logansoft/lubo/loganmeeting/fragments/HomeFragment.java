@@ -79,8 +79,8 @@ public class HomeFragment extends Fragment {
     NestedScrollView nsv;
     @BindView(R.id.lv)
     ListView lv;
-    @BindView(R.id.srl_home_root)
-    SwipeRefreshLayout srlHomeRoot;
+//    @BindView(R.id.srl_home_root)
+//    SwipeRefreshLayout srlHomeRoot;
     private View view;
     private RoomInfoBean roomInfoBean1;
     private RoomInfoBean roomInfoBean2;
@@ -231,28 +231,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        nsv.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                srlHomeRoot.setEnabled(nsv.getScrollY()==0);
-            }
-        });
-
-        srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
-        srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                srlHomeRoot.setRefreshing(true);
-                MyApplication.getInstance().showToast("正在刷新");
-                CloudroomVideoMgr.getInstance().getMeetings();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        srlHomeRoot.setRefreshing(false);
-                    }
-                },3000);
-            }
-        });
+//        nsv.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//                srlHomeRoot.setEnabled(nsv.getScrollY()==0);
+//            }
+//        });
+//
+//        srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+//        srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                srlHomeRoot.setRefreshing(true);
+//                MyApplication.getInstance().showToast("正在刷新");
+//                CloudroomVideoMgr.getInstance().getMeetings();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        srlHomeRoot.setRefreshing(false);
+//                    }
+//                },3000);
+//            }
+//        });
 
     }
 
