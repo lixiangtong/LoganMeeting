@@ -38,10 +38,10 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
             shrinkResources false
-            signingConfig  signingConfigs.release
+            signingConfig signingConfigs.release
         }
         release {
             // 混淆
@@ -52,7 +52,7 @@ android {
 //            shrinkResources true
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig  signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -120,7 +120,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
     compile 'pub.devrel:easypermissions:0.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.github.pwittchen:swipe:0.1.0'
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    apt 'com.jakewharton:butterknife-compiler:8.6.0'
 }

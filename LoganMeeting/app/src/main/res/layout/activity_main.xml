@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="84dp"
         android:background="@drawable/shape_home_gradient"
         >
         <TextView

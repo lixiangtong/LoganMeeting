@@ -11,6 +11,7 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -73,6 +74,8 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
     TextView tvNetworkSetting;
     @BindView(R.id.nsv)
     NestedScrollView nsv;
+    @BindView(R.id.ct)
+    CoordinatorLayout ct;
 
 
     private AlertDialog mAssignDailog = null;
@@ -133,7 +136,20 @@ public class AccountLoginActivity extends Activity implements EasyPermissions.Pe
         nsv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        //CoordinatorLayout禁止滑动事件
+        ct.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         return true;
                     default:

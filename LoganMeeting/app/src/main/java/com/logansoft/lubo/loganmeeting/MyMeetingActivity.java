@@ -22,6 +22,7 @@ import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -29,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -49,6 +51,8 @@ import com.cloudroom.cloudroomvideosdk.model.UsrVideoInfo;
 import com.cloudroom.cloudroomvideosdk.model.VIDEO_WALL_MODE;
 import com.cloudroom.cloudroomvideosdk.model.VSTATUS;
 import com.cloudroom.tool.AndroidTool;
+import com.logansoft.lubo.loganmeeting.adapters.NavigationAdapter;
+import com.logansoft.lubo.loganmeeting.customView.CustomViewPager;
 import com.logansoft.lubo.loganmeeting.service.MediaService;
 import com.logansoft.lubo.loganmeeting.utils.PinyinComparator;
 import com.logansoft.lubo.loganmeeting.utils.UITool;
@@ -72,7 +76,7 @@ import cn.finalteam.toolsfinal.CrashHandler;
  * @author admin
  *
  */
-public class MeetingActivity extends Activity implements OnTouchListener {
+public class MyMeetingActivity extends Activity implements OnTouchListener {
 
     private static final String TAG = "MeetingActivity";
     @BindView(R.id.rlMode1v1)
@@ -85,6 +89,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     LinearLayout llMode4;
     @BindView(R.id.llMode5)
     LinearLayout llMode5;
+    @BindView(R.id.flMode1v1)
+    FrameLayout flMode1v1;
 
     private ImageView mScreenshareIV = null;
     private YUVVideoView mPeerGLSV52 = null;
@@ -315,7 +321,15 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private String mainNickName;
     private String myNickName;
     private String myUserID;
-    private View flMode1v1;
+    private CustomViewPager remote_local_viewpager;
+    private LayoutInflater mLayoutInflater;
+    private View mViewMode1v1;
+    private View mViewMode1;
+    private View mViewMode2;
+    private View mViewMode4;
+    private View mViewMode5;
+    private ArrayList<View> mViewList;
+    private NavigationAdapter navigationAdapter;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -353,7 +367,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_meeting);
+        setContentView(R.layout.activity_my_meeting);
         ButterKnife.bind(this);
 
         //启动服务，防止Activity被杀死
@@ -377,79 +391,9 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 CrashHandler.getInstance().init(getApplicationContext());
             }
         });
-        //1分屏
-        yuv_peer11 = ((YUVVideoView) findViewById(R.id.yuv_peer11));
-        yuvVideoViews1 = new ArrayList<>();
-        yuvVideoViews1.add(yuv_peer11);
-        tvVideoID11 = ((TextView) findViewById(R.id.tvVideoID11));
-        textViews1 = new ArrayList<>();
-        textViews1.add(tvVideoID11);
-        //2分屏
-        yuv_peer21 = ((YUVVideoView) findViewById(R.id.yuv_peer21));
-        yuv_peer22 = ((YUVVideoView) findViewById(R.id.yuv_peer22));
-        yuvVideoViews2 = new ArrayList<>();
-        yuvVideoViews2.add(yuv_peer21);
-        yuvVideoViews2.add(yuv_peer22);
-        tvVideoID21 = ((TextView) findViewById(R.id.tvVideoID21));
-        tvVideoID22 = ((TextView) findViewById(R.id.tvVideoID22));
-        textViews2 = new ArrayList<>();
-        textViews2.add(tvVideoID21);
-        textViews2.add(tvVideoID22);
-        //1v1分屏
-        yuv_peer1v11 = ((YUVVideoView) findViewById(R.id.yuv_peer1v11));
-        yuv_peer1v12 = ((YUVVideoView) findViewById(R.id.yuv_peer1v12));
-        yuvVideoViews1v1 = new ArrayList<>();
-        yuvVideoViews1v1.add(yuv_peer1v11);
-        yuvVideoViews1v1.add(yuv_peer1v12);
-        tvVideoID1v11 = ((TextView) findViewById(R.id.tvVideoID1v11));
-        tvVideoID1v12 = ((TextView) findViewById(R.id.tvVideoID1v12));
-        textViews1v1 = new ArrayList<>();
-        textViews1v1.add(tvVideoID1v11);
-        textViews1v1.add(tvVideoID1v12);
-        //4分屏
-        yuv_peer41 = ((YUVVideoView) findViewById(R.id.yuv_peer41));
-        yuv_peer42 = ((YUVVideoView) findViewById(R.id.yuv_peer42));
-        yuv_peer43 = ((YUVVideoView) findViewById(R.id.yuv_peer43));
-        yuv_peer44 = ((YUVVideoView) findViewById(R.id.yuv_peer44));
-        yuvVideoViews4 = new ArrayList<>();
-        yuvVideoViews4.add(yuv_peer41);
-        yuvVideoViews4.add(yuv_peer42);
-        yuvVideoViews4.add(yuv_peer43);
-        yuvVideoViews4.add(yuv_peer44);
-        tvVideoID41 = ((TextView) findViewById(R.id.tvVideoID41));
-        tvVideoID42 = ((TextView) findViewById(R.id.tvVideoID42));
-        tvVideoID43 = ((TextView) findViewById(R.id.tvVideoID43));
-        tvVideoID44 = ((TextView) findViewById(R.id.tvVideoID44));
-        textViews4 = new ArrayList<>();
-        textViews4.add(tvVideoID41);
-        textViews4.add(tvVideoID42);
-        textViews4.add(tvVideoID43);
-        textViews4.add(tvVideoID44);
-        //五分屏
-        mPeerGLSV51 = (YUVVideoView) findViewById(R.id.yuv_peer51);
-        mPeerGLSV52 = (YUVVideoView) findViewById(R.id.yuv_peer52);
-        mPeerGLSV53 = ((YUVVideoView) findViewById(R.id.yuv_peer53));
-        mPeerGLSV54 = ((YUVVideoView) findViewById(R.id.yuv_peer54));
-        mPeerGLSV55 = ((YUVVideoView) findViewById(R.id.yuv_peer55));
-        yuvVideoViews5 = new ArrayList<>();
-        yuvVideoViews5.add(mPeerGLSV51);
-        yuvVideoViews5.add(mPeerGLSV52);
-        yuvVideoViews5.add(mPeerGLSV53);
-        yuvVideoViews5.add(mPeerGLSV54);
-        yuvVideoViews5.add(mPeerGLSV55);
-        tvVideoID51 = ((TextView) findViewById(R.id.tvVideoID51));
-        tvVideoID52 = ((TextView) findViewById(R.id.tvVideoID52));
-        tvVideoID53 = ((TextView) findViewById(R.id.tvVideoID53));
-        tvVideoID54 = ((TextView) findViewById(R.id.tvVideoID54));
-        tvVideoID55 = ((TextView) findViewById(R.id.tvVideoID55));
-        textViews5 = new ArrayList<>();
-        textViews5.add(tvVideoID51);
-        textViews5.add(tvVideoID52);
-        textViews5.add(tvVideoID53);
-        textViews5.add(tvVideoID54);
-        textViews5.add(tvVideoID55);
 
-        flMode1v1 = findViewById(R.id.flMode1v1);
+        initWidget();
+        
 
         mScreenshareIV.setVisibility(View.GONE);
 
@@ -509,6 +453,98 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         View view = getWindow().getDecorView();
         view.setOnTouchListener(this);
 
+    }
+
+    private void initWidget() {
+
+        remote_local_viewpager = ((CustomViewPager) findViewById(R.id.remote_local_viewpager));
+
+        mLayoutInflater = getLayoutInflater();
+        mViewMode1v1 = mLayoutInflater.inflate(R.layout.video_wall_mode1v1,null);
+        mViewMode1 = mLayoutInflater.inflate(R.layout.video_wall_mode1,null);
+        mViewMode2 = mLayoutInflater.inflate(R.layout.video_wall_mode2,null);
+        mViewMode4 = mLayoutInflater.inflate(R.layout.video_wall_mode4,null);
+        mViewMode5 = mLayoutInflater.inflate(R.layout.video_wall_mode5,null);
+        mViewList = new ArrayList<>();
+        mViewList.add(mViewMode1v1);
+        mViewList.add(mViewMode1);
+        mViewList.add(mViewMode2);
+        mViewList.add(mViewMode4);
+        mViewList.add(mViewMode5);
+
+        navigationAdapter = new NavigationAdapter(mViewList);
+        remote_local_viewpager.setAdapter(navigationAdapter);
+        //1分屏
+        yuv_peer11 = ((YUVVideoView) mViewMode1.findViewById(R.id.yuv_peer11));
+        yuvVideoViews1 = new ArrayList<>();
+        yuvVideoViews1.add(yuv_peer11);
+        tvVideoID11 = ((TextView) mViewMode1.findViewById(R.id.tvVideoID11));
+        textViews1 = new ArrayList<>();
+        textViews1.add(tvVideoID11);
+        //2分屏
+        yuv_peer21 = ((YUVVideoView) mViewMode2.findViewById(R.id.yuv_peer21));
+        yuv_peer22 = ((YUVVideoView) mViewMode2.findViewById(R.id.yuv_peer22));
+        yuvVideoViews2 = new ArrayList<>();
+        yuvVideoViews2.add(yuv_peer21);
+        yuvVideoViews2.add(yuv_peer22);
+        tvVideoID21 = ((TextView) mViewMode2.findViewById(R.id.tvVideoID21));
+        tvVideoID22 = ((TextView) mViewMode2.findViewById(R.id.tvVideoID22));
+        textViews2 = new ArrayList<>();
+        textViews2.add(tvVideoID21);
+        textViews2.add(tvVideoID22);
+        //1v1分屏
+        yuv_peer1v11 = ((YUVVideoView) mViewMode1v1.findViewById(R.id.yuv_peer1v11));
+        yuv_peer1v12 = ((YUVVideoView) mViewMode1v1.findViewById(R.id.yuv_peer1v12));
+        yuvVideoViews1v1 = new ArrayList<>();
+        yuvVideoViews1v1.add(yuv_peer1v11);
+        yuvVideoViews1v1.add(yuv_peer1v12);
+        tvVideoID1v11 = ((TextView) mViewMode1v1.findViewById(R.id.tvVideoID1v11));
+        tvVideoID1v12 = ((TextView) mViewMode1v1.findViewById(R.id.tvVideoID1v12));
+        textViews1v1 = new ArrayList<>();
+        textViews1v1.add(tvVideoID1v11);
+        textViews1v1.add(tvVideoID1v12);
+        //4分屏
+        yuv_peer41 = ((YUVVideoView) mViewMode4.findViewById(R.id.yuv_peer41));
+        yuv_peer42 = ((YUVVideoView) mViewMode4.findViewById(R.id.yuv_peer42));
+        yuv_peer43 = ((YUVVideoView) mViewMode4.findViewById(R.id.yuv_peer43));
+        yuv_peer44 = ((YUVVideoView) mViewMode4.findViewById(R.id.yuv_peer44));
+        yuvVideoViews4 = new ArrayList<>();
+        yuvVideoViews4.add(yuv_peer41);
+        yuvVideoViews4.add(yuv_peer42);
+        yuvVideoViews4.add(yuv_peer43);
+        yuvVideoViews4.add(yuv_peer44);
+        tvVideoID41 = ((TextView) mViewMode4.findViewById(R.id.tvVideoID41));
+        tvVideoID42 = ((TextView) mViewMode4.findViewById(R.id.tvVideoID42));
+        tvVideoID43 = ((TextView) mViewMode4.findViewById(R.id.tvVideoID43));
+        tvVideoID44 = ((TextView) mViewMode4.findViewById(R.id.tvVideoID44));
+        textViews4 = new ArrayList<>();
+        textViews4.add(tvVideoID41);
+        textViews4.add(tvVideoID42);
+        textViews4.add(tvVideoID43);
+        textViews4.add(tvVideoID44);
+        //五分屏
+        mPeerGLSV51 = (YUVVideoView) mViewMode5.findViewById(R.id.yuv_peer51);
+        mPeerGLSV52 = (YUVVideoView) mViewMode5.findViewById(R.id.yuv_peer52);
+        mPeerGLSV53 = ((YUVVideoView) mViewMode5.findViewById(R.id.yuv_peer53));
+        mPeerGLSV54 = ((YUVVideoView) mViewMode5.findViewById(R.id.yuv_peer54));
+        mPeerGLSV55 = ((YUVVideoView) mViewMode5.findViewById(R.id.yuv_peer55));
+        yuvVideoViews5 = new ArrayList<>();
+        yuvVideoViews5.add(mPeerGLSV51);
+        yuvVideoViews5.add(mPeerGLSV52);
+        yuvVideoViews5.add(mPeerGLSV53);
+        yuvVideoViews5.add(mPeerGLSV54);
+        yuvVideoViews5.add(mPeerGLSV55);
+        tvVideoID51 = ((TextView) mViewMode5.findViewById(R.id.tvVideoID51));
+        tvVideoID52 = ((TextView) mViewMode5.findViewById(R.id.tvVideoID52));
+        tvVideoID53 = ((TextView) mViewMode5.findViewById(R.id.tvVideoID53));
+        tvVideoID54 = ((TextView) mViewMode5.findViewById(R.id.tvVideoID54));
+        tvVideoID55 = ((TextView) mViewMode5.findViewById(R.id.tvVideoID55));
+        textViews5 = new ArrayList<>();
+        textViews5.add(tvVideoID51);
+        textViews5.add(tvVideoID52);
+        textViews5.add(tvVideoID53);
+        textViews5.add(tvVideoID54);
+        textViews5.add(tvVideoID55);
     }
 
     private void stopMeetingRslt(CRVIDEOSDK_ERR_DEF code) {

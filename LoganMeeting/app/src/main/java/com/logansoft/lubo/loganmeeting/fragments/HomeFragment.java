@@ -82,11 +82,6 @@ public class HomeFragment extends Fragment {
 //    @BindView(R.id.srl_home_root)
 //    SwipeRefreshLayout srlHomeRoot;
     private View view;
-    private RoomInfoBean roomInfoBean1;
-    private RoomInfoBean roomInfoBean2;
-    private List<RoomInfoBean> data = new ArrayList<>();
-    private MyRecyclerViewAdapterI myRecyclerViewAdapterI;
-
     private AlertDialog alertDialog;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private ArrayList<MeetInfo> mData = new ArrayList<>();
@@ -125,8 +120,6 @@ public class HomeFragment extends Fragment {
         }
     };
     public Handler mMainHandler = new Handler(mMgrCallback);
-    private RoomInfoBean roomInfoBean3;
-    private RoomInfoBean roomInfoBean4;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -168,49 +161,11 @@ public class HomeFragment extends Fragment {
             myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData, getActivity());
             rv.setAdapter(myRecyclerViewAdapter);
         }
-//        roomInfoBean1 = new RoomInfoBean();
-//        roomInfoBean2 = new RoomInfoBean();
-//        roomInfoBean3 = new RoomInfoBean();
-//        roomInfoBean4 = new RoomInfoBean();
-//
-//
-//        roomInfoBean1.setRoomName("语文教研室");
-//        roomInfoBean1.setModerator("张泽军");
-//        roomInfoBean1.setRoomNumber("74040371");
-//        roomInfoBean1.setWaitCount("2");
-//
-//        roomInfoBean2.setRoomName("人文教研室");
-//        roomInfoBean2.setModerator("张泽军");
-//        roomInfoBean2.setRoomNumber("36826479");
-//        roomInfoBean2.setWaitCount("2");
-//
-//        roomInfoBean3.setRoomName("生物教研室");
-//        roomInfoBean3.setModerator("李利群");
-//        roomInfoBean3.setRoomNumber("28166679");
-//        roomInfoBean3.setWaitCount("5");
-//
-//        roomInfoBean4.setRoomName("数学教研室");
-//        roomInfoBean4.setModerator("李林丽");
-//        roomInfoBean4.setRoomNumber("36826479");
-//        roomInfoBean4.setWaitCount("1");
-//
-//        data.add(roomInfoBean1);
-//        data.add(roomInfoBean2);
-//        data.add(roomInfoBean3);
-//        data.add(roomInfoBean4);
-//
-//
-//
-//        myRecyclerViewAdapterI = new MyRecyclerViewAdapterI(data, getActivity());
-//        Log.d(TAG, "onCreateView: " + data.size());
-//        rv.setAdapter(myRecyclerViewAdapterI);
-
         setViewListener(myRecyclerViewAdapter,mData);
-
         return view;
     }
 
-    private void setViewListener(MyRecyclerViewAdapter myRecyclerViewAdapter, final ArrayList<MeetInfo> mData) {
+    private void setViewListener(final MyRecyclerViewAdapter myRecyclerViewAdapter, final ArrayList<MeetInfo> mData) {
         //MyRecyclerViewAdapter的item点击事件
         myRecyclerViewAdapter.setMyOnItemClickListener(new MyRecyclerViewAdapter.OnMyItemClickListener() {
             @Override
@@ -247,11 +202,17 @@ public class HomeFragment extends Fragment {
 //            public void onRefresh() {
 //                srlHomeRoot.setRefreshing(true);
 //                MyApplication.getInstance().showToast("正在刷新");
-//                CloudroomVideoMgr.getInstance().getMeetings();
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
+////                        mData.clear();
+//                        CloudroomVideoMgr.getInstance().getMeetings();
 //                        srlHomeRoot.setRefreshing(false);
+////                        MeetInfo meetInfo = new MeetInfo();
+////                        meetInfo.ID = 1111111;
+////                        meetInfo.subject = "张军";
+////                        mData.add(meetInfo);
+////                        myRecyclerViewAdapter.notifyDataSetChanged();
 //                    }
 //                },3000);
 //            }

@@ -82,8 +82,14 @@ public class MgrCallback implements CloudroomVideoMgrCallback {
 	}
 
 	@Override
-	public void stopMeetingRslt(CRVIDEOSDK_ERR_DEF crvideosdk_err_def, String s) {
-
+	public void stopMeetingRslt(CRVIDEOSDK_ERR_DEF sdkErr, String cookie) {
+        Log.d(TAG, "stopMeetingRslt");
+        Message msg = mMainHandler.obtainMessage(MSG_STOPMEETING_RSLT);
+        Bundle data = new Bundle();
+        data.putString("cookie", cookie);
+        msg.setData(data);
+        msg.obj = sdkErr;
+        msg.sendToTarget();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -55,6 +56,8 @@ public class MeetingLoginActivity extends Activity {
     TextView tvNetworkSetting;
     @BindView(R.id.nsv)
     NestedScrollView nsv;
+    @BindView(R.id.ct)
+    CoordinatorLayout ct;
     private int meetID = -1;
 
     public Callback mLoginCallback = new Callback() {
@@ -70,7 +73,7 @@ public class MeetingLoginActivity extends Activity {
                     Intent intent = new Intent(MeetingLoginActivity.this, MeetingActivity.class);
                     intent.putExtra("meetID", meetID);
                     intent.putExtra("password", "");
-                    intent.putExtra("isLogout",true);
+                    intent.putExtra("isLogout", true);
                     startActivity(intent);
 
                     MyApplication.getInstance().showToast(R.string.meeting_login_success);
@@ -106,7 +109,20 @@ public class MeetingLoginActivity extends Activity {
         nsv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        return true;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+        //CoordinatorLayout禁止滑动事件
+        ct.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         return true;
                     default:

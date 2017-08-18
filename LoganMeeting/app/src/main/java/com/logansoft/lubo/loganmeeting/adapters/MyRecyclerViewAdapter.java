@@ -13,6 +13,7 @@ import com.cloudroom.cloudroomvideosdk.model.MeetInfo;
 import com.logansoft.lubo.loganmeeting.R;
 import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +39,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_room_info,parent, false);
-        MyViewHolder holder= new MyViewHolder(view);
+        View view = inflater.inflate(R.layout.item_room_info, parent, false);
+        MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
@@ -47,9 +48,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         MeetInfo meetInfo = mDatas.get(position);
         holder.tvRoomName.setText(meetInfo.subject);
-        holder.tvRoomNumber.setText(meetInfo.ID+"");
+        holder.tvRoomNumber.setText(meetInfo.ID + "");
 
-        if (mOnItemClickListener!=null){
+        if (mOnItemClickListener != null) {
             holder.rvItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,8 +69,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: mDatas.size()="+mDatas.size());
-        if (mDatas!=null) {
+        if (mDatas != null) {
             return mDatas.size();
         }
         return 0;
@@ -86,7 +86,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public MyViewHolder(View view) {
             super(view);
-            tvRoomName=(TextView) view.findViewById(R.id.tv_room_name);
+            tvRoomName = (TextView) view.findViewById(R.id.tv_room_name);
             tvModerator = ((TextView) view.findViewById(R.id.tv_moderator));
             tvRoomNumber = ((TextView) view.findViewById(R.id.tv_room_number));
             tvOnlineCount = ((TextView) view.findViewById(R.id.tv_online_count));
@@ -95,8 +95,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     }
 
-    public interface OnMyItemClickListener{
+    public interface OnMyItemClickListener {
         void onClick(int position);
+
         void onLongClick(int position);
     }
 
