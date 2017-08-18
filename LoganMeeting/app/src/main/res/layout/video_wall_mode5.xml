@@ -24,7 +24,9 @@
 
         <TextView
             android:id="@+id/tvVideoID51"
-            style="@style/textView_meeting_video" />
+            style="@style/textView_meeting_video"
+            android:layout_marginTop="11dp"
+            />
     </RelativeLayout>
 
 
@@ -41,7 +43,8 @@
 
             <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
                 android:id="@+id/yuv_peer52"
-                style="@style/video_wall_mode5" />
+                style="@style/video_wall_mode5"
+                />
 
             <TextView
                 android:id="@+id/tvVideoID52"

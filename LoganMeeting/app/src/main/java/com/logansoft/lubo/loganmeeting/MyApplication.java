@@ -53,7 +53,6 @@ public class MyApplication extends Application {
         cloudroomVideoSDK.init(getApplicationContext(), initDat);
         Log.d(TAG, "onCreate: "+cloudroomVideoSDK.isInitSuccess());
 
-
         //打开日志
         CloudroomVideoSDK.getInstance().setLogOpen(true);
 

@@ -30,10 +30,10 @@ android {
     //签名
     signingConfigs {
         release {
-            storeFile file('E:/meetingsignkey/meetingkey.jks');
-            storePassword 'meetingkey'
-            keyAlias 'LoganMeeting'
-            keyPassword 'meetingkey'
+            storeFile file('E:/meetingsignkey/mymeetingkey.jks');
+            storePassword 'meetingsignkey'
+            keyAlias 'loganmeeting'
+            keyPassword 'meetingsignkey'
         }
     }
 
@@ -94,7 +94,6 @@ dependencies {
     compile files('libs/QtAndroidBearer-bundled.jar')
     compile files('libs/voiceengine.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile 'com.android.support:support-v4:25.3.1'

@@ -11,10 +11,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -27,7 +23,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
@@ -159,6 +154,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     VSTATUS newStatus = VSTATUS.values()[msg.arg2];
                     VSTATUS oldStatus = VSTATUS.values()[msg.arg1];
                     videoStatusChanged(userId, newStatus, oldStatus);
+//                    stopOthersViewUpdate(currentVideoViews,previousViews,cureentTextViews,previousTextViews);
                     watchVideos();
                 }
                 break;
@@ -171,9 +167,16 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                     exitMeeting();
                     break;
                 case VideoCallback.MSG_USER_ENTERMEETING:
+                    String enterUserID = (String) msg.obj;
+                    String enterNickName = CloudroomVideoMeeting.getInstance().getNickName(enterUserID);
+                    MyApplication.getInstance().showToast(enterNickName + "进入会议");
                     watchVideos();
                     break;
                 case VideoCallback.MSG_USER_LEFTMEETING:
+                    String leaveUserID = (String) msg.obj;
+                    String leaveNickName  = CloudroomVideoMeeting.getInstance().getNickName(leaveUserID);
+                    Log.d(TAG, "leaveNickName handleMessage() called with: msg = "+leaveUserID+"/+"+leaveNickName);
+//                    MyApplication.getInstance().showToast(leaveUserID + "离开会议");
                     watchVideos();
                     break;
                 case VideoCallback.MSG_NOTIFY_SCREENSHARE_DATA: {
@@ -234,6 +237,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             switch (msg.what) {
                 case VideoCallback.MSG_VIDEODATA_UPDATED:
                     UsrVideoId userId = (UsrVideoId) msg.obj;
+//                    stopOthersViewUpdate(currentVideoViews,previousViews,cureentTextViews,previousTextViews);
                     videoDataUpdated(userId, userIDs, wallMode);
                     return true;
 
@@ -303,6 +307,13 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     private ArrayList<TextView> textViews5;
     private ArrayList<TextView> previousTextViews = new ArrayList<>();
     private AlertDialog leaveMeetingDialog;
+    private ArrayList<YUVVideoView> currentVideoViews = new ArrayList<>();
+    private ArrayList<TextView> cureentTextViews = new ArrayList<>();
+    private String mainUserID;
+    private String mainNickName;
+    private String myNickName;
+    private String myUserID;
+    private View flMode1v1;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -436,6 +447,8 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         textViews5.add(tvVideoID54);
         textViews5.add(tvVideoID55);
 
+        flMode1v1 = findViewById(R.id.flMode1v1);
+
         mScreenshareIV.setVisibility(View.GONE);
 
 //        mPeerGLSV51.setOnTouchListener(mDragListener);
@@ -512,6 +525,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         MyApplication.getInstance().showToast(R.string.enter_success);
         updateCameraBtn();
         updateMicBtn();
+        //获取主视频id
+        mainUserID = CloudroomVideoMeeting.getInstance().getMainVideo();
+        mainNickName = CloudroomVideoMeeting.getInstance().getNickName(mainUserID);
+        //获取我的视频id
+        myUserID = CloudroomVideoMeeting.getInstance().getMyUserID();
+        myNickName = CloudroomVideoMeeting.getInstance().getNickName(myUserID);
         //获取视频墙
         VIDEO_WALL_MODE videoWallMode = CloudroomVideoMeeting.getInstance().getVideoWallMode();
         wallMode = videoWallMode.ordinal();
@@ -608,6 +627,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         final YUVVideoView view;
         for (int i = 0; i < mode; i++) {
             if (userIDs.get(i).equals(userId.userId)) {
+                final String nickName = CloudroomVideoMeeting.getInstance().getNickName(userId.userId);
                 view = yuvVideoViews.get(i);
                 final int finalI = i;
                 final YUVVideoView finalView = view;
@@ -617,13 +637,16 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                         finalView.setBackground(null);
                         TextView textView = textViews.get(finalI);
                         textView.setVisibility(View.VISIBLE);
-                        textView.setText(userId.userId + "");
-                        Log.d(TAG, "test:" + yuv_peer1v12.getVisibility() + "/" + userId.userId);
+                        if (userId.userId.equals(mainUserID)) {
+                            textView.setText("主视频：" + mainNickName);
+                        } else if (userId.userId.equals(myUserID)){
+                            textView.setText("我");
+                        }else {
+                            textView.setText(nickName);
+                        }
                     }
                 });
                 view.getYUVRender().update(frame.dat, frame.frameWidth, frame.frameHeight);
-                Log.d(TAG, "test() called tvVideoID1v12.getVisibility()=" + tvVideoID1v12.getVisibility());
-                Log.d(TAG, "test() called yuv_peer1v12.getVisibility()=" + yuv_peer1v12.getVisibility());
                 return;
             }
         }
@@ -635,16 +658,12 @@ public class MeetingActivity extends Activity implements OnTouchListener {
                 stopOthersViewUpdate(yuvVideoViews1v1, previousViews, textViews1v1, previousTextViews);
                 previousViews.addAll(yuvVideoViews1v1);
                 previousTextViews.addAll(textViews1v1);
-                Log.d(TAG, "wallModeChangeListener() called with: wallMode = [" + wallMode + "]" + yuvVideoViews1v1.get(0).getVisibility());
-                Log.d(TAG, "wallModeChangeListener() called with: wallMode = [" + wallMode + "]" + yuvVideoViews1v1.get(1).getVisibility());
                 showOrHideView(rlMode1v1, rlMode1, llMode2, llMode4, llMode5);
                 break;
             case 1:
                 stopOthersViewUpdate(yuvVideoViews1, previousViews, textViews1, previousTextViews);
                 previousViews.addAll(yuvVideoViews1);
                 previousTextViews.addAll(textViews1);
-                Log.d(TAG, "wallModeChangeListener() called with: wallMode = [" + wallMode + "]" + yuvVideoViews1v1.get(1).getVisibility());
-                Log.d(TAG, "wallModeChangeListener() called with: wallMode = [" + wallMode + "]textViews1v1" + textViews1v1.get(1).getVisibility());
                 showOrHideView(rlMode1, rlMode1v1, llMode2, llMode4, llMode5);
                 break;
             case 2:
@@ -689,9 +708,15 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             YUVVideoView yuvVideoView = showVideoViews.get(i);
             yuvVideoView.setVisibility(View.VISIBLE);
         }
-//        for (int i = 0; i < showTextViews.size(); i++) {
-//            showTextViews.get(i).setVisibility(View.VISIBLE);
+        for (int i = userIDs.size(); i < showVideoViews.size(); i++) {
+            showVideoViews.get(i).setBackgroundResource(R.mipmap.video_background);
+        }
+//        if (currentVideoViews.size()!=0){
+//            currentVideoViews.clear();
+//            cureentTextViews.clear();
 //        }
+//        currentVideoViews.addAll(showVideoViews);
+//        cureentTextViews.addAll(showTextViews);
         return;
     }
 
@@ -745,12 +770,16 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         PinyinComparator pinyinComparator = new PinyinComparator();
         Collections.sort(userIDs, pinyinComparator);
 
-        if (wallMode==0) {
+        if (wallMode == 0) {
             if (userIDs.size() == 1) {
+//                yuv_peer1v11.setZOrderMediaOverlay(true);
+                flMode1v1.setVisibility(View.GONE);
                 yuv_peer1v12.setVisibility(View.GONE);
                 tvVideoID1v12.setVisibility(View.GONE);
-            }else if(userIDs.size()>1){
+            } else if (userIDs.size() > 1) {
+                flMode1v1.setVisibility(View.VISIBLE);
                 yuv_peer1v12.setVisibility(View.VISIBLE);
+                yuv_peer1v12.setZOrderMediaOverlay(true);
                 tvVideoID1v12.setVisibility(View.VISIBLE);
             }
         }
@@ -843,6 +872,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
             }
             break;
             case R.id.cbCamera:
+//                wallModeChangeListener(wallMode);
                 VSTATUS status = CloudroomVideoMeeting.getInstance()
                         .getVideoStatus(userId);
                 if (status == VSTATUS.VOPEN || status == VSTATUS.VOPENING) {
@@ -913,11 +943,14 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View mView = this.getLayoutInflater().inflate(R.layout.dialog_leave_meeting, null, false);
         final Button btnLeaveMeeting = (Button) mView.findViewById(R.id.btnLeaveMeeting);
+        final String myUserID = CloudroomVideoMeeting.getInstance().getMyUserID();
         btnLeaveMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 btnLeaveMeeting.setText(getResources().getString(R.string.leaving_meeting));
                 btnLeaveMeeting.setClickable(false);
+                CloudroomVideoMeeting.getInstance().closeVideo(myUserID);
+                MyApplication.getInstance().showToast("摄像头已关闭");
                 exitMeeting();
             }
         });

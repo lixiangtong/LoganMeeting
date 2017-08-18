@@ -149,8 +149,10 @@ public class HomeFragment extends Fragment {
             unbinder = ButterKnife.bind(this, view);
 
             CloudroomVideoMgr.getInstance().getMeetings();
-            nsv.smoothScrollTo(0, 0);
+            nsv.smoothScrollTo(0,0);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setSmoothScrollbarEnabled(true);
+            layoutManager.setAutoMeasureEnabled(true);
             //设置布局管理器
             rv.setLayoutManager(layoutManager);
             //设置为垂直布局，这也是默认的
@@ -159,6 +161,7 @@ public class HomeFragment extends Fragment {
             rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
             //设置增加或删除条目的动画
             rv.setItemAnimator(new DefaultItemAnimator());
+            rv.setHasFixedSize(true);
             //解决RecyclerView和NestedScrollViewd的滑动冲突
             rv.setNestedScrollingEnabled(false);
 

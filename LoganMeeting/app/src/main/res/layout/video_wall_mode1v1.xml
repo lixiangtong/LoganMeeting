@@ -7,26 +7,6 @@
     >
 
     <FrameLayout
-        android:layout_width="208dp"
-        android:layout_height="117dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        >
-        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
-            android:id="@+id/yuv_peer1v12"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:visibility="gone"
-            />
-
-        <TextView
-            android:id="@+id/tvVideoID1v12"
-            style="@style/textView_meeting_video"
-            />
-    </FrameLayout>
-
-    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -40,7 +20,35 @@
             />
         <TextView
             android:id="@+id/tvVideoID1v11"
-            style="@style/textView_meeting_video" />
+            style="@style/textView_meeting_video"
+            android:layout_marginTop="17dp"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/flMode1v1"
+        android:layout_width="209dp"
+        android:layout_height="118dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/black"
+        android:layout_marginBottom="12.5dp"
+        android:layout_marginRight="0.5dp"
+        >
+        <com.logansoft.lubo.loganmeeting.utils.YUVVideoView
+            android:id="@+id/yuv_peer1v12"
+            android:layout_width="208dp"
+            android:layout_height="117dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tvVideoID1v12"
+            style="@style/textView_meeting_video"
+            />
     </FrameLayout>
 
 </RelativeLayout>
