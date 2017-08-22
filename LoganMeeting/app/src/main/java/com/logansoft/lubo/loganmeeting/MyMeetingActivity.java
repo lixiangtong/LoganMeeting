@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -78,19 +79,7 @@ import cn.finalteam.toolsfinal.CrashHandler;
  */
 public class MyMeetingActivity extends Activity implements OnTouchListener {
 
-    private static final String TAG = "MeetingActivity";
-    @BindView(R.id.rlMode1v1)
-    RelativeLayout rlMode1v1;
-    @BindView(R.id.rlMode1)
-    RelativeLayout rlMode1;
-    @BindView(R.id.llMode2)
-    LinearLayout llMode2;
-    @BindView(R.id.llMode4)
-    LinearLayout llMode4;
-    @BindView(R.id.llMode5)
-    LinearLayout llMode5;
-    @BindView(R.id.flMode1v1)
-    FrameLayout flMode1v1;
+    private static final String TAG = "MyMeetingActivity";
 
     private ImageView mScreenshareIV = null;
     private YUVVideoView mPeerGLSV52 = null;
@@ -321,7 +310,7 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
     private String mainNickName;
     private String myNickName;
     private String myUserID;
-    private CustomViewPager remote_local_viewpager;
+    private CustomViewPager mRemoteLocalViewPager;
     private LayoutInflater mLayoutInflater;
     private View mViewMode1v1;
     private View mViewMode1;
@@ -329,7 +318,8 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
     private View mViewMode4;
     private View mViewMode5;
     private ArrayList<View> mViewList;
-    private NavigationAdapter navigationAdapter;
+    private NavigationAdapter mNavigationAdapter;
+    private View flMode1v1;
 
     private void checkBackground() {
         mMainHandler.removeMessages(MSG_CHECK_BACKGROUND);
@@ -380,6 +370,7 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
 
         mScreenshareIV = (ImageView) findViewById(R.id.iv_screenshare);
         DisplayMetrics dm = getResources().getDisplayMetrics();
+        Log.d(TAG, "initWidget() called"+"--------");
 
         mVideoThread.start();
         mVideoHandler = new Handler(mVideoThread.getLooper(), mVideoCallback);
@@ -456,8 +447,9 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
     }
 
     private void initWidget() {
+        Log.d(TAG, "initWidget() called"+"1111111");
 
-        remote_local_viewpager = ((CustomViewPager) findViewById(R.id.remote_local_viewpager));
+        mRemoteLocalViewPager = ((CustomViewPager) findViewById(R.id.remote_local_viewpager));
 
         mLayoutInflater = getLayoutInflater();
         mViewMode1v1 = mLayoutInflater.inflate(R.layout.video_wall_mode1v1,null);
@@ -472,13 +464,11 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
         mViewList.add(mViewMode4);
         mViewList.add(mViewMode5);
 
-        navigationAdapter = new NavigationAdapter(mViewList);
-        remote_local_viewpager.setAdapter(navigationAdapter);
         //1分屏
-        yuv_peer11 = ((YUVVideoView) mViewMode1.findViewById(R.id.yuv_peer11));
+        yuv_peer11 = (YUVVideoView) mViewMode1.findViewById(R.id.yuv_peer11);
         yuvVideoViews1 = new ArrayList<>();
         yuvVideoViews1.add(yuv_peer11);
-        tvVideoID11 = ((TextView) mViewMode1.findViewById(R.id.tvVideoID11));
+        tvVideoID11 = (TextView) mViewMode1.findViewById(R.id.tvVideoID11);
         textViews1 = new ArrayList<>();
         textViews1.add(tvVideoID11);
         //2分屏
@@ -492,9 +482,11 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
         textViews2 = new ArrayList<>();
         textViews2.add(tvVideoID21);
         textViews2.add(tvVideoID22);
+        Log.d(TAG, "initWidget() called"+"1111111");
         //1v1分屏
         yuv_peer1v11 = ((YUVVideoView) mViewMode1v1.findViewById(R.id.yuv_peer1v11));
         yuv_peer1v12 = ((YUVVideoView) mViewMode1v1.findViewById(R.id.yuv_peer1v12));
+        flMode1v1 = mViewMode1v1.findViewById(R.id.flMode1v1);
         yuvVideoViews1v1 = new ArrayList<>();
         yuvVideoViews1v1.add(yuv_peer1v11);
         yuvVideoViews1v1.add(yuv_peer1v12);
@@ -545,6 +537,11 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
         textViews5.add(tvVideoID53);
         textViews5.add(tvVideoID54);
         textViews5.add(tvVideoID55);
+
+        mNavigationAdapter = new NavigationAdapter(mViewList);
+        mRemoteLocalViewPager.setAdapter(mNavigationAdapter);
+        mRemoteLocalViewPager.setDisableScroll(true);
+        Log.d(TAG, "initWidget() called");
     }
 
     private void stopMeetingRslt(CRVIDEOSDK_ERR_DEF code) {
@@ -700,34 +697,34 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
     private void wallModeChangeListener(int wallMode) {
         switch (wallMode) {
             case 0:
+                mRemoteLocalViewPager.setCurrentItem(0);
                 stopOthersViewUpdate(yuvVideoViews1v1, previousViews, textViews1v1, previousTextViews);
                 previousViews.addAll(yuvVideoViews1v1);
                 previousTextViews.addAll(textViews1v1);
-                showOrHideView(rlMode1v1, rlMode1, llMode2, llMode4, llMode5);
                 break;
             case 1:
+                mRemoteLocalViewPager.setCurrentItem(1);
                 stopOthersViewUpdate(yuvVideoViews1, previousViews, textViews1, previousTextViews);
                 previousViews.addAll(yuvVideoViews1);
                 previousTextViews.addAll(textViews1);
-                showOrHideView(rlMode1, rlMode1v1, llMode2, llMode4, llMode5);
                 break;
             case 2:
+                mRemoteLocalViewPager.setCurrentItem(2);
                 stopOthersViewUpdate(yuvVideoViews2, previousViews, textViews2, previousTextViews);
                 previousViews.addAll(yuvVideoViews2);
                 previousTextViews.addAll(textViews2);
-                showOrHideView(llMode2, rlMode1v1, rlMode1, llMode4, llMode5);
                 break;
             case 3:
+                mRemoteLocalViewPager.setCurrentItem(3);
                 stopOthersViewUpdate(yuvVideoViews4, previousViews, textViews4, previousTextViews);
                 previousViews.addAll(yuvVideoViews4);
                 previousTextViews.addAll(textViews4);
-                showOrHideView(llMode4, rlMode1v1, rlMode1, llMode2, llMode5);
                 break;
             default:
+                mRemoteLocalViewPager.setCurrentItem(4);
                 stopOthersViewUpdate(yuvVideoViews5, previousViews, textViews5, previousTextViews);
                 previousViews.addAll(yuvVideoViews5);
                 previousTextViews.addAll(textViews5);
-                showOrHideView(llMode5, rlMode1v1, rlMode1, llMode2, llMode4);
                 break;
         }
         previousMode = wallMode;
@@ -749,35 +746,9 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
             }
             hideTextViews.clear();
         }
-        for (int i = 0; i < showVideoViews.size(); i++) {
-            YUVVideoView yuvVideoView = showVideoViews.get(i);
-            yuvVideoView.setVisibility(View.VISIBLE);
-        }
-        for (int i = userIDs.size(); i < showVideoViews.size(); i++) {
-            showVideoViews.get(i).setBackgroundResource(R.mipmap.video_background);
-        }
-//        if (currentVideoViews.size()!=0){
-//            currentVideoViews.clear();
-//            cureentTextViews.clear();
-//        }
-//        currentVideoViews.addAll(showVideoViews);
-//        cureentTextViews.addAll(showTextViews);
         return;
     }
 
-    private void showOrHideView(final View showView, final View hideView1, final View hideView2, final View hideView3, final View hideView4) {
-        showView.setVisibility(View.VISIBLE);
-        Log.d(TAG, "run() called showView=" + showView.getVisibility());
-        hideView1.setVisibility(View.GONE);
-        Log.d(TAG, "run() called hideView1=" + hideView1.getVisibility());
-        hideView2.setVisibility(View.GONE);
-        Log.d(TAG, "run() called hideView2=" + hideView2.getVisibility());
-        hideView3.setVisibility(View.GONE);
-        Log.d(TAG, "run() called hideView3=" + hideView3.getVisibility());
-        hideView4.setVisibility(View.GONE);
-        Log.d(TAG, "run() called hideView4=" + hideView4.getVisibility());
-
-    }
 
     private void videoStatusChanged(String userID, VSTATUS newStatus,
                                     VSTATUS oldStatus) {
@@ -815,19 +786,6 @@ public class MyMeetingActivity extends Activity implements OnTouchListener {
         PinyinComparator pinyinComparator = new PinyinComparator();
         Collections.sort(userIDs, pinyinComparator);
 
-        if (wallMode == 0) {
-            if (userIDs.size() == 1) {
-//                yuv_peer1v11.setZOrderMediaOverlay(true);
-                flMode1v1.setVisibility(View.GONE);
-                yuv_peer1v12.setVisibility(View.GONE);
-                tvVideoID1v12.setVisibility(View.GONE);
-            } else if (userIDs.size() > 1) {
-                yuv_peer1v12.setZOrderMediaOverlay(true);
-                flMode1v1.setVisibility(View.VISIBLE);
-                yuv_peer1v12.setVisibility(View.VISIBLE);
-                tvVideoID1v12.setVisibility(View.VISIBLE);
-            }
-        }
         if (videos.size() > 0) {
             CloudroomVideoMeeting.getInstance().watchVideos(videos);
         }

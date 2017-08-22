@@ -59,7 +59,7 @@
 
         <service android:name=".service.MediaService" />
 
-        <activity android:name=".MyMeetingActivity"></activity>
+        <activity android:name=".MyMeetingActivity" android:launchMode="singleTask" android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

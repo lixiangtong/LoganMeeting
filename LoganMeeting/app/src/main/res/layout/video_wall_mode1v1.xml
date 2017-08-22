@@ -15,8 +15,8 @@
             android:id="@+id/yuv_peer1v11"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@mipmap/video_background"
             android:scaleType="fitXY"
-            android:visibility="gone"
             />
         <TextView
             android:id="@+id/tvVideoID1v11"
@@ -41,8 +41,8 @@
             android:layout_height="117dp"
             android:layout_marginLeft="1dp"
             android:layout_marginTop="1dp"
+            android:background="@mipmap/video_background"
             android:scaleType="fitXY"
-            android:visibility="gone"
             />
 
         <TextView

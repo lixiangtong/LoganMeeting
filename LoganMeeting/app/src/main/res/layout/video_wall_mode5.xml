@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:background="@mipmap/video_background"
             android:scaleType="fitXY"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <TextView
