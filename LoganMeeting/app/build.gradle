@@ -78,7 +78,6 @@ dependencies {
 
     //spinner
 
-    //环信
 
     //compile 'com.google.android.gms:play-services-gcm:9.4.0'
 
@@ -93,6 +92,7 @@ dependencies {
     compile files('libs/QtAndroidAccessibility-bundled.jar')
     compile files('libs/QtAndroidBearer-bundled.jar')
     compile files('libs/voiceengine.jar')
+    compile files('libs/VTCoreSDK_Jni.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'cn.finalteam:galleryfinal:1.4.8.7'

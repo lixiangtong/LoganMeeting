@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,7 +19,6 @@ import butterknife.ButterKnife;
 
 public class SplashActivity extends Activity implements Runnable{
 
-    private static final int MSG_CRRENTTIME = 500;
     private static final String TAG = "SplashActivity";
     @BindView(R.id.tvLogo)
     TextView tvLogo;
@@ -37,6 +37,7 @@ public class SplashActivity extends Activity implements Runnable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 

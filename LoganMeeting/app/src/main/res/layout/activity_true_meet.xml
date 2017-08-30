@@ -1,0 +1,219 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/iv_screenshare"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
+
+    <com.logansoft.lubo.loganmeeting.customView.CustomViewPager
+        android:id="@+id/remote_local_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rlTopOptions"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/option_video">
+
+        <TextView
+            android:id="@+id/left_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/nav_btn_back"
+            android:onClick="onViewClick" />
+
+        <TextView
+            android:id="@+id/tvMeetInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:text="语文教研室   10人"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/right_setting"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:onClick="onViewClick"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlKeyboardAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="63dp"
+        android:layout_marginLeft="12dp">
+
+        <RelativeLayout
+            android:id="@+id/rlKeyboard"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_btn_keyboard"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvHideState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/keyboard_btn" />
+
+            <TextView
+                android:id="@+id/tvShowState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/close_btn" />
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/rgKeyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/rlKeyboard"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbFirst"
+                style="@style/keyboard_radioButton"
+                android:checked="true"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/rbSecond"
+                style="@style/keyboard_radioButton"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/rbThird"
+                style="@style/keyboard_radioButton"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/rbFourth"
+                style="@style/keyboard_radioButton"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/rbFifth"
+                style="@style/keyboard_radioButton"
+                android:text="5" />
+
+        </RadioGroup>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/view_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/option_video"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/rgOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbVideo"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:drawableTop="@drawable/selector_video"
+                android:text="@string/video" />
+
+            <RadioButton
+                android:id="@+id/rbAttendee"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/selector_attendee"
+                android:text="@string/attendee" />
+
+            <RadioButton
+                android:id="@+id/rbDocument"
+                style="@style/CommonRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/selector_document"
+                android:text="@string/document" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+
+        <CheckBox
+            android:id="@+id/cbSwitchCamera"
+            style="@style/CommonRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@mipmap/switchcamera_icon"
+            android:onClick="onViewClick"
+            android:text="@string/switch_camera" />
+
+        <CheckBox
+            android:id="@+id/cbCamera"
+            style="@style/CommonRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/selector_camera"
+            android:onClick="onViewClick"
+            android:text="@string/camera" />
+
+        <CheckBox
+            android:id="@+id/cbVolume"
+            style="@style/CommonRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/selector_volume"
+            android:onClick="onViewClick"
+            android:text="@string/speaker" />
+
+        <CheckBox
+            android:id="@+id/cbMicphone"
+            style="@style/CommonRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:drawableTop="@drawable/selector_micphone"
+            android:onClick="onViewClick"
+            android:text="@string/micphone" />
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_right_settings"
+        />
+</RelativeLayout>
