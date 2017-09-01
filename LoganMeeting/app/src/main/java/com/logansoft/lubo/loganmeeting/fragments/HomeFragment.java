@@ -39,13 +39,10 @@ import com.logansoft.lubo.loganmeeting.MyApplication;
 import com.logansoft.lubo.loganmeeting.R;
 import com.logansoft.lubo.loganmeeting.VideoCallback;
 import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapter;
-import com.logansoft.lubo.loganmeeting.adapters.MyRecyclerViewAdapterI;
-import com.logansoft.lubo.loganmeeting.beans.RoomInfoBean;
 import com.logansoft.lubo.loganmeeting.utils.DividerItemDecoration;
 import com.logansoft.lubo.loganmeeting.utils.VideoSDKHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +59,6 @@ public class HomeFragment extends Fragment {
     CollapsingToolbarLayout ctl;
     @BindView(R.id.abl)
     AppBarLayout abl;
-    @BindView(R.id.left_button)
-    TextView leftButton;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.right_button)
@@ -72,15 +67,15 @@ public class HomeFragment extends Fragment {
     RelativeLayout rl;
     @BindView(R.id.rv)
     RecyclerView rv;
-    Unbinder unbinder;
-    @BindView(R.id.cl)
-    CoordinatorLayout cl;
-    @BindView(R.id.nsv)
-    NestedScrollView nsv;
     @BindView(R.id.lv)
     ListView lv;
-//    @BindView(R.id.srl_home_root)
-//    SwipeRefreshLayout srlHomeRoot;
+    @BindView(R.id.nsv)
+    NestedScrollView nsv;
+    @BindView(R.id.cl)
+    CoordinatorLayout cl;
+    Unbinder unbinder;
+    @BindView(R.id.srlHomeRoot)
+    SwipeRefreshLayout srlHomeRoot;
     private View view;
     private AlertDialog alertDialog;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
@@ -103,7 +98,7 @@ public class HomeFragment extends Fragment {
                     for (MeetInfo meetInfo : meetInfos) {
                         Log.d(TAG, "handleMessage: meetInfo=" + meetInfo.ID);
                     }
-                    if (mData.size()!=0){
+                    if (mData.size() != 0) {
                         mData.clear();
                     }
                     mData.addAll(meetInfos);
@@ -142,7 +137,7 @@ public class HomeFragment extends Fragment {
             unbinder = ButterKnife.bind(this, view);
 
             CloudroomVideoMgr.getInstance().getMeetings();
-            nsv.smoothScrollTo(0,0);
+            nsv.smoothScrollTo(0, 0);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setSmoothScrollbarEnabled(true);
             layoutManager.setAutoMeasureEnabled(true);
@@ -161,7 +156,7 @@ public class HomeFragment extends Fragment {
             myRecyclerViewAdapter = new MyRecyclerViewAdapter(mData, getActivity());
             rv.setAdapter(myRecyclerViewAdapter);
         }
-        setViewListener(myRecyclerViewAdapter,mData);
+        setViewListener(myRecyclerViewAdapter, mData);
         return view;
     }
 
@@ -178,7 +173,7 @@ public class HomeFragment extends Fragment {
 //                intent.setClass(getActivity(), MeetingPerfoActivity.class);
                 intent.putExtra("meetID", meetID);
                 intent.putExtra("password", "");
-                intent.putExtra("isLogout",false);
+                intent.putExtra("isLogout", false);
                 startActivity(intent);
             }
 
@@ -189,34 +184,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
-//        nsv.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//            @Override
-//            public void onScrollChanged() {
-//                srlHomeRoot.setEnabled(nsv.getScrollY()==0);
-//            }
-//        });
-//
-//        srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
-//        srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                srlHomeRoot.setRefreshing(true);
-//                MyApplication.getInstance().showToast("正在刷新");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        mData.clear();
-//                        CloudroomVideoMgr.getInstance().getMeetings();
-//                        srlHomeRoot.setRefreshing(false);
-////                        MeetInfo meetInfo = new MeetInfo();
-////                        meetInfo.ID = 1111111;
-////                        meetInfo.subject = "张军";
-////                        mData.add(meetInfo);
-////                        myRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                },3000);
-//            }
-//        });
+        nsv.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                srlHomeRoot.setEnabled(nsv.getScrollY()==0);
+            }
+        });
+
+        srlHomeRoot.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+        srlHomeRoot.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srlHomeRoot.setRefreshing(true);
+                MyApplication.getInstance().showToast("正在刷新");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        CloudroomVideoMgr.getInstance().getMeetings();
+                        srlHomeRoot.setRefreshing(false);
+                    }
+                },3000);
+            }
+        });
 
     }
 

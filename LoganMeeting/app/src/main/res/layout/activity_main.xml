@@ -8,14 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="64dp"
         android:background="@drawable/shape_home_gradient"
         >
         <TextView
             android:id="@+id/top_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="9dp"
             android:text="首页"
             android:textColor="@color/white"
             android:textSize="18sp"/>

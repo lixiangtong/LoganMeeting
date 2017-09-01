@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MeetingLoginActivity extends Activity {
+public class MeetingLoginActivity extends BaseActivity {
     private static final String TAG = "MeetingLoginActivity";
 
     @BindView(R.id.ivLogo)

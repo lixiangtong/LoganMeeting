@@ -47,7 +47,7 @@ import butterknife.OnClick;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class AccountLoginActivity extends Activity implements EasyPermissions.PermissionCallbacks {
+public class AccountLoginActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = "AccountLoginActivity";
     @BindView(R.id.ivLogo)

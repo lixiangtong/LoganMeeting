@@ -62,30 +62,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //butterknife
     compile fileTree(include: '*.jar', dir: 'libs')
-    //compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-
-    //compile 'com.squareup.picasso:picasso:2.5.2'
-
-    //compile 'com.github.bumptech.glide:glide:3.7.0'
-
-    //输入法遮盖
-
-    //选择dialog
-
-    //ImmersionBar -- android 4.4以上沉浸式实现
-
-    //spinner
-
-
-    //compile 'com.google.android.gms:play-services-gcm:9.4.0'
-
-    //compile 'com.hyphenate:hyphenate-sdk:3.3.0'
-
-    //6.0权限
-
-    //bugly
     compile files('libs/cloudroomtool.jar')
     compile files('libs/cloudroomvideosdk_android.jar')
     compile files('libs/QtAndroid-bundled.jar')

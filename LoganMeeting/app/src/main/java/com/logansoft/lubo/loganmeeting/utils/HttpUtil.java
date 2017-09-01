@@ -64,7 +64,7 @@ public class HttpUtil {
                         Response response = chain.proceed(request).newBuilder()
                                 .removeHeader("Pragma")
                                 .removeHeader("Cache-Control")
-                                .header("Cache-Control", "max-age=" + 3600 * 24 * 7)
+                                .header("Cache-Control", "max-age=" + 3600 * 24 * 7)//缓存保留七天
                                 .build();
                         return response;
                     }

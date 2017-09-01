@@ -72,7 +72,7 @@ import cn.finalteam.toolsfinal.CrashHandler;
  * @author admin
  *
  */
-public class MeetingActivity extends Activity implements OnTouchListener {
+public class MeetingActivity extends BaseActivity implements OnTouchListener {
 
     private static final String TAG = "MeetingActivity";
     @BindView(R.id.rlMode1v1)
@@ -355,6 +355,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_meeting);
         ButterKnife.bind(this);
+        Log.d(TAG, "onCreate: ");
 
         //启动服务，防止Activity被杀死
 //        boolean isBindSuccess = bindService(new Intent(this, MediaService.class), conn, Context.BIND_AUTO_CREATE);
@@ -1056,7 +1057,6 @@ public class MeetingActivity extends Activity implements OnTouchListener {
         mOptionsView.setVisibility(View.GONE);
         mTopOptions.setVisibility(View.GONE);
         mRlKeyboard.setVisibility(View.GONE);
-
     }
 
     public void showVideoCfgDialog(final Button view, final String[] items) {
@@ -1141,6 +1141,7 @@ public class MeetingActivity extends Activity implements OnTouchListener {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            leaveMeetinglistener();
             return true;
         }
         return super.onKeyUp(keyCode, event);

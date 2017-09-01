@@ -39,12 +39,13 @@
         android:layout_alignParentTop="true"
         android:background="@color/option_video">
 
-        <TextView
+        <ImageView
             android:id="@+id/left_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:background="@mipmap/nav_btn_back"
+            android:src="@mipmap/nav_left"
+            android:padding="12dp"
             android:onClick="onViewClick" />
 
         <TextView

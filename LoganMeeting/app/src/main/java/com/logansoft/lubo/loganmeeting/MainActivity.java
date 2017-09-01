@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
 
